@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+hide circle
+
+package "com.lvhm.covertocover.models" as models_package{
+    class Book {
+        - isbn : String
+        - name : String
+        - description : String
+        - author: ArrayList<String>
+        - year: int
+        - publisher: String
+        - genre: ArrayList<String>
+        - read: Boolean
+        - edition: int
+        - idiom: String
+        - page_count: int
+        - cover_image: BufferedImage
+        - wishlisted: Boolean
+        + getId()
+        + updateName(name: String)
+    }
+}
+
+package "com.lvhm.covertocover.service" as service_package {
+
+}
+
+
+@enduml
