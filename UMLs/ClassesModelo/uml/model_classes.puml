@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+hide circle
+title Class Diagram
+
+class Book
+class WishlistedBook
+class OnGoingBook
+class ReadBook
+class BookContainer
+class Review
+class Stats
+class WishlistContainer
+
+class Library
+
+Book <|-- WishlistedBook
+Book <|-- OnGoingBook
+Book *-- BookContainer
+WishlistedBook *-- WishlistContainer
+OnGoingBook o-- ReadBook
+Review *- ReadBook
+BookContainer *-- Stats
+BookContainer *-- Library
+@enduml
