@@ -2,30 +2,74 @@
 'https://plantuml.com/class-diagram
 
 hide circle
+title Domain Model Diagram
 
-package "com.lvhm.covertocover.models" as models_package{
+package "com.lvhm.covertocover.models" as models_package {
     class Book {
         - isbn : String
         - name : String
         - description : String
-        - author: ArrayList<String>
-        - year: int
-        - publisher: String
-        - genre: ArrayList<String>
-        - read: Boolean
-        - edition: int
-        - idiom: String
-        - page_count: int
-        - cover_image: BufferedImage
-        - wishlisted: Boolean
+        - author : ArrayList<String>
+        - year : int
+        - publisher : String
+        - genre : ArrayList<String>
+        - read : Boolean
+        - edition : int
+        - idiom : String
+        - page_count : int
+        - cover_image : BufferedImage
         + getId()
-        + updateName(name: String)
+        + updateName(name : String)
+    }
+    class OnGoingBook {
+        - startDate : Date
+        - current_page : int
+        - book_progress : double
+    }
+    class ReadBook {
+        - endDate : Date
+        - finished_days : int
+    }
+    class Review {
+        - book : ReadBook*
+        - rating : double
+        - reviewText : String
+        - date : Date
+    }
+    class Stats {
+        - book_container : BookContainer*
+        - review_barplot : ???
+    }
+    class Library {
+        - library_ID : String
+        - name : String
+        - address : String
+        - phone_number : String
+        - email : String
+        - website : String
+        - is_closed : Boolean
+        + getId()
+    }
+    ' class WishlistedBook {
+    '     - book : Book
+    ' }
+    ' class WishlistContainer {
+    '     - wishlisted_books : ArrayList<Book*>
+    ' }
+    class BookContainer {
+        - books : ArrayList<Book*>
+    }
+    class ReviewContainer {
+        - reviews : ArrayList<Review*>
     }
 }
 
-package "com.lvhm.covertocover.service" as service_package {
-
-}
-
+Book <|-- OnGoingBook
+OnGoingBook <|-- ReadBook
+Review *- ReadBook
+Review *-- ReviewContainer
+Book *-- BookContainer
+BookContainer *-- Stats
+BookContainer *- Library
 
 @enduml

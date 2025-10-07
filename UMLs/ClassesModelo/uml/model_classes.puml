@@ -12,6 +12,7 @@ class BookContainer
 class Review
 class Stats
 class WishlistContainer
+class ReviewContainer
 
 class Library
 
@@ -19,8 +20,9 @@ Book <|-- WishlistedBook
 Book <|-- OnGoingBook
 Book *-- BookContainer
 WishlistedBook *-- WishlistContainer
-OnGoingBook o-- ReadBook
-Review *- ReadBook
+OnGoingBook <|-- ReadBook
+Review *-- ReadBook
 BookContainer *-- Stats
 BookContainer *-- Library
+Review *- ReviewContainer
 @enduml
