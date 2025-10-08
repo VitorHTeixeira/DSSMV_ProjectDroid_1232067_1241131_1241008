@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor "User" as user
+Actor "System" as sys
+
+user -> sys : Click on Settings Icon
+user <-- sys : Show Settings Page
+
+user -> sys : Click on the "Select Format Date" dropdown menu
+user <-- sys : Show the dropdown menu's options
+
+user -> sys : Choose the Date Format
+user <-- sys : Updates the app's Date Format
+
+@enduml
