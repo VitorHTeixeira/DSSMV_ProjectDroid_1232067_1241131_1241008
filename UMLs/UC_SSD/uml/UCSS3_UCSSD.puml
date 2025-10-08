@@ -6,7 +6,7 @@ autonumber
 autonumber
 
 actor "User" as user
-actor ":System" as sys
+participant ":System" as sys
 
 user -> sys: Click on the settings icon
 user <-- sys: Show settings page
