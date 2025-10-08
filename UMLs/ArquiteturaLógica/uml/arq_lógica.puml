@@ -3,6 +3,7 @@
 
 left to right direction
 skinparam ArrowThickness 2.5
+skinparam linetype ortho
 hide circle
 allowmixing
 title Logical Architecture
