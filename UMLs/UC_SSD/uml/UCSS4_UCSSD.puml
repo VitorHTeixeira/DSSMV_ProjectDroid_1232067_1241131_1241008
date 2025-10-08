@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor "User" as user
+Actor "System" as sys
+
+user -> sys : Click on Settings Icon
+user <-- sys : Show Settings Page
+
+user -> sys : Click on the "Change User Profile Settings"
+user <-- sys : Send to User Profile Settings View
+user <-- sys : Display User Profile Settings
+
+user -> sys : Modifies the Desired Changes
+user -> sys : Click the Confirmation Button
+user <-- sys : Save the Changed Settings
+
+@enduml
+
