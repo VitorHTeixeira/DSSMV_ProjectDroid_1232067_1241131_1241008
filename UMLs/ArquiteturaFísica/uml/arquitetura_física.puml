@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+top to bottom direction
+skinparam linetype ortho
+title Physical Architecture Diagram
+
+node "Android Device" as android_device {
+    component "CoverToCover" as android_ctc
+}
+
+component "CoverToCover" as ctc {
+    component "UI" as UI
+    component "Service" as Service
+    component "Helper" as Helper
+    component "Adapter" as Adapter
+    component "Listener" as Listener
+    component "Models" as Models
+}
+Listener -(0- Models
+Service -(0- Helper
+Service -(0- Listener
+Service -(0- Models
+UI -(0- Service
+UI -(0- Adapter
+UI -(0- Listener
+Service --( android_device
+
+
+
+@enduml
