@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+actor ":System" as sys
+
+user -> sys: Click on the settings icon
+user <-- sys: Show settings page
+
+user -> sys: Click on the "Choose Theme" dropdown menu
+user <-- sys: Show the dropdown menu's options
+
+user -> sys: Choose the theme
+user <-- sys: Updates the app's theme
+
+@enduml
