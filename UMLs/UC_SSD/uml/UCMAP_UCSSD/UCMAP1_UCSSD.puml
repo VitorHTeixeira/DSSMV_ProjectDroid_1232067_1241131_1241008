@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Display the maps page
+user -> sys:Click to see the libraries location
+sys <-- sys:API to look for libraries locations
+user <-- sys:Display map with libraries locations
+
+
+alt API returns 200
+user <-- sys: Display libraries location
+else API return 204
+user <-- sys:Display error message
+'("locations not found")
+end
+
+
+@enduml
