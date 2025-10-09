@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Display the app's main page view
+user <-- sys: Show the user the five latest wishlisted books
+@enduml

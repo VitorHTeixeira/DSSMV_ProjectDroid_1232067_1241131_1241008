@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Display the app's main page view
+
+user -> sys: Click on the magnifier button
+user <-- sys: Display an "Input ISBN" overlay
+
+user -> sys: Click on the "+" icon on the top-right of the overlay
+user <-- sys: Display the "Add Book" view
+
+user -> sys: Input the desired book's information
+user -> sys: Click on the confirmation button
+user <-- sys: Save the book's information
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Display the app's main page view
+
+user -> sys: Click on the location pin icon
+user <-- sys: Display the "Maps Page" view
+@enduml

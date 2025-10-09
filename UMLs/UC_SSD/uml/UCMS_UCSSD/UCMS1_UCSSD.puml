@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Display the app's main page view
+
+user -> sys: Click on the camera button
+user <-- sys: Display a camera view
+
+user -> sys: Scan the book's barcode
+sys <-- sys: Capture the information contained in the barcode
+sys <-- sys: Search in the API for the captured ISBN
+alt API returns 200
+user <-- sys: Display the "Book Information" view
+else API returns 204
+user <-- sys: Display an error message
+'("Sorry, but the book was not found. Try to insert the ISBN manually")
+end
+
+@enduml

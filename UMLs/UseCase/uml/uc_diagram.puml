@@ -6,13 +6,14 @@ title Use Case Diagram
 actor "User" as usms
 rectangle "Main Screen" {
     usecase "1. Click Scan Barcode Button" as UCMS1
-    usecase "2. See Your Three Latest Reviews" as UCMS2
-    usecase "3. See Your Yearly Statistics" as UCMS3
-    usecase "4. See Your Five Latest Wishlisted Books" as UCMS4
-    usecase "5. Search Book by Identifier" as UCMS5
-    usecase "6. Go to Settings Page" as UCMS6
-    usecase "7. Go to Profile Page" as UCMS7
-    usecase "8. Go to Maps Page" as UCMS8
+    usecase "2. Search Book by Identifier" as UCMS2
+    usecase "3. Add Non-Existing Book" as UCMS3
+    usecase "4. See Your Three Latest Reviews" as UCMS4
+    usecase "5. See Your Yearly Statistics" as UCMS5
+    usecase "6. See Your Five Latest Wishlisted Books" as UCMS6
+    usecase "7. Go to Settings Page" as UCMS7
+    usecase "8. Go to Profile Page" as UCMS8
+    usecase "9. Go to Maps Page" as UCMS9
 }
 usms --> UCMS1
 usms --> UCMS2
@@ -22,6 +23,7 @@ usms --> UCMS5
 usms --> UCMS6
 usms --> UCMS7
 usms --> UCMS8
+usms --> UCMS9
 
 newpage
 left to right direction
