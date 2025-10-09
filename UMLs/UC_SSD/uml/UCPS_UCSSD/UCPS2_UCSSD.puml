@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user -> sys: Click on the profile page icon
+user <-- sys: Show profile page
+
+user -> sys: Click on the "Reading Activity" button
+user <-- sys: Shows all the reading activity
+
+@enduml

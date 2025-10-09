@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user -> sys: Click on the profile icon
+user <-- sys: Show the profile page
+
+user -> sys: Click on the "See Book lists" button
+user <-- sys: Shows all the user's book lists
+
+user -> sys: Click on the "+" button on the top-right of the screen
+user <-- sys: Shows a dialog asking for the list's necessary information
+
+user -> sys: Input the requested information
+user -> sys: Click on the confirmation button
+user <-- sys: Saves the list
+user <-- sys: Shows all the user's book lists
+@enduml

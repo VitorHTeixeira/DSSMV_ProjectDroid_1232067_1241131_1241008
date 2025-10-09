@@ -32,14 +32,16 @@ rectangle "Profile Screen" {
     usecase "1. See Books on Your Bookshelf" as UCPS1
     usecase "2. See Reading Activity" as UCPS2
     usecase "3. See All Wishlisted Books" as UCPS3
-    usecase "4. Create Your Own Booklist" as UCPS4
-    usecase "5. See Your Review Plot" as UCPS5
+    usecase "4. See All User's Booklists" as UCPS4
+    usecase "5. Create Your Own Booklist" as UCPS5
+    usecase "6. See Your Review Plot" as UCPS6
 }
 usps --> UCPS1
 usps --> UCPS2
 usps --> UCPS3
 usps --> UCPS4
 usps --> UCPS5
+usps --> UCPS6
 
 newpage
 left to right direction
