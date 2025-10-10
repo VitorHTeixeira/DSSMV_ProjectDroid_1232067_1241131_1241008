@@ -7,6 +7,27 @@ skinparam linetype ortho
 title Domain Model Diagram
 
 package "com.lvhm.covertocover.models" as models_package {
+    class User {
+        - name : String
+        - birthdate : Date
+        - sex : String
+        - email : String
+        - phone_number : String
+        - address : String
+        ---
+        + getName()
+        + setName()
+        + getBirthdate()
+        + setBirthdate()
+        + getSex()
+        + setSex()
+        + getEmail()
+        + setEmail()
+        + getPhoneNumber()
+        + setPhoneNumber()
+        + getAddress()
+        + setAddress()
+    }
     class Book {
         # isbn : String
         # name : String
@@ -138,12 +159,14 @@ package "com.lvhm.covertocover.models" as models_package {
     }
 }
 
+Book "*" o-- "1" User
+Review "*" o-- "1" User
 Book "1" <|-- "0..1" OnGoingBook
 OnGoingBook "1" <|-- "0..*" ReadBook
-Review "0..*" *- "1" ReadBook
+Review "0..*" *--- "1" ReadBook
 Review "0..*" *-- "1" ReviewContainer
 Book "0..*" *-- "1" BookContainer
-Stats "1" *-- "0..1" BookContainer
-BookContainer "1" *- "0..*" Library
+Stats "1" *- "0..1" BookContainer
+BookContainer "1" *-- "0..*" Library
 
 @enduml
