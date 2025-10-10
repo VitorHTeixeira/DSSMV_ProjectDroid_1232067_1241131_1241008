@@ -14,9 +14,12 @@ class Review
 class Stats
 class WishlistContainer
 class ReviewContainer
+class User
 
 class Library
 
+Book o-- User
+Review o-- User
 Book <|-- WishlistedBook
 Book <|-- OnGoingBook
 Book *-- BookContainer
