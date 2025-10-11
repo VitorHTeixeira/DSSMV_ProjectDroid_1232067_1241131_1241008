@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":UI" as ui
+participant ":Service" as service
+participant ":Helper" as helper
+participant ":Adapter" as adapter
+participant ":Listener" as listener
+participant ":Models" as models
+
+user -> ui: The user opens the app
+ui -> service: getMainScreenView()
+user <-- ui: Display the app's main page view
+
+user -> ui: Click on the user icon
+user <-- ui: Display the "Profile Page" view
+@enduml
