@@ -289,8 +289,6 @@
                 </HorizontalScrollView>
             </FrameLayout>
 
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
@@ -369,11 +367,12 @@
             <ImageView
                 android:layout_columnWeight="1"
                 android:layout_column="3"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:scaleType="centerInside"
                 android:padding="8dp"
-                android:src="@drawable/home_icon_ui" />
+                app:tint="@color/white"
+                android:src="@drawable/map_icon_ui" />
 
             <ImageView
                 android:layout_columnWeight="1"

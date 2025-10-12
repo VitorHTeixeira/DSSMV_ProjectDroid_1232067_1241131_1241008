@@ -19,6 +19,14 @@
             android:layout_height="match_parent"
             android:background="@drawable/island_topbar"
             android:layout_marginStart="10dp">
+            <ImageView
+                android:layout_columnWeight="1"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:scaleType="centerInside"
+                android:padding="8dp"
+                app:tint="@color/white"
+                android:src="@drawable/book_plus_icon_ui" />
         </FrameLayout>
         <FrameLayout
             android:layout_width="match_parent"
@@ -246,11 +254,12 @@
             <ImageView
                 android:layout_columnWeight="1"
                 android:layout_column="3"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:scaleType="centerInside"
                 android:padding="8dp"
-                android:src="@drawable/home_icon_ui" />
+                app:tint="@color/white"
+                android:src="@drawable/map_icon_ui" />
 
             <ImageView
                 android:layout_columnWeight="1"
