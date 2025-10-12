@@ -3,6 +3,6 @@
     android:id="@+id/bookcover_placeholder"
     android:layout_width="@dimen/mainscreen_bookcover_width"
     android:layout_height="@dimen/mainscreen_bookcover_height"
-    android:layout_marginRight="8dp"
+    android:layout_marginEnd="8dp"
 
     android:background="@drawable/bookcover_carousel" />

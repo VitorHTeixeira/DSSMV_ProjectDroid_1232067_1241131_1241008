@@ -8,17 +8,31 @@
     android:background="@color/old_paper">
 
     <!-- Top Bar -->
-
     <LinearLayout
         android:id="@+id/topbar"
         android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_height="54dp"
         android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:background="@drawable/island_topbar"
-        android:orientation="horizontal" />
+        android:orientation="horizontal">
+        <FrameLayout
+            android:layout_width="54dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/island_topbar"
+            android:layout_marginStart="10dp">
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/island_topbar"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center">
+            <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -51,9 +65,9 @@
                 android:background="@color/bookcover_red">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/review_carousel"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_bookcover"
@@ -180,16 +194,6 @@
                     tools:listitem="@layout/item_bookcover"
                     tools:itemCount="5" />
             </FrameLayout>
-            <View
-                android:id="@+id/wishlist_divisor"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@+id/wishlist_carousel_container"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="@dimen/divisor_marginTop"
-                android:layout_marginBottom="@dimen/divisor_marginBottom"
-                android:background="@color/grey_sweater" />
         </RelativeLayout>
     </ScrollView>
 
