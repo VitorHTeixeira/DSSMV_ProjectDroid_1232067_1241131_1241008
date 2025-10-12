@@ -29,7 +29,9 @@
             android:gravity="center">
             <SearchView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:searchIcon="@drawable/explorar_icon_ui"
+                android:searchHintIcon="@drawable/explorar_icon_ui"/>
         </FrameLayout>
     </LinearLayout>
 
@@ -37,7 +39,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollIndicators="none"
+        android:scrollbars="none"
         android:layout_below="@+id/topbar"
         android:layout_above="@id/navbar">
 
@@ -184,15 +186,16 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@color/bookcover_red">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/wishlist_carousel"
-                    android:layout_width="match_parent"
+                    android:layout_width="402dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_bookcover"
-                    tools:itemCount="5" />
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_bookcover" />
             </FrameLayout>
         </RelativeLayout>
     </ScrollView>
@@ -205,5 +208,58 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:background="@drawable/rounded_navbar"
-        android:orientation="horizontal" />
+        android:orientation="horizontal">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:columnCount="5"
+            android:rowCount="1">
+            <ImageView
+                android:layout_columnWeight="1"
+                android:layout_column="0"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="centerInside"
+                android:padding="8dp"
+                android:src="@drawable/home_icon_ui" />
+
+            <ImageView
+                android:layout_columnWeight="1"
+                android:layout_column="1"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="centerInside"
+                android:padding="8dp"
+                android:src="@drawable/perfil_icon_ui" />
+
+            <LinearLayout
+                android:layout_columnWeight="1"
+                android:layout_column="2"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/circle_button"
+                android:orientation="horizontal" />
+
+            <ImageView
+                android:layout_columnWeight="1"
+                android:layout_column="3"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="centerInside"
+                android:padding="8dp"
+                android:src="@drawable/home_icon_ui" />
+
+            <ImageView
+                android:layout_columnWeight="1"
+                android:layout_column="4"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="centerInside"
+                android:padding="8dp"
+                android:src="@drawable/settings_icon_ui" />
+        </GridLayout>
+    </LinearLayout>
 </RelativeLayout>
