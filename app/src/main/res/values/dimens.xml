@@ -1,3 +1,9 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="divisor_height">2dp</dimen>
+    <dimen name="divisor_marginBottom">20dp</dimen>
+    <dimen name="divisor_marginTop">20dp</dimen>
+    <dimen name="mainscreen_bookcover_width">100dp</dimen>
+    <dimen name="mainscreen_bookcover_height">180dp</dimen>
+    <dimen name="mainscreen_bookcarousel_height">200dp</dimen>
+    <dimen name="mainscreen_stats_height">100dp</dimen>
 </resources>

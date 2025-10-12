@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/grey_sweater" />
+    <size
+        android:height="@dimen/mainscreen_bookcover_height"
+        android:width="@dimen/mainscreen_bookcover_width" />
+</shape>

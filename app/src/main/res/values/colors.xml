@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- By Lucas -->
+    <color name="bookcover_red">#FF990B01</color>
+    <color name="new_paper">#FFC5C5D1</color>
+    <color name="old_paper">#FFC2B297</color>
+    <color name="grey_sweater">#FF58505F</color>
+    <color name="wood">#FF784E28</color>
+    <color name="coca_cola_red">#FFE5191A</color>
+    <color name="watch_green">#FF666F59</color>
+    <color name="elsa_blue">#FF63B0C4</color>
 </resources>
