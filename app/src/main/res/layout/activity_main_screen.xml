@@ -17,8 +17,11 @@
         <FrameLayout
             android:layout_width="54dp"
             android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
             android:background="@drawable/island_topbar"
             android:layout_marginStart="10dp">
+
             <ImageView
                 android:layout_columnWeight="1"
                 android:layout_width="26dp"
@@ -27,6 +30,7 @@
                 app:tint="@color/white"
                 android:src="@drawable/book_plus_icon_ui" />
         </FrameLayout>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -234,8 +238,10 @@
                 android:layout_column="0"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:scaleType="centerInside"
-                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:padding="2dp"
                 android:src="@drawable/home_icon_ui" />
 
             <ImageView
@@ -243,8 +249,10 @@
                 android:layout_column="1"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:scaleType="centerInside"
-                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:padding="6dp"
                 android:src="@drawable/perfil_icon_ui" />
 
             <LinearLayout
@@ -255,11 +263,13 @@
                 android:background="@drawable/circle_button"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:scaleType="centerInside"
-                    android:padding="8dp"
-                    android:background="@drawable/camera_icon_uidark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="9dp"
+                    android:src="@drawable/camera_icon_uidark"
                     app:tint="@color/white" />
             </LinearLayout>
 
@@ -268,8 +278,10 @@
                 android:layout_column="3"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:scaleType="centerInside"
-                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
                 app:tint="@color/white"
                 android:src="@drawable/pin_icon_ui" />
 
@@ -278,8 +290,10 @@
                 android:layout_column="4"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:scaleType="centerInside"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:src="@drawable/settings_icon_ui" />
         </GridLayout>
     </LinearLayout>

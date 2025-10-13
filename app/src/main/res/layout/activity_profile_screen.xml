@@ -57,8 +57,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <TextView
@@ -69,14 +67,23 @@
                     android:text="Your Bookshelf"
                     android:textColor="@color/black"
                     android:textSize="24sp"
-
                     android:fontFamily="sans-serif-condensed-medium"/>
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_arrow_right"
-                    app:tint="@color/black" />
+                <FrameLayout
+                    android:id="@+id/bookshelf_arrow_container"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_arrow_right"
+                        app:tint="@color/black" />
+                </FrameLayout>
             </LinearLayout>
 
             <FrameLayout
@@ -122,8 +129,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <TextView
@@ -134,14 +139,23 @@
                     android:text="Reading Activity"
                     android:textColor="@color/black"
                     android:textSize="24sp"
-
                     android:fontFamily="sans-serif-condensed-medium"/>
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_arrow_right"
-                    app:tint="@color/black" />
+                <FrameLayout
+                    android:id="@+id/reading_arrow_container"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_arrow_right"
+                        app:tint="@color/black" />
+                </FrameLayout>
             </LinearLayout>
 
             <FrameLayout
@@ -187,8 +201,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <TextView
@@ -199,14 +211,23 @@
                     android:text="Your Wishlisted Books"
                     android:textColor="@color/black"
                     android:textSize="24sp"
-
                     android:fontFamily="sans-serif-condensed-medium"/>
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_arrow_right"
-                    app:tint="@color/black" />
+                <FrameLayout
+                    android:id="@+id/wishlisted_arrow_container"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_arrow_right"
+                        app:tint="@color/black" />
+                </FrameLayout>
             </LinearLayout>
 
             <FrameLayout
@@ -251,27 +272,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless">
+                android:gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/users_booklist_title"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="User's Booklist"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:orientation="horizontal"
+                    android:gravity="start|center_vertical">
 
-                    android:fontFamily="sans-serif-condensed-medium"/>
+                    <TextView
+                        android:id="@+id/users_booklist_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="User's Booklist"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:fontFamily="sans-serif-condensed-medium"/>
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_arrow_right"
-                    app:tint="@color/black" />
+                    <FrameLayout
+                        android:id="@+id/booklist_plus_container"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                        <ImageView
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/plus_icon_ui"
+                            app:tint="@color/black" />
+                    </FrameLayout>
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/booklist_arrow_container"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_arrow_right"
+                        app:tint="@color/black" />
+                </FrameLayout>
             </LinearLayout>
 
             <FrameLayout
@@ -359,8 +410,10 @@
                 android:layout_column="0"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:scaleType="centerInside"
-                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:padding="2dp"
                 android:src="@drawable/home_icon_ui" />
 
             <ImageView
@@ -368,8 +421,10 @@
                 android:layout_column="1"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:scaleType="centerInside"
-                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:padding="6dp"
                 android:src="@drawable/perfil_icon_ui" />
 
             <LinearLayout
@@ -378,27 +433,40 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/circle_button"
-                android:orientation="horizontal" />
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="9dp"
+                    android:src="@drawable/camera_icon_uidark"
+                    app:tint="@color/white" />
+            </LinearLayout>
 
             <ImageView
                 android:layout_columnWeight="1"
                 android:layout_column="3"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:scaleType="centerInside"
-                android:padding="8dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
                 app:tint="@color/white"
-                android:src="@drawable/map_icon_ui" />
+                android:src="@drawable/pin_icon_ui" />
 
             <ImageView
                 android:layout_columnWeight="1"
                 android:layout_column="4"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:scaleType="centerInside"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:src="@drawable/settings_icon_ui" />
         </GridLayout>
     </LinearLayout>
-
 </RelativeLayout>
