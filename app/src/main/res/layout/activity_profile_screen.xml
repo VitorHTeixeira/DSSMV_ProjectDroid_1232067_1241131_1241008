@@ -397,6 +397,7 @@
         android:gravity="center"
         android:background="@drawable/rounded_navbar"
         android:orientation="horizontal">
+
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -405,68 +406,112 @@
             android:padding="8dp"
             android:columnCount="5"
             android:rowCount="1">
-            <ImageView
+
+            <!-- Home -->
+            <FrameLayout
+                android:id="@+id/nav_home"
                 android:layout_columnWeight="1"
                 android:layout_column="0"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:scaleType="fitCenter"
-                android:padding="2dp"
-                android:src="@drawable/home_icon_ui" />
+                android:foreground="?attr/selectableItemBackgroundBorderless">
 
-            <ImageView
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="2dp"
+                    android:src="@drawable/home_icon_ui" />
+            </FrameLayout>
+
+            <!-- Profile -->
+            <FrameLayout
+                android:id="@+id/nav_profile"
                 android:layout_columnWeight="1"
                 android:layout_column="1"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:scaleType="fitCenter"
-                android:padding="6dp"
-                android:src="@drawable/perfil_icon_ui" />
+                android:foreground="?attr/selectableItemBackgroundBorderless">
 
-            <LinearLayout
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="6dp"
+                    android:src="@drawable/perfil_icon_ui" />
+            </FrameLayout>
+
+            <!-- Camera-->
+            <FrameLayout
+                android:id="@+id/nav_camera"
                 android:layout_columnWeight="1"
                 android:layout_column="2"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="@drawable/circle_button"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="9dp"
-                    android:src="@drawable/camera_icon_uidark"
-                    app:tint="@color/white" />
-            </LinearLayout>
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
 
-            <ImageView
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle_button"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitCenter"
+                        android:padding="9dp"
+                        android:src="@drawable/camera_icon_uidark"
+                        app:tint="@color/white" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Pin -->
+            <FrameLayout
+                android:id="@+id/nav_location"
                 android:layout_columnWeight="1"
                 android:layout_column="3"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:scaleType="fitCenter"
-                android:padding="10dp"
-                app:tint="@color/white"
-                android:src="@drawable/pin_icon_ui" />
+                android:foreground="?attr/selectableItemBackgroundBorderless">
 
-            <ImageView
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="10dp"
+                    android:src="@drawable/pin_icon_ui"
+                    app:tint="@color/white" />
+            </FrameLayout>
+
+            <!-- Settings -->
+            <FrameLayout
+                android:id="@+id/nav_settings"
                 android:layout_columnWeight="1"
                 android:layout_column="4"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:scaleType="centerInside"
-                android:padding="4dp"
-                android:src="@drawable/settings_icon_ui" />
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:padding="4dp"
+                    android:src="@drawable/settings_icon_ui" />
+            </FrameLayout>
+
         </GridLayout>
     </LinearLayout>
 </RelativeLayout>
