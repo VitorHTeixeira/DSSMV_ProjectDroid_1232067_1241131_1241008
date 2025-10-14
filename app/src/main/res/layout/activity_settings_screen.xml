@@ -1,0 +1,314 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/old_paper">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        android:background="@drawable/island_topbar"
+        android:gravity="center">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Welcome"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-condensed-medium" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:layout_below="@+id/topbar"
+        android:layout_above="@id/navbar">
+        <!-- User Info Overview-->
+
+        <!-- Menus colapsáveis -->
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/app_theme_menu"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:background="@drawable/island_topbar"
+                android:backgroundTint="@color/watch_green"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App Theme"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:id="@+id/app_theme_arrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:focusable="true"
+                    android:clickable="true" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/save_data_menu"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:background="@drawable/island_topbar"
+                android:backgroundTint="@color/watch_green"
+                android:layout_margin="10dp"
+                android:layout_below="@+id/app_theme_menu">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save App Data"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:id="@+id/save_data_arrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:focusable="true"
+                    android:clickable="true" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/force_save_data_menu"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:background="@drawable/island_topbar"
+                android:backgroundTint="@color/watch_green"
+                android:layout_margin="10dp"
+                android:layout_below="@+id/save_data_menu">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Force Saving App Data"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/profile_settings_menu"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:background="@drawable/island_topbar"
+                android:backgroundTint="@color/watch_green"
+                android:layout_margin="10dp"
+                android:layout_below="@+id/force_save_data_menu">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile Settings"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:id="@+id/profile_settings_arrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:focusable="true"
+                    android:clickable="true" />
+            </RelativeLayout>
+            <HorizontalScrollView
+                android:id="@+id/content_to_toggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="#282828"
+                android:paddingBottom="8dp">
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+                </RadioGroup>
+
+            </HorizontalScrollView>
+        </RelativeLayout>
+    </ScrollView>
+
+    <!-- Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@drawable/rounded_navbar"
+        android:orientation="horizontal">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:columnCount="5"
+            android:rowCount="1">
+
+            <!-- Home -->
+            <FrameLayout
+                android:id="@+id/nav_home"
+                android:layout_columnWeight="1"
+                android:layout_column="0"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="2dp"
+                    android:src="@drawable/home_icon_ui" />
+            </FrameLayout>
+
+            <!-- Profile -->
+            <FrameLayout
+                android:id="@+id/nav_profile"
+                android:layout_columnWeight="1"
+                android:layout_column="1"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="6dp"
+                    android:src="@drawable/perfil_icon_ui" />
+            </FrameLayout>
+
+            <!-- Camera-->
+            <FrameLayout
+                android:id="@+id/nav_camera"
+                android:layout_columnWeight="1"
+                android:layout_column="2"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle_button"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitCenter"
+                        android:padding="9dp"
+                        android:src="@drawable/camera_icon_uidark"
+                        app:tint="@color/white" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Pin -->
+            <FrameLayout
+                android:id="@+id/nav_location"
+                android:layout_columnWeight="1"
+                android:layout_column="3"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="10dp"
+                    android:src="@drawable/pin_icon_ui"
+                    app:tint="@color/white" />
+            </FrameLayout>
+
+            <!-- Settings -->
+            <FrameLayout
+                android:id="@+id/nav_settings"
+                android:layout_columnWeight="1"
+                android:layout_column="4"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:padding="4dp"
+                    android:src="@drawable/settings_icon_ui" />
+            </FrameLayout>
+
+        </GridLayout>
+    </LinearLayout>
+</RelativeLayout>
