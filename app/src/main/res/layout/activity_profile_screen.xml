@@ -86,36 +86,29 @@
                 </FrameLayout>
             </LinearLayout>
 
-            <FrameLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bookcover_red">
+                android:scrollbars="none">
 
-                <HorizontalScrollView
+                <FrameLayout
+                    android:id="@+id/review_carousel_container_bookshelf"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
+                    android:layout_height="@dimen/mainscreen_bookcarousel_height"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
 
-                    <FrameLayout
-                        android:id="@+id/review_carousel_container_bookshelf"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/mainscreen_bookcarousel_height"
-                        android:layout_below="@+id/review_title"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/bookcover_red">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/review_carousel_bookshelf"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/item_bookcover"
-                            tools:itemCount="5" />
-                    </FrameLayout>
-                </HorizontalScrollView>
-            </FrameLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/review_carousel_bookshelf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_bookcover"
+                        tools:itemCount="5" />
+                </FrameLayout>
+            </HorizontalScrollView>
 
             <View
                 android:layout_width="match_parent"
@@ -158,36 +151,29 @@
                 </FrameLayout>
             </LinearLayout>
 
-            <FrameLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bookcover_red">
+                android:scrollbars="none">
 
-                <HorizontalScrollView
+                <FrameLayout
+                    android:id="@+id/review_carousel_container_activity"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
+                    android:layout_height="@dimen/mainscreen_bookcarousel_height"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
 
-                    <FrameLayout
-                        android:id="@+id/review_carousel_container_activity"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/mainscreen_bookcarousel_height"
-                        android:layout_below="@+id/review_title"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/bookcover_red">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/review_carousel_activity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/item_bookcover"
-                            tools:itemCount="5" />
-                    </FrameLayout>
-                </HorizontalScrollView>
-            </FrameLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/review_carousel_activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_bookcover"
+                        tools:itemCount="5" />
+                </FrameLayout>
+            </HorizontalScrollView>
 
             <View
                 android:layout_width="match_parent"
@@ -230,36 +216,29 @@
                 </FrameLayout>
             </LinearLayout>
 
-            <FrameLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bookcover_red">
+                android:scrollbars="none">
 
-                <HorizontalScrollView
+                <FrameLayout
+                    android:id="@+id/review_carousel_container_wishlisted"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
+                    android:layout_height="@dimen/mainscreen_bookcarousel_height"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
 
-                    <FrameLayout
-                        android:id="@+id/review_carousel_container_wishlisted"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/mainscreen_bookcarousel_height"
-                        android:layout_below="@+id/review_title"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/bookcover_red">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/review_carousel_wishlisted"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/item_bookcover"
-                            tools:itemCount="5" />
-                    </FrameLayout>
-                </HorizontalScrollView>
-            </FrameLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/review_carousel_wishlisted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_bookcover"
+                        tools:itemCount="5" />
+                </FrameLayout>
+            </HorizontalScrollView>
 
             <View
                 android:layout_width="match_parent"
@@ -325,36 +304,29 @@
                 </FrameLayout>
             </LinearLayout>
 
-            <FrameLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bookcover_red">
+                android:scrollbars="none">
 
-                <HorizontalScrollView
+                <FrameLayout
+                    android:id="@+id/review_carousel_container_booklist"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
+                    android:layout_height="@dimen/mainscreen_bookcarousel_height"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
 
-                    <FrameLayout
-                        android:id="@+id/review_carousel_container_booklist"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/mainscreen_bookcarousel_height"
-                        android:layout_below="@+id/review_title"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/bookcover_red">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/review_carousel_booklist"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/item_bookcover"
-                            tools:itemCount="5" />
-                    </FrameLayout>
-                </HorizontalScrollView>
-            </FrameLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/review_carousel_booklist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_bookcover"
+                        tools:itemCount="5" />
+                </FrameLayout>
+            </HorizontalScrollView>
 
             <View
                 android:layout_width="match_parent"
@@ -375,7 +347,6 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@color/bookcover_red"
                 android:layout_marginBottom="20dp">
 
                 <FrameLayout
