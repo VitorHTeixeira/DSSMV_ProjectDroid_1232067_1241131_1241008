@@ -52,10 +52,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!-- App Theme -->
             <RelativeLayout
                 android:id="@+id/app_theme_menu"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingStart="16dp"
@@ -63,29 +64,60 @@
                 android:background="@drawable/island_topbar"
                 android:backgroundTint="@color/watch_green"
                 android:layout_margin="10dp">
+                <GridLayout
+                    android:id="@+id/app_theme_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:rowCount="1"
+                    android:layout_margin="10dp">
 
-                <TextView
+                    <TextView
+                        android:id="@+id/app_theme_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="App Theme"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/app_theme_arrow"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:layout_gravity="end|center"
+                        android:focusable="true"
+                        android:clickable="true" />
+                </GridLayout>
+                <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="App Theme"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:layout_centerVertical="true" />
-
-                <ImageView
-                    android:id="@+id/app_theme_arrow"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_arrow_right"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:focusable="true"
-                    android:clickable="true" />
+                    android:layout_below="@+id/app_theme_container"
+                    android:orientation="vertical"
+                    android:layout_marginStart="24dp"
+                    android:visibility="gone">
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Light Mode"
+                        android:textColor="@color/black" />
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dark Mode"
+                        android:textColor="@color/black" />
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="System Preference"
+                        android:textColor="@color/black" />
+                </RadioGroup>
             </RelativeLayout>
+            <!-- Export App Data -->
             <RelativeLayout
-                android:id="@+id/save_data_menu"
+                android:id="@+id/export_app_data_menu"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingStart="16dp"
@@ -94,29 +126,60 @@
                 android:backgroundTint="@color/watch_green"
                 android:layout_margin="10dp"
                 android:layout_below="@+id/app_theme_menu">
+                <GridLayout
+                    android:id="@+id/export_app_data_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:rowCount="1"
+                    android:layout_margin="10dp">
 
-                <TextView
+                    <TextView
+                        android:id="@+id/export_app_data_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Export App Data"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/export_app_data_arrow"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:layout_gravity="end|center"
+                        android:focusable="true"
+                        android:clickable="true" />
+                </GridLayout>
+                <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Save App Data"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:layout_centerVertical="true" />
-
-                <ImageView
-                    android:id="@+id/save_data_arrow"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_arrow_right"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:focusable="true"
-                    android:clickable="true" />
+                    android:layout_below="@+id/export_app_data_container"
+                    android:orientation="vertical"
+                    android:layout_marginStart="24dp"
+                    android:visibility="gone">
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="CSV"
+                        android:textColor="@color/black" />
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="JSON"
+                        android:textColor="@color/black" />
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="XLSX"
+                        android:textColor="@color/black" />
+                </RadioGroup>
             </RelativeLayout>
+            <!-- Force Saving Data -->
             <RelativeLayout
                 android:id="@+id/force_save_data_menu"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingStart="16dp"
@@ -124,20 +187,22 @@
                 android:background="@drawable/island_topbar"
                 android:backgroundTint="@color/watch_green"
                 android:layout_margin="10dp"
-                android:layout_below="@+id/save_data_menu">
+                android:layout_below="@+id/export_app_data_menu">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:text="Force Saving App Data"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
+            <!-- Profile Settings -->
             <RelativeLayout
                 android:id="@+id/profile_settings_menu"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingStart="16dp"
@@ -146,42 +211,32 @@
                 android:backgroundTint="@color/watch_green"
                 android:layout_margin="10dp"
                 android:layout_below="@+id/force_save_data_menu">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <GridLayout
+                    android:id="@+id/profile_settings_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Profile Settings"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:layout_centerVertical="true" />
+                    android:columnCount="2"
+                    android:rowCount="1"
+                    android:layout_margin="10dp">
 
-                <ImageView
-                    android:id="@+id/profile_settings_arrow"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_arrow_right"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:focusable="true"
-                    android:clickable="true" />
+                    <TextView
+                        android:id="@+id/profile_settings_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Profile Settings"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/profile_settings_arrow"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:layout_gravity="end|center"
+                        android:focusable="true"
+                        android:clickable="true" />
+                </GridLayout>
             </RelativeLayout>
-            <HorizontalScrollView
-                android:id="@+id/content_to_toggle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:background="#282828"
-                android:paddingBottom="8dp">
-
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
-                </RadioGroup>
-
-            </HorizontalScrollView>
         </RelativeLayout>
     </ScrollView>
 
