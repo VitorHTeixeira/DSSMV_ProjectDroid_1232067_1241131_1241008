@@ -75,14 +75,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Username: "
+                        android:inputType="text"
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/value_your_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:minWidth="86dp"
                         android:text="Your Username"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
@@ -137,11 +139,14 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/value_user_password"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="••••••••••"
+                        android:minWidth="86dp"
+                        android:inputType="textPassword"
+                        app:passwordToggleEnabled="true"
+                        android:autofillHints="password"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:paddingStart="4dp"
@@ -195,11 +200,12 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/value_user_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="user@isep.ipp.pt"
+                        android:inputType="textEmailAddress"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:paddingStart="4dp"
@@ -248,21 +254,22 @@
                         android:id="@+id/label_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Telemóvel: "
+                        android:text="Phone Number: "
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/value_user_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+351 912 345 678"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
+                        android:ellipsize="end"
                         android:paddingStart="4dp"
                         android:singleLine="true"
-                        android:ellipsize="end" />
+                        android:text="+351 912 345 678"
+                        android:inputType="phone"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <ImageView
@@ -306,21 +313,22 @@
                         android:id="@+id/label_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Morada: "
+                        android:text="Address: "
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/value_user_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rua de São Tomé, Porto"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
+                        android:ellipsize="end"
                         android:paddingStart="4dp"
                         android:singleLine="true"
-                        android:ellipsize="end" />
+                        android:text="Rua de São Tomé, Porto"
+                        android:inputType="text"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <ImageView
@@ -357,25 +365,50 @@
                     android:id="@+id/label_date_format"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Formato de Data: "
+                    android:text="Date Format: "
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_centerVertical="true" />
-
-                <Spinner
-                    android:id="@+id/spinner_date_format"
+                <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/label_date_format"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="8dp"
-                    android:spinnerMode="dropdown"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:entries="@array/date_formats"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp" />
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toEndOf="@id/label_date_format"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="18dp">
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:entries="@array/date_formats"
+                        android:gravity="start|center"
+                        android:popupBackground="@color/white"
+                        android:spinnerMode="dropdown"
+                        android:theme="@style/DateFormatSpinner" />
+
+                </androidx.cardview.widget.CardView>
+<!--                <Spinner-->
+<!--                    android:id="@+id/spinner_date_format"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_marginTop="6dp"-->
+<!--                    android:layout_marginStart="0dp"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:layout_toEndOf="@id/label_date_format"-->
+<!--                    android:background="@android:drawable/btn_dropdown"-->
+<!--                    android:backgroundTint="@color/watch_green"-->
+<!--                    android:entries="@array/date_formats"-->
+<!--                    android:gravity="start|center"-->
+<!--                    android:paddingStart="0dp"-->
+<!--                    android:paddingEnd="8dp"-->
+<!--                    android:popupBackground="@color/watch_green"-->
+<!--                    android:popupTheme="@style/DateFormatSpinner"-->
+<!--                    android:spinnerMode="dropdown"-->
+<!--                    android:theme="@style/DateFormatSpinner" />-->
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

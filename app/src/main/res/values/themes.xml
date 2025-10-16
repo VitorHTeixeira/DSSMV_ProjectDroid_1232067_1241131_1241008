@@ -6,8 +6,8 @@
         <item name="colorPrimaryVariant">@color/old_paper</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/new_paper</item>
+        <item name="colorSecondaryVariant">@color/new_paper</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
@@ -17,5 +17,8 @@
     <style name="Base.Theme.CoverToCover" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+    <style name="DateFormatSpinner">
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>
