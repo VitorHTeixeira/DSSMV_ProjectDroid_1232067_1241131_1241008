@@ -95,10 +95,10 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/edit_username_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/pencil_icon_ui"
+                    android:id="@+id/edit_username_image_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/check_icon_ui"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:focusable="true"
@@ -156,10 +156,10 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/edit_password_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/pencil_icon_ui"
+                    android:id="@+id/edit_password_image_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/check_icon_ui"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:focusable="true"
@@ -206,6 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="user@isep.ipp.pt"
+                        android:minWidth="86dp"
                         android:inputType="textEmailAddress"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
@@ -215,10 +216,10 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/edit_email_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/pencil_icon_ui"
+                    android:id="@+id/edit_email_image_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/check_icon_ui"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:focusable="true"
@@ -265,6 +266,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
+                        android:minWidth="86dp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
                         android:text="+351 912 345 678"
@@ -274,10 +276,10 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/edit_phone_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/pencil_icon_ui"
+                    android:id="@+id/edit_phone_image_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/check_icon_ui"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:focusable="true"
@@ -324,6 +326,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
+                        android:minWidth="86dp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
                         android:text="Rua de São Tomé, Porto"
@@ -333,10 +336,10 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/edit_address_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/pencil_icon_ui"
+                    android:id="@+id/edit_adress_image_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/check_icon_ui"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:focusable="true"
@@ -388,28 +391,8 @@
                         android:gravity="start|center"
                         android:popupBackground="@color/white"
                         android:spinnerMode="dropdown"
-                        android:theme="@style/DateFormatSpinner" />
-
+                        android:theme="@style/ThemeOverlay.AppCompat.Light" />
                 </androidx.cardview.widget.CardView>
-<!--                <Spinner-->
-<!--                    android:id="@+id/spinner_date_format"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:layout_marginTop="6dp"-->
-<!--                    android:layout_marginStart="0dp"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:layout_toEndOf="@id/label_date_format"-->
-<!--                    android:background="@android:drawable/btn_dropdown"-->
-<!--                    android:backgroundTint="@color/watch_green"-->
-<!--                    android:entries="@array/date_formats"-->
-<!--                    android:gravity="start|center"-->
-<!--                    android:paddingStart="0dp"-->
-<!--                    android:paddingEnd="8dp"-->
-<!--                    android:popupBackground="@color/watch_green"-->
-<!--                    android:popupTheme="@style/DateFormatSpinner"-->
-<!--                    android:spinnerMode="dropdown"-->
-<!--                    android:theme="@style/DateFormatSpinner" />-->
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
