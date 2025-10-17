@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:background="@color/old_paper">
 
     <!-- Top Bar -->
@@ -67,7 +68,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_username_icon"
+                    android:layout_toStartOf="@+id/edit_username_image_icon"
                     android:layout_centerVertical="true"
                     android:orientation="horizontal">
 
@@ -127,7 +128,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_password_icon"
+                    android:layout_toStartOf="@+id/edit_password_image_icon"
                     android:layout_centerVertical="true"
                     android:orientation="horizontal">
 
@@ -188,7 +189,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_email_icon"
+                    android:layout_toStartOf="@+id/edit_email_image_icon"
                     android:layout_centerVertical="true"
                     android:orientation="horizontal">
 
@@ -248,7 +249,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_phone_icon"
+                    android:layout_toStartOf="@+id/edit_phone_image_icon"
                     android:layout_centerVertical="true"
                     android:orientation="horizontal">
 
@@ -308,7 +309,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_address_icon"
+                    android:layout_toStartOf="@+id/edit_address_image_icon"
                     android:layout_centerVertical="true"
                     android:orientation="horizontal">
 
