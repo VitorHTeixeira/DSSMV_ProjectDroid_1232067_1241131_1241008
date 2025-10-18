@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/island_topbar"
+    android:backgroundTint="@color/watch_green"
+    android:layout_margin="5dp"
+    android:padding="12dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+    <!-- Estrelas -->
+    <RatingBar
+        android:id="@+id/history_rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:rating="4.5"
+        android:isIndicator="true"
+        android:progressTint="@color/gold"
+        android:progressBackgroundTint="@color/grey_sweater"
+        style="?android:attr/ratingBarStyleSmall"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:layout_marginEnd="12dp" />
+
+    <!-- Placeholder Datas-->
+    <TextView
+        android:id="@+id/history_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/history_rating_bar"
+        android:layout_centerVertical="true"
+        android:text="DD/MM/YYYY"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginStart="8dp" />
+
+    <!-- Seta -->
+    <ImageView
+        android:id="@+id/history_chevron"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_arrow_right"
+        app:tint="@color/black"
+        android:layout_marginStart="8dp" />
+
+</RelativeLayout>
