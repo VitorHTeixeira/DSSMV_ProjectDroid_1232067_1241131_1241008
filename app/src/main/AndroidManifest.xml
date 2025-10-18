@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoverToCover">
         <activity
-            android:name=".MainScreen"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.CoverToCover">
             <intent-filter>
