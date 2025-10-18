@@ -1,0 +1,425 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/old_paper">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        android:background="@drawable/island_topbar"
+        android:gravity="center">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Add Manual Book"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-condensed-medium" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topbar"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
+
+            <!-- Book Cover  -->
+            <LinearLayout
+                android:id="@+id/book_cover_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="20dp">
+
+                <FrameLayout
+                    android:id="@+id/book_cover"
+                    android:layout_width="140dp"
+                    android:layout_height="220dp"
+                    android:background="@drawable/bookcover_carousel"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/plus_icon_ui"
+                        android:layout_gravity="center"
+                        android:padding="30dp">
+                    </ImageView>
+                </FrameLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/review_divisor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/book_cover_section"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/grey_sweater" />
+
+            <!-- Requisitos Obrigatórios -->
+            <RelativeLayout
+                android:id="@+id/required_fields_title_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/review_divisor"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/required_fields_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Required Fields "
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/required_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/required_fields_title"
+                    android:layout_alignBaseline="@+id/required_fields_title"
+                    android:text="*"
+                    android:textColor="@color/red"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/required_fields_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/required_fields_title_layout"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+
+                <!-- Book Name  -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:id="@+id/label_book_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Book Name "
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/required_indicator_book"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/label_book_name"
+                        android:layout_alignBaseline="@+id/label_book_name"
+                        android:text="*"
+                        android:textColor="@color/red"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/input_book_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_below="@+id/label_book_name"
+                        android:layout_marginTop="4dp"
+                        android:hint="Enter book name"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <!-- Author  -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:id="@+id/label_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Author "
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/required_indicator_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/label_author"
+                        android:layout_alignBaseline="@+id/label_author"
+                        android:text="*"
+                        android:textColor="@color/red"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/input_author"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_below="@+id/label_author"
+                        android:layout_marginTop="4dp"
+                        android:hint="Enter author name"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/optional_divisor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/required_fields_layout"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/grey_sweater" />
+
+            <!-- Requisitos Opcionais -->
+            <TextView
+                android:id="@+id/optional_fields_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/optional_divisor"
+                android:text="Optional Fields"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <LinearLayout
+                android:id="@+id/optional_fields_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/optional_fields_title"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+
+                <!-- Edition -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:id="@+id/label_edition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Edition"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/input_edition"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_below="@+id/label_edition"
+                        android:layout_marginTop="4dp"
+                        android:hint="ex. 1, 2, 3..."
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <!-- Release Year -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:id="@+id/label_release_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Release Year"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/input_release_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_below="@+id/label_release_year"
+                        android:layout_marginTop="4dp"
+                        android:hint="YYYY (ex., 2025)"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:maxLength="4"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <!-- Page Number -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:id="@+id/label_page_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Page Number"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/input_page_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_below="@+id/label_page_number"
+                        android:layout_marginTop="4dp"
+                        android:hint="Total pages"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:maxLength="5"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <!-- ISBN -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:id="@+id/label_isbn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ISBN"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/input_isbn"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_below="@+id/label_isbn"
+                        android:layout_marginTop="4dp"
+                        android:hint="ISBN 10 or ISBN 13"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:maxLength="17"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!-- Buttons -->
+            <LinearLayout
+                android:id="@+id/buttons_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/optional_fields_layout"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@color/old_paper"
+                android:padding="15dp">
+
+                <!-- Cancel Button -->
+                <RelativeLayout
+                    android:id="@+id/cancel_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/island_topbar"
+                    android:backgroundTint="@color/grey_sweater"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Cancel"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <!-- Save Button -->
+                <RelativeLayout
+                    android:id="@+id/save_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/island_topbar"
+                    android:backgroundTint="@color/watch_green"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Save Book"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
