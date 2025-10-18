@@ -1,0 +1,192 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/old_paper">
+
+
+    <!-- Mapa -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <FrameLayout
+            android:id="@+id/mapa"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="activity_map_screen.xml">
+            </fragment>
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        android:background="@drawable/island_topbar"
+        android:gravity="center">
+
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Mapa"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif-condensed-medium" />
+    </LinearLayout>
+
+    <!-- Zona das localizações -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="370dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@drawable/rounded_navbar"
+        android:orientation="horizontal">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:columnCount="5"
+            android:rowCount="1">
+
+            <!-- Home -->
+            <FrameLayout
+                android:id="@+id/nav_home"
+                android:layout_columnWeight="1"
+                android:layout_column="0"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="2dp"
+                    android:src="@drawable/home_icon_ui" />
+            </FrameLayout>
+
+            <!-- Profile -->
+            <FrameLayout
+                android:id="@+id/nav_profile"
+                android:layout_columnWeight="1"
+                android:layout_column="1"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="6dp"
+                    android:src="@drawable/perfil_icon_ui" />
+            </FrameLayout>
+
+            <!-- Camera-->
+            <FrameLayout
+                android:id="@+id/nav_camera"
+                android:layout_columnWeight="1"
+                android:layout_column="2"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/circle_button"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitCenter"
+                        android:padding="9dp"
+                        android:src="@drawable/camera_icon_uidark"
+                        app:tint="@color/white" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Pin -->
+            <FrameLayout
+                android:id="@+id/nav_location"
+                android:layout_columnWeight="1"
+                android:layout_column="3"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="10dp"
+                    android:src="@drawable/pin_icon_ui"
+                    app:tint="@color/white" />
+            </FrameLayout>
+
+            <!-- Settings -->
+            <FrameLayout
+                android:id="@+id/nav_settings"
+                android:layout_columnWeight="1"
+                android:layout_column="4"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:padding="4dp"
+                    android:src="@drawable/settings_icon_ui" />
+            </FrameLayout>
+
+        </GridLayout>
+    </LinearLayout>
+
+</RelativeLayout>
