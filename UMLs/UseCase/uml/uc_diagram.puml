@@ -5,15 +5,12 @@ title Use Case Diagram
 
 actor "User" as usms
 rectangle "Main Screen" {
-    usecase "1. Click Scan Barcode Button" as UCMS1
-    usecase "2. Search Book by Identifier" as UCMS2
-    usecase "3. Add Non-Existing Book" as UCMS3
-    usecase "4. See Your Three Latest Reviews" as UCMS4
-    usecase "5. See Your Yearly Statistics" as UCMS5
-    usecase "6. See Your Five Latest Wishlisted Books" as UCMS6
-    usecase "7. Go to Settings Page" as UCMS7
-    usecase "8. Go to Profile Page" as UCMS8
-    usecase "9. Go to Maps Page" as UCMS9
+    usecase "1. Search Book by Identifier" as UCMS1
+    usecase "2. Add Non-Existing Book" as UCMS2
+    usecase "3. See Your Three Latest Reviews" as UCMS3
+    usecase "4. See Your Yearly Statistics" as UCMS4
+    usecase "5. See Your Five Latest Wishlisted Books" as UCMS5
+    usecase "6. Go trough nav bar buttons" as UCMS6
 }
 usms --> UCMS1
 usms --> UCMS2
@@ -21,9 +18,6 @@ usms --> UCMS3
 usms --> UCMS4
 usms --> UCMS5
 usms --> UCMS6
-usms --> UCMS7
-usms --> UCMS8
-usms --> UCMS9
 
 newpage
 left to right direction
@@ -34,16 +28,40 @@ rectangle "Profile Screen" {
     usecase "1. See Books on Your Bookshelf" as UCPS1
     usecase "2. See Reading Activity" as UCPS2
     usecase "3. See All Wishlisted Books" as UCPS3
-    usecase "4. See All User's Booklists" as UCPS4
-    usecase "5. Create Your Own Booklist" as UCPS5
-    usecase "6. See Your Review Plot" as UCPS6
+    usecase "4. See Your Review Plot" as UCPS4
+    usecase "5. Go trough nav bar buttons" as UCPS5
 }
 usps --> UCPS1
 usps --> UCPS2
 usps --> UCPS3
 usps --> UCPS4
 usps --> UCPS5
-usps --> UCPS6
+
+newpage
+left to right direction
+title Use Case Diagram
+
+actor "User" as uscs
+rectangle "Camera Screen" {
+    usecase "1. Scan barcode from the camera view " as UCCS1
+    usecase "2. Click the shutter button to confirm" as UCCS2
+    usecase "3. Go trough nav bar buttons" as UCCS3
+}
+uscs --> UCCS1
+uscs --> UCCS2
+uscs --> UCCS3
+
+newpage
+left to right direction
+title Use Case Diagram
+
+actor "User" as usmap
+rectangle "Map Screen" {
+    usecase "1. See Libraries On The Map" as UCMAP1
+    usecase "2. Go trough nav bar buttons" as UCMAP2
+}
+usmap --> UCMAP1
+usmap --> UCMAP2
 
 newpage
 left to right direction
@@ -55,20 +73,14 @@ rectangle "Settings Screen" {
     usecase "2. Change Data Format" as UCSS2
     usecase "3. Force Saving Data" as UCSS3
     usecase "4. Change Profile Settings" as UCSS4
+    usecase "5. Go trough nav bar buttons" as UCSS5
 }
 usss --> UCSS1
 usss --> UCSS2
 usss --> UCSS3
 usss --> UCSS4
+usss --> UCSS5
 
-newpage
-left to right direction
-title Use Case Diagram
 
-actor "User" as usmap
-rectangle "Map Screen" {
-    usecase "1. See Libraries On The Map" as UCMAP1
-}
-usmap --> UCMAP1
 
 @enduml
