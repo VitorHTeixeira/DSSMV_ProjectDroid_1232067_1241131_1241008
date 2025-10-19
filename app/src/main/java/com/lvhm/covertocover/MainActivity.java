@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupNavigationListeners() {
         navMain.setOnClickListener(v -> loadFragment(new MainScreen()));
         navProfile.setOnClickListener(v -> loadFragment(new ProfileScreen()));
-//        navCamera.setOnClickListener(v -> loadFragment(new CameraScreen()));
+        navCamera.setOnClickListener(v -> loadFragment(new CameraScreen()));
 //        navMap.setOnClickListener(v -> loadFragment(new MapScreen()));
         navSettings.setOnClickListener(v -> loadFragment(new SettingsScreen()));
 
