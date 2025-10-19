@@ -20,4 +20,5 @@
     <!-- By Miguel -->
     <color  name="gold">#FDB515</color>
     <color name="red">#FF0000</color>
+    <color  name="translucid_white">#33FFFFFF</color>
 </resources>
