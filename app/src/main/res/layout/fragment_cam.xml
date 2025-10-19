@@ -41,7 +41,9 @@
     <!-- Camera -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="16dp"
         android:layout_below="@+id/topbar">
 
         <SurfaceView
@@ -70,21 +72,12 @@
 
             <ImageView
                 android:id="@+id/icon_camera"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:src="@drawable/camera_icon_uidark"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="-20dp"
+                android:src="@drawable/shutter_button_icon_ui"
                 app:tint="@color/black" />
 
-            <TextView
-                android:id="@+id/text_capture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Capture"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-medium"
-                android:layout_marginTop="8dp" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
