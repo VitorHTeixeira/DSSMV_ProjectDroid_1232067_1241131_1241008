@@ -105,6 +105,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:background="@drawable/island_topbar"
@@ -147,16 +148,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Light Mode"
+                            android:textSize="16sp"
                             android:textColor="@color/black" />
                         <RadioButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Dark Mode"
+                            android:textSize="16sp"
                             android:textColor="@color/black" />
                         <RadioButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="System Preference"
+                            android:textSize="16sp"
                             android:textColor="@color/black" />
                     </RadioGroup>
                 </RelativeLayout>
@@ -167,6 +171,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:background="@drawable/island_topbar"
@@ -210,16 +215,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="CSV"
+                            android:textSize="16sp"
                             android:textColor="@color/black" />
                         <RadioButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="JSON"
+                            android:textSize="16sp"
                             android:textColor="@color/black" />
                         <RadioButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="XLSX"
+                            android:textSize="16sp"
                             android:textColor="@color/black" />
                     </RadioGroup>
                 </RelativeLayout>
@@ -230,6 +238,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:background="@drawable/island_topbar"
@@ -253,6 +262,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:background="@drawable/island_topbar"

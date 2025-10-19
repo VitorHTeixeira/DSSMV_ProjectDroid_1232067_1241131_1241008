@@ -57,6 +57,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <TextView
@@ -72,10 +74,7 @@
                 <FrameLayout
                     android:id="@+id/bookshelf_arrow_container"
                     android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
+                    android:layout_height="38dp">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -120,6 +119,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <TextView
@@ -135,11 +136,7 @@
                 <FrameLayout
                     android:id="@+id/reading_arrow_container"
                     android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
-
+                    android:layout_height="38dp">
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
@@ -183,6 +180,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless">
 
                 <TextView
@@ -198,10 +197,7 @@
                 <FrameLayout
                     android:id="@+id/wishlisted_arrow_container"
                     android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
+                    android:layout_height="38dp">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -240,92 +236,6 @@
                 android:layout_marginVertical="10dp"
                 android:background="@color/grey_sweater"/>
 
-            <!-- User's Booklists -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="start|center_vertical">
-                    <TextView
-                        android:id="@+id/users_booklist_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-medium"
-                        android:text="User's Booklist"
-                        android:textColor="@color/black"
-                        android:textSize="24sp" />
-                    <FrameLayout
-                        android:id="@+id/booklist_plus_container"
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:layout_marginStart="8dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="28dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/plus_icon_ui"
-                            app:tint="@color/black" />
-                    </FrameLayout>
-                </LinearLayout>
-
-                <FrameLayout
-                    android:id="@+id/booklist_arrow_container"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_arrow_right"
-                        app:tint="@color/black" />
-                </FrameLayout>
-            </LinearLayout>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none">
-
-                <FrameLayout
-                    android:id="@+id/review_carousel_container_booklist"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/mainscreen_bookcarousel_height">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/review_carousel_booklist"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="5"
-                        tools:listitem="@layout/item_bookcover" />
-
-
-                </FrameLayout>
-            </HorizontalScrollView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/grey_sweater"
-                android:layout_marginVertical="10dp"/>
-
             <!-- Review Plot -->
             <TextView
                 android:layout_width="match_parent"
@@ -347,7 +257,6 @@
                     android:layout_margin="8dp"
                     android:background="@color/grey_sweater"/>
             </FrameLayout>
-
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
