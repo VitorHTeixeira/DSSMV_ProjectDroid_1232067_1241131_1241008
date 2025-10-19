@@ -17,6 +17,7 @@
     <color name="watch_green">#FF666F59</color>
     <color name="elsa_blue">#FF63B0C4</color>
     <color name="transparent">#00000000</color>
+    <color name="overlay_background">#60000000</color>
     <!-- By Miguel -->
     <color  name="gold">#FDB515</color>
     <color name="red">#FF0000</color>
