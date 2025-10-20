@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,17 @@ public class BookScreen extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+
+        Button tempButton = view.findViewById(R.id.temp_test_button);
+        tempButton.setOnClickListener(v -> {
+            Fragment fragment = new BookHistoryReviewOverlay();
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         return view;
     }
 }
