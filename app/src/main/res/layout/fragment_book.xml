@@ -469,6 +469,14 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="8dp" />
 
+                <Button
+                    android:id="@+id/temp_test_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rating_history_title"
+                    android:text="TESTE - Abrir Overlay"
+                    android:layout_margin="10dp"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rating_history_recycler"
                     android:layout_width="match_parent"
