@@ -13,5 +13,97 @@
         android:layout_height="400dp"
         android:orientation="vertical"
         android:background="@drawable/overlay_shape">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:rowCount="3"
+            android:columnCount="1">
+            <RatingBar
+                android:id="@+id/review_rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="0dp"
+                android:numStars="5"
+                android:stepSize="0.5"
+                android:rating="0"
+                android:isIndicator="false"
+                android:progressTint="@color/gold"
+                android:layout_gravity="center_horizontal" />
+            <View
+                android:id="@+id/review_divisor"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/review_rating_bar"
+                android:layout_margin="10dp"
+                android:background="@color/new_paper" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/review_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginTop="0dp"
+                android:hint="Review"
+                android:textColor="@color/new_paper"
+                android:inputType="textMultiLine"
+                android:isScrollContainer="true"
+                android:maxLines="9"
+                android:singleLine="false" />
+            <LinearLayout
+                android:id="@+id/buttons_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/review_text_input"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom"
+                android:padding="15dp">
+
+                <!-- Cancel Button -->
+                <RelativeLayout
+                    android:id="@+id/cancel_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/island_topbar"
+                    android:backgroundTint="@color/new_paper"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Cancel"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <!-- Save Button -->
+                <RelativeLayout
+                    android:id="@+id/save_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/island_topbar"
+                    android:backgroundTint="@color/watch_green"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Save"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+        </GridLayout>
     </LinearLayout>
 </RelativeLayout>
