@@ -7,32 +7,6 @@
     android:orientation="vertical"
     android:background="@color/old_paper">
 
-
-    <!-- Mapa -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <FrameLayout
-            android:id="@+id/mapa"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="activity_map_screen.xml">
-            </fragment>
-
-        </FrameLayout>
-    </LinearLayout>
-
     <!-- Top Bar -->
     <LinearLayout
         android:id="@+id/topbar"
@@ -42,26 +16,57 @@
         android:background="@drawable/island_topbar"
         android:gravity="center">
 
-    <TextView
-        android:id="@+id/profile_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Mapa"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:fontFamily="sans-serif-condensed-medium" />
+        <TextView
+            android:id="@+id/maps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Mapa"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-condensed-medium" />
     </LinearLayout>
 
-    <!-- Zona das localizações -->
-    <androidx.recyclerview.widget.RecyclerView
+
+    <!-- Mapa -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="370dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="match_parent"
         >
-    </androidx.recyclerview.widget.RecyclerView>
+
+    <fragment
+            android:id="@+id/mapa"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            tools:context="activity_map_screen.xml" />
+        <!-- Zona das localizações -->
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/locais"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/mapa"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_local"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!-- barra de baixo -->
 
     <LinearLayout
         android:id="@+id/navbar"
