@@ -46,8 +46,8 @@
         android:padding="16dp"
         android:layout_below="@+id/topbar">
 
-        <SurfaceView
-            android:id="@+id/camera_preview_surface"
+        <androidx.camera.view.PreviewView
+            android:id="@+id/camera_preview_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
