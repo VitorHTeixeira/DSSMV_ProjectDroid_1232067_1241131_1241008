@@ -65,12 +65,11 @@ public class CameraScreen extends Fragment {
                     .build();
 
             CameraSelector camera_selector = new CameraSelector.Builder()
-                    .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                    .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
                     .build();
 
-            ImageCapture image_capture = new ImageCapture.Builder() // verificar se não era preciso o setTargetRotation
+            image_capture = new ImageCapture.Builder() // verificar se não era preciso o setTargetRotation
                     .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                    //.setBufferFormat(ImageCapture.OUTPUT_FORMAT_YUV_420_888) Verificar
                     .build();
 
             preview.setSurfaceProvider(preview_view.getSurfaceProvider());
