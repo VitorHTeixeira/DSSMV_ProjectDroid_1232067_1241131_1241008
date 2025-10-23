@@ -28,7 +28,8 @@ public class PermissionsHandler {
         String[] permissions_min33 = {
                 Manifest.permission.READ_MEDIA_IMAGES,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.CAMERA
+                Manifest.permission.CAMERA,
+                Manifest.permission.POST_NOTIFICATIONS
         };
         List<String> permissions_to_request = new ArrayList<>();
         if(android.os.Build.VERSION.SDK_INT >= 33) {
@@ -50,7 +51,8 @@ public class PermissionsHandler {
             boolean show_location_warning = ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION);
             boolean show_write_warning = ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             boolean show_read_warning = ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
-            if(show_camera_warning || show_location_warning || show_write_warning || show_read_warning) {
+            boolean show_notification_warning = ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.POST_NOTIFICATIONS);
+            if(show_camera_warning || show_location_warning || show_write_warning || show_read_warning || show_notification_warning) {
                 new AlertDialog.Builder(activity)
                         .setTitle("Permissions Required")
                         .setMessage("This app requires all the permissions to function properly.\nPlease grant them to continue.")
