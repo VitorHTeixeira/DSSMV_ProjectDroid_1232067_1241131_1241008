@@ -43,41 +43,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:padding="16dp"
+        android:layout_margin="16dp"
         android:layout_below="@+id/topbar">
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/camera_preview_view"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_centerInParent="true" />
+            app:cardCornerRadius="16dp"
+            app:cardPreventCornerOverlap="false">
+            <androidx.camera.view.PreviewView
+                android:id="@+id/camera_preview_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true" />
+            <!-- Capture -->
+            <LinearLayout
+                android:id="@+id/layout_capture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:gravity="center"
+                android:background="@drawable/image_circle"
+                android:backgroundTint="@color/translucid_white"
+                android:layout_marginBottom="20dp"
+                android:padding="10dp"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true">
 
-        <!-- Capture -->
-        <LinearLayout
-            android:id="@+id/layout_capture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/image_circle"
-            android:backgroundTint="@color/translucid_white"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:padding="10dp"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true">
+                <ImageView
+                    android:id="@+id/icon_camera"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="-20dp"
+                    android:src="@drawable/shutter_button_icon_ui"
+                    app:tint="@color/black" />
 
-            <ImageView
-                android:id="@+id/icon_camera"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="-20dp"
-                android:src="@drawable/shutter_button_icon_ui"
-                app:tint="@color/black" />
-
-        </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 </RelativeLayout>
