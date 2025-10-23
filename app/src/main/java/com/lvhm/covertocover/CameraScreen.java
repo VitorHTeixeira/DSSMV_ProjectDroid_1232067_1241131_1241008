@@ -21,8 +21,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class CameraScreen extends Fragment {
-    private PreviewView previewView;
-    private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+    private PreviewView preview_view;
+    private ListenableFuture<ProcessCameraProvider> camera_provider_future;
 
     @Nullable
     @Override
@@ -31,28 +31,30 @@ public class CameraScreen extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_cam, container, false);
-        previewView = view.findViewById(R.id.camera_preview_view);
-        cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext());
+        preview_view = view.findViewById(R.id.camera_preview_view);
+        camera_provider_future = ProcessCameraProvider.getInstance(requireContext());
 
-        cameraProviderFuture.addListener(() -> {
-            try {
-                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-
-                Preview preview = new Preview.Builder()
-                        .build();
-
-                CameraSelector cameraSelector = new CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                        .build();
-                preview.setSurfaceProvider(previewView.getSurfaceProvider());
-                Camera camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview);
-
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }, ContextCompat.getMainExecutor(requireContext()));
+        camera_provider_future.addListener(this::startCamera, ContextCompat.getMainExecutor(requireContext()));
 
 
         return view;
+    }
+
+    private void startCamera() {
+        try {
+            ProcessCameraProvider camera_provider = camera_provider_future.get();
+
+            Preview preview = new Preview.Builder()
+                    .build();
+
+            CameraSelector camera_selector = new CameraSelector.Builder()
+                    .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                    .build();
+            preview.setSurfaceProvider(preview_view.getSurfaceProvider());
+            Camera camera = camera_provider.bindToLifecycle(this, camera_selector, preview);
+
+        } catch (ExecutionException | InterruptedException error) {
+            error.printStackTrace();
+        }
     }
 }
