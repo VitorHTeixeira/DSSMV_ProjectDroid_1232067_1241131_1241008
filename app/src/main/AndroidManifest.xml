@@ -11,7 +11,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
-
+    <!-- Notificações -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <!-- Localização -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
@@ -40,6 +41,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="NOP"/>
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode"/>
         <meta-data
             android:name="androidx.camera.camera2.Camera2Config"
             android:value="default" />
