@@ -23,7 +23,7 @@ public class NotificationCentral {
     public static void showNotification(Context context, final String message) {
         createNotificationChannel(context);
         NotificationCompat.Builder notification_builder = new NotificationCompat.Builder(context, "notification_service");
-        notification_builder.setSmallIcon(R.drawable.pencil_icon_ui)
+        notification_builder.setSmallIcon(R.drawable.covertocover_logo)
                 .setContentTitle("CoverToCover")
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
