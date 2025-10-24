@@ -56,6 +56,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true" />
+            <com.lvhm.covertocover.BarcodeFrame
+                android:id="@+id/barcode_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
             <!-- Capture -->
             <LinearLayout
                 android:id="@+id/layout_capture"
