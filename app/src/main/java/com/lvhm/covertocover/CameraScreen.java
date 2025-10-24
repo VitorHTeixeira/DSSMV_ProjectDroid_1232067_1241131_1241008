@@ -1,9 +1,9 @@
 package com.lvhm.covertocover;
 
 import android.annotation.SuppressLint;
+import android.graphics.Rect;
 import android.media.Image;
 import android.os.Bundle;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +11,13 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.camera.core.Camera;
+import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
+import androidx.camera.core.resolutionselector.AspectRatioStrategy;
+import androidx.camera.core.resolutionselector.ResolutionSelector;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
@@ -32,12 +34,12 @@ import java.util.concurrent.ExecutionException;
 
 public class CameraScreen extends Fragment {
     private PreviewView preview_view;
+    private BarcodeFrame barcode_frame;
     private ListenableFuture<ProcessCameraProvider> camera_provider_future;
     private ImageAnalysis image_analysis;
 
     private LinearLayout capture_button;
-    private volatile boolean is_capturing = false;
-    private volatile boolean analyze_frame = false;
+    private volatile boolean should_read_barcode = false;
 
 
     @Nullable
@@ -48,16 +50,16 @@ public class CameraScreen extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_cam, container, false);
         preview_view = view.findViewById(R.id.camera_preview_view);
+        barcode_frame = view.findViewById(R.id.barcode_frame);
 
         capture_button = view.findViewById(R.id.layout_capture);
 
         capture_button.setOnClickListener(v -> {
-            if (is_capturing) {
-                NotificationCentral.showNotification(requireContext(), "A imagem ainda está a ser processada.");
+            if (!isAdded()) {
                 return;
             }
-            is_capturing = true;
-            analyze_frame = true;
+            should_read_barcode = true;
+            // NotificationCentral.showNotification(requireContext(), "The image is still being processed. Please wait.");
         });
 
         NotificationCentral.createNotificationChannel(requireContext());
@@ -71,7 +73,6 @@ public class CameraScreen extends Fragment {
         if (!isAdded()) {
             return;
         }
-
         try {
             ProcessCameraProvider camera_provider = camera_provider_future.get();
 
@@ -82,18 +83,21 @@ public class CameraScreen extends Fragment {
                     .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                     .build();
 
+            ResolutionSelector resolution_selector = new ResolutionSelector.Builder()
+                    .setAspectRatioStrategy(
+                            new AspectRatioStrategy(
+                                    AspectRatio.RATIO_16_9,
+                                    AspectRatioStrategy.FALLBACK_RULE_AUTO
+                            )
+                    )
+                    .build();
+
             image_analysis = new ImageAnalysis.Builder()
+                    .setResolutionSelector(resolution_selector)
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .build();
 
-            image_analysis.setAnalyzer(ContextCompat.getMainExecutor(requireContext()), imageProxy -> {
-                if (analyze_frame) {
-                    analyze_frame = false;
-                    scan_barcode(imageProxy);
-                } else {
-                    imageProxy.close();
-                }
-            });
+            image_analysis.setAnalyzer(ContextCompat.getMainExecutor(requireContext()), this::scanBarcode);
 
             preview.setSurfaceProvider(preview_view.getSurfaceProvider());
             camera_provider.unbindAll();
@@ -103,57 +107,85 @@ public class CameraScreen extends Fragment {
             if (!isAdded()) {
                 return;
             }
-            String error_message = "Falha ao iniciar a câmara: " + error.getMessage();
+            String error_message = "Error initializing camera: " + error.getMessage();
             NotificationCentral.showNotification(requireContext(), error_message);
         }
     }
 
     @SuppressLint("UnsafeOptInUsageError")
-    private void scan_barcode(ImageProxy imageProxy) {
-        Image mediaImage = imageProxy.getImage();
-        if (mediaImage == null) {
-            imageProxy.close();
-            resetCaptureState();
+    private void scanBarcode(ImageProxy image_proxy) {
+        Image media_image = image_proxy.getImage();
+        if (media_image == null) {
+            image_proxy.close();
             return;
         }
-
-        InputImage imageToScan = InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
 
         BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
                 .setBarcodeFormats(Barcode.FORMAT_EAN_13)
                 .build();
 
         BarcodeScanner scanner = BarcodeScanning.getClient(options);
+        processImageFeed(scanner, image_proxy, media_image);
+    }
 
-        scanner.process(imageToScan)
+    private void processImageFeed(BarcodeScanner scanner, ImageProxy image_proxy, Image media_image) {
+        InputImage image_to_scan = InputImage.fromMediaImage(media_image, image_proxy.getImageInfo().getRotationDegrees());
+        scanner.process(image_to_scan)
                 .addOnSuccessListener(barcodes -> {
                     if (!isAdded()) {
                         return;
                     }
                     if (barcodes.isEmpty()) {
-                        NotificationCentral.showNotification(requireContext(), "Nenhum código de barras encontrado.");
+                        barcode_frame.updateBarcode(null);
+                        // NotificationCentral.showNotification(requireContext(), "No barcode found.");
                     } else {
-                        String rawValue = barcodes.get(0).getRawValue();
-                        String message = "ISBN foi lido: " + rawValue;
-                        NotificationCentral.showNotification(requireContext(), message);
+                        Barcode barcode = barcodes.get(0);
+                        if (barcode.getBoundingBox() != null) {
+                            barcode_frame.updateBarcode(mapBarcodeFrame(barcode.getBoundingBox(), image_proxy));
+                        }
+                        if (should_read_barcode) {
+                            should_read_barcode = false;
+                            String raw_value = barcode.getRawValue();
+                            String message = "ISBN: " + raw_value;
+                            NotificationCentral.showNotification(requireContext(), message);
+                        }
                     }
                 })
                 .addOnFailureListener(e -> {
-                    if (!isAdded()) {
-                        return;
+                    barcode_frame.updateBarcode(null);
+                    if (should_read_barcode) {
+                        should_read_barcode = false;
+                        if (isAdded()) {
+                            String error_message = "Error reading code: " + e.getMessage();
+                            NotificationCentral.showNotification(requireContext(), error_message);
+                        }
                     }
-                    String error_message = "Falha ao ler o código: " + e.getMessage();
-                    NotificationCentral.showNotification(requireContext(), error_message);
                 })
                 .addOnCompleteListener(task -> {
-                    imageProxy.close();
-                    if (isAdded()) {
-                        resetCaptureState();
-                    }
+                    image_proxy.close();
                 });
     }
 
-    private void resetCaptureState() {
-        is_capturing = false;
+
+    public Rect mapBarcodeFrame(Rect barcode_box, ImageProxy image_proxy) {
+
+        int image_width = image_proxy.getWidth();
+        int image_height = image_proxy.getHeight();
+
+        int view_width = preview_view.getWidth();
+        int view_height = preview_view.getHeight();
+
+        float scale_x = (float) view_width / image_height;
+        float scale_y = (float) view_height / image_width;
+
+        float offset_x = (view_width - image_height * scale_x) / 2;
+        float offset_y = (view_height - image_width * scale_y) / 2;
+
+        int left = (int) (barcode_box.left * scale_x + offset_x);
+        int top = (int) (barcode_box.top * scale_y + offset_y);
+        int right = (int) (barcode_box.right * scale_x + offset_x);
+        int bottom = (int) (barcode_box.bottom * scale_y + offset_y);
+
+        return new Rect(left, top, right, bottom);
     }
 }

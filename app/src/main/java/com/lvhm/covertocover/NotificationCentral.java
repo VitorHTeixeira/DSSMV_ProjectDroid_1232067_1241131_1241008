@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 public class NotificationCentral {
-    private static final int NOTIFICATION_ID = 1;
+    private static int NOTIFICATION_ID = 1;
 
     public static void createNotificationChannel(Context context) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -32,6 +32,6 @@ public class NotificationCentral {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        notification_manager.notify(NOTIFICATION_ID, notification_builder.build());
+        notification_manager.notify(NOTIFICATION_ID++, notification_builder.build());
     }
 }
