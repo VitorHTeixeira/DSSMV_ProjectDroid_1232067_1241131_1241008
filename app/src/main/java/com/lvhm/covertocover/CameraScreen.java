@@ -3,7 +3,9 @@ package com.lvhm.covertocover;
 import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
@@ -29,8 +32,13 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
+import com.lvhm.covertocover.datamodels.BookResponse;
 
 import java.util.concurrent.ExecutionException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CameraScreen extends Fragment {
     private PreviewView preview_view;
@@ -42,6 +50,7 @@ public class CameraScreen extends Fragment {
     private volatile boolean should_read_barcode = false;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,6 +67,7 @@ public class CameraScreen extends Fragment {
             if (!isAdded()) {
                 return;
             }
+            capture_button.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             should_read_barcode = true;
             // NotificationCentral.showNotification(requireContext(), "The image is still being processed. Please wait.");
         });
@@ -128,6 +138,43 @@ public class CameraScreen extends Fragment {
         processImageFeed(scanner, image_proxy, media_image);
     }
 
+//    Apenas para debug
+//    private void printISBNSearch(String barcode_value) {
+//        if (!isAdded()) {
+//            return;
+//        }
+//        String query = "isbn:" + barcode_value.trim();
+//        BookAPIService bookAPIService = BookAPIClient.getBookAPIService();
+//        Call<BookResponse> call = bookAPIService.getBookByISBN(query);
+//
+//        call.enqueue(new Callback<BookResponse>() {
+//            @Override
+//            public void onResponse(@NonNull Call<BookResponse> call, @NonNull Response<BookResponse> response) {
+//                if (!isAdded()) {
+//                    return;
+//                }
+//                if (response.isSuccessful() && response.body() != null && response.body().getItems() != null && !response.body().getItems().isEmpty()) {
+//                    BookResponse.Item item = response.body().getItems().get(0);
+//                    if (item != null && item.getVolumeInfo() != null) {
+//                        System.out.println("Book found: " + item.getVolumeInfo().getTitle());
+//                    } else {
+//                        System.out.println("Book found, but volume info is missing.");
+//                    }
+//                } else {
+//                    System.out.println("API call successful, but no book found or empty response. Code: " + response.code());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<BookResponse> call, @NonNull Throwable t) {
+//                if (!isAdded()) {
+//                    return;
+//                }
+//                System.out.println("API call failed: " + t.getMessage());
+//            }
+//        });
+//    }
+
     private void processImageFeed(BarcodeScanner scanner, ImageProxy image_proxy, Image media_image) {
         InputImage image_to_scan = InputImage.fromMediaImage(media_image, image_proxy.getImageInfo().getRotationDegrees());
         scanner.process(image_to_scan)
@@ -148,6 +195,7 @@ public class CameraScreen extends Fragment {
                             String raw_value = barcode.getRawValue();
                             String message = "ISBN: " + raw_value;
                             NotificationCentral.showNotification(requireContext(), message);
+                            // printISBNSearch(raw_value);
                         }
                     }
                 })
@@ -168,7 +216,6 @@ public class CameraScreen extends Fragment {
 
 
     public Rect mapBarcodeFrame(Rect barcode_box, ImageProxy image_proxy) {
-
         int image_width = image_proxy.getWidth();
         int image_height = image_proxy.getHeight();
 
