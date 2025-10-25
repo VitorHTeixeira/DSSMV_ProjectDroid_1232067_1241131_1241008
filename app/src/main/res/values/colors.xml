@@ -22,4 +22,9 @@
     <color  name="gold">#FDB515</color>
     <color name="red">#FF0000</color>
     <color  name="translucid_white">#33FFFFFF</color>
+
+    <!-- Dark Mode -->
+    <color  name="primary_code_text_dark_mode">#E6FFFFFF</color>
+    <color  name="book_image_placeholder_color_dark">#90CAF9</color>
+    <color  name="olive_green">#A5D6A7</color>
 </resources>
