@@ -9,14 +9,14 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 public class BarcodeFrame extends View {
     private final Paint paint = new Paint();
     private Rect barcode_rect = new Rect();
-
     public BarcodeFrame(Context context, AttributeSet attrs) {
         super(context, attrs);
-        paint.setColor(Color.parseColor("#FDB515"));
+        paint.setColor(ContextCompat.getColor(context, R.color.gold));
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(5f);
     }
