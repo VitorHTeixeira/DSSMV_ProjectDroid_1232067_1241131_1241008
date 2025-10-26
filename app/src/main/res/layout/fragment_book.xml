@@ -22,7 +22,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/profile_name"
+            android:id="@+id/book_topbar_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -51,7 +51,7 @@
             <LinearLayout
                 android:id="@+id/book_layout"
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -65,14 +65,20 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/bookcover_carousel">
+                        android:background="@drawable/bookcover_carousel"
+                        android:backgroundTint="@color/grey_sweater">
+                        <ImageView
+                            android:id="@+id/book_cover_image"
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center"/>
                     </FrameLayout>
 
                     <!-- Labels -->
                     <RelativeLayout
                         android:id="@+id/book_labels"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
+                        android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/book_cover"
                         android:layout_marginTop="20dp"
                         android:layout_marginRight="10dp">
@@ -81,7 +87,8 @@
                         <RelativeLayout
                             android:id="@+id/book_name_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -89,30 +96,31 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Book Name: "
-                                android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:lineBreakStyle="normal"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
-                                android:textSize="18dp">
+                                android:textSize="16sp">
                             </TextView>
                         </RelativeLayout>
 
-                        <!-- Edition -->
+                        <!-- Categories -->
                         <RelativeLayout
                             android:id="@+id/edition_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/book_name_layout"
+                            android:layout_marginBottom="10dp"
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/label_edition_number"
+                                android:id="@+id/label_categories"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Edition: "
-                                android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:text="Categories: "
+                                android:lineBreakStyle="normal"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
-                                android:textSize="18dp">
+                                android:textSize="16sp">
                             </TextView>
                         </RelativeLayout>
 
@@ -120,8 +128,9 @@
                         <RelativeLayout
                             android:id="@+id/year_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/edition_layout"
+                            android:layout_marginBottom="10dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -129,10 +138,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Release Year: "
-                                android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:lineBreakStyle="normal"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
-                                android:textSize="18dp">
+                                android:textSize="16sp">
                             </TextView>
                         </RelativeLayout>
 
@@ -140,8 +149,9 @@
                         <RelativeLayout
                             android:id="@+id/author_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/year_layout"
+                            android:layout_marginBottom="10dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -149,10 +159,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Author: "
-                                android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:lineBreakStyle="normal"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
-                                android:textSize="18dp">
+                                android:textSize="16sp">
                             </TextView>
                         </RelativeLayout>
 
@@ -160,8 +170,9 @@
                         <RelativeLayout
                             android:id="@+id/page_number_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/author_layout"
+                            android:layout_marginBottom="10dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -169,10 +180,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Page Number: "
-                                android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:lineBreakStyle="normal"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
-                                android:textSize="18dp">
+                                android:textSize="16sp">
                             </TextView>
                         </RelativeLayout>
 
@@ -180,8 +191,9 @@
                         <RelativeLayout
                             android:id="@+id/isbn_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/page_number_layout"
+                            android:layout_marginBottom="10dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -189,10 +201,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="ISBN: "
-                                android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:lineBreakStyle="normal"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
-                                android:textSize="18dp">
+                                android:textSize="16sp">
                             </TextView>
                         </RelativeLayout>
                     </RelativeLayout>
@@ -237,11 +249,10 @@
                             android:id="@+id/status_spinner"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:entries="@array/status_options"
                             android:gravity="center"
                             android:textAlignment="center"
                             android:background="@android:color/transparent"
-                            android:popupBackground="@color/white"
+                            android:popupBackground="@color/nav_white"
                             android:spinnerMode="dropdown"
                             android:paddingStart="12dp"
                             android:paddingEnd="12dp"
@@ -272,7 +283,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="30dp"
                                 android:text="Review"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/black"
                                 android:textSize="18sp"
                                 android:gravity="center"
                                 android:layout_marginEnd="4dp" />
@@ -282,6 +293,7 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:src="@drawable/pencil_icon_ui"
+                                app:tint="@color/black"
                                 android:padding="4dp" />
                         </LinearLayout>
                     </RelativeLayout>
@@ -299,7 +311,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rate This Book"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_centerHorizontal="true"
@@ -381,7 +393,7 @@
                             android:layout_height="wrap_content"
                             android:text="Book Details"
                             android:layout_below="@+id/book_details_image"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_centerHorizontal="true"
@@ -427,7 +439,7 @@
                             android:layout_height="wrap_content"
                             android:text="Share"
                             android:layout_below="@+id/share_book_image"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_centerHorizontal="true"
@@ -463,7 +475,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rating History"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_marginLeft="15dp"

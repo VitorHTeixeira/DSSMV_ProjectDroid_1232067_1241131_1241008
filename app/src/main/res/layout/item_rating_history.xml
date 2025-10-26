@@ -38,7 +38,7 @@
         android:layout_toEndOf="@+id/history_rating_bar"
         android:layout_centerVertical="true"
         android:text="DD/MM/YYYY"
-        android:textColor="@android:color/black"
+        android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold"
         android:layout_marginStart="8dp" />

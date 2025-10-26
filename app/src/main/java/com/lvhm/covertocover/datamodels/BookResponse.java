@@ -1,5 +1,7 @@
 package com.lvhm.covertocover.datamodels;
 
+import android.os.Bundle;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -70,25 +72,14 @@ public class BookResponse{
                 this.publishedDate = publishedDate;
             }
 
-            @SerializedName("publisher")
-            private String publisher;
-
-            public String getPublisher() {
-                return publisher;
-            }
-
-            public void setPublisher(String publisher) {
-                this.publisher = publisher;
-            }
-
             @SerializedName("pageCount")
-            private int pageCount;
+            private String pageCount;
 
-            public int getPageCount() {
+            public String getPageCount() {
                 return pageCount;
             }
 
-            public void setPageCount(int pageCount) {
+            public void setPageCount(String pageCount) {
                 this.pageCount = pageCount;
             }
 
@@ -112,6 +103,32 @@ public class BookResponse{
 
             public void setImageLinks(ImageLinks imageLinks) {
                 this.imageLinks = imageLinks;
+            }
+
+            public Bundle getBundle() {
+                Bundle bundle = new Bundle();
+                if (title != null) {
+                    bundle.putString("title", title);
+                }
+                if (subtitle != null) {
+                    bundle.putString("subtitle", subtitle);
+                }
+                if (authors != null) {
+                    bundle.putStringArrayList("authors", authors);
+                }
+                if (publishedDate != null) {
+                    bundle.putString("publishedDate", publishedDate);
+                }
+                if (pageCount != null) {
+                    bundle.putString("pageCount", pageCount);
+                }
+                if (categories != null) {
+                    bundle.putStringArrayList("categories", categories);
+                }
+                if (imageLinks != null) {
+                    bundle.putString("thumbnail", imageLinks.getThumbnail());
+                }
+                return bundle;
             }
 
             public static class ImageLinks {

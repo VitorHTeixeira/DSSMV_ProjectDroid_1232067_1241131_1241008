@@ -91,7 +91,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Book Name: "
                                 android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
                                 android:textSize="18dp">
                             </TextView>
@@ -111,7 +111,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Edition: "
                                 android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
                                 android:textSize="18dp">
                             </TextView>
@@ -131,7 +131,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Release Year: "
                                 android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
                                 android:textSize="18dp">
                             </TextView>
@@ -151,7 +151,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Author: "
                                 android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
                                 android:textSize="18dp">
                             </TextView>
@@ -171,7 +171,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Page Number: "
                                 android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
                                 android:textSize="18dp">
                             </TextView>
@@ -191,7 +191,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="ISBN: "
                                 android:inputType="text"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/black"
                                 android:textStyle="bold"
                                 android:textSize="18dp">
                             </TextView>
@@ -273,7 +273,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="30dp"
                                 android:text="Review"
-                                android:textColor="@android:color/black"
+                                android:textColor="@color/black"
                                 android:textSize="18sp"
                                 android:gravity="center"
                                 android:layout_marginEnd="4dp" />
@@ -300,7 +300,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rate This Book"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_centerHorizontal="true"
@@ -382,7 +382,7 @@
                             android:layout_height="wrap_content"
                             android:text="Book Details"
                             android:layout_below="@+id/book_details_image"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_centerHorizontal="true"
@@ -428,7 +428,7 @@
                             android:layout_height="wrap_content"
                             android:text="Share"
                             android:layout_below="@+id/share_book_image"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_centerHorizontal="true"
@@ -464,7 +464,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rating History"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_marginLeft="15dp"

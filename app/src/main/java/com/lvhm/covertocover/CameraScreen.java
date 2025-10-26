@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
@@ -48,6 +49,7 @@ public class CameraScreen extends Fragment {
 
     private LinearLayout capture_button;
     private volatile boolean should_read_barcode = false;
+    private Bundle book_details_bundle = new Bundle();
 
 
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -137,44 +139,6 @@ public class CameraScreen extends Fragment {
         BarcodeScanner scanner = BarcodeScanning.getClient(options);
         processImageFeed(scanner, image_proxy, media_image);
     }
-
-//    Apenas para debug
-//    private void printISBNSearch(String barcode_value) {
-//        if (!isAdded()) {
-//            return;
-//        }
-//        String query = "isbn:" + barcode_value.trim();
-//        BookAPIService bookAPIService = BookAPIClient.getBookAPIService();
-//        Call<BookResponse> call = bookAPIService.getBookByISBN(query);
-//
-//        call.enqueue(new Callback<BookResponse>() {
-//            @Override
-//            public void onResponse(@NonNull Call<BookResponse> call, @NonNull Response<BookResponse> response) {
-//                if (!isAdded()) {
-//                    return;
-//                }
-//                if (response.isSuccessful() && response.body() != null && response.body().getItems() != null && !response.body().getItems().isEmpty()) {
-//                    BookResponse.Item item = response.body().getItems().get(0);
-//                    if (item != null && item.getVolumeInfo() != null) {
-//                        System.out.println("Book found: " + item.getVolumeInfo().getTitle());
-//                    } else {
-//                        System.out.println("Book found, but volume info is missing.");
-//                    }
-//                } else {
-//                    System.out.println("API call successful, but no book found or empty response. Code: " + response.code());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<BookResponse> call, @NonNull Throwable t) {
-//                if (!isAdded()) {
-//                    return;
-//                }
-//                System.out.println("API call failed: " + t.getMessage());
-//            }
-//        });
-//    }
-
     private void processImageFeed(BarcodeScanner scanner, ImageProxy image_proxy, Image media_image) {
         InputImage image_to_scan = InputImage.fromMediaImage(media_image, image_proxy.getImageInfo().getRotationDegrees());
         scanner.process(image_to_scan)
@@ -184,7 +148,6 @@ public class CameraScreen extends Fragment {
                     }
                     if (barcodes.isEmpty()) {
                         barcode_frame.updateBarcode(null);
-                        // NotificationCentral.showNotification(requireContext(), "No barcode found.");
                     } else {
                         Barcode barcode = barcodes.get(0);
                         if (barcode.getBoundingBox() != null) {
@@ -193,9 +156,7 @@ public class CameraScreen extends Fragment {
                         if (should_read_barcode) {
                             should_read_barcode = false;
                             String raw_value = barcode.getRawValue();
-                            String message = "ISBN: " + raw_value;
-                            NotificationCentral.showNotification(requireContext(), message);
-                            // printISBNSearch(raw_value);
+                            getBookFromAPI(raw_value);
                         }
                     }
                 })
@@ -213,6 +174,52 @@ public class CameraScreen extends Fragment {
                     image_proxy.close();
                 });
     }
+
+    private void getBookFromAPI(String barcodeValue) {
+        if (!isAdded()) {return;}
+        BookAPIClient.getBookFromAPI(requireContext(), barcodeValue, new BookAPICallback() {
+            @Override
+            public void onBookFound(BookResponse.Item item, String isbn, Bundle response_bundle) {
+                if (!isAdded()) {return;}
+                navigateToBookScreen(item, isbn, response_bundle);
+            }
+            @Override
+            public void onNoBookFound(String isbn) {
+                if (!isAdded()) {return;}
+                navigateToManualBookScreen(isbn);
+            }
+            @Override
+            public void onAPIFailure(String errorMessage) {}
+        });
+    }
+
+    private void navigateToBookScreen(BookResponse.Item item, String isbn, Bundle response_bundle) {
+        Fragment book_screen_fragment = new BookScreen();
+        Bundle book_info = item.getVolumeInfo().getBundle();
+        book_info.putString("isbn", isbn);
+        book_info.putBundle("response", response_bundle);
+        book_screen_fragment.setArguments(book_info);
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, book_screen_fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void navigateToManualBookScreen(String isbn) {
+        Fragment manual_book_screen_fragment = new ManualBookScreen();
+        Bundle book_info = new Bundle();
+        book_info.putString("isbn", isbn);
+        manual_book_screen_fragment.setArguments(book_info);
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, manual_book_screen_fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
 
 
     public Rect mapBarcodeFrame(Rect barcode_box, ImageProxy image_proxy) {

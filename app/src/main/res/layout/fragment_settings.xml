@@ -124,7 +124,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="App Theme"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <ImageView
@@ -132,6 +132,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_arrow_right"
+                            app:tint="@color/black"
                             android:layout_gravity="end|center"
                             android:focusable="true"
                             android:clickable="true" />
@@ -145,18 +146,21 @@
                         android:layout_marginStart="24dp"
                         android:visibility="gone">
                         <RadioButton
+                            android:id="@+id/radio_light_mode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Light Mode"
                             android:textSize="16sp"
                             android:textColor="@color/black" />
                         <RadioButton
+                            android:id="@+id/radio_dark_mode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Dark Mode"
                             android:textSize="16sp"
                             android:textColor="@color/black" />
                         <RadioButton
+                            android:id="@+id/radio_system_preference"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="System Preference"
@@ -191,7 +195,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Export App Data"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <ImageView
@@ -199,6 +203,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_arrow_right"
+                            app:tint="@color/black"
                             android:layout_gravity="end|center"
                             android:focusable="true"
                             android:clickable="true" />
@@ -251,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:text="Force Saving App Data"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
@@ -282,7 +287,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Profile Settings"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <ImageView
@@ -290,6 +295,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_arrow_right"
+                            app:tint="@color/black"
                             android:layout_gravity="end|center"
                             android:focusable="true"
                             android:clickable="true" />

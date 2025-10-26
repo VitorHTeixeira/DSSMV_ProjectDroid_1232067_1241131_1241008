@@ -94,7 +94,7 @@
                         android:scaleType="fitCenter"
                         android:padding="9dp"
                         android:src="@drawable/camera_icon_uidark"
-                        app:tint="@color/white" />
+                        app:tint="@color/nav_white" />
                 </LinearLayout>
             </FrameLayout>
 
@@ -115,7 +115,7 @@
                     android:scaleType="fitCenter"
                     android:padding="10dp"
                     android:src="@drawable/pin_icon_ui"
-                    app:tint="@color/white" />
+                    app:tint="@color/nav_white" />
             </FrameLayout>
 
             <!-- Settings -->

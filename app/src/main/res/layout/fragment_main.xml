@@ -30,7 +30,7 @@
                 android:layout_height="26dp"
                 android:layout_gravity="center"
                 android:src="@drawable/book_plus_icon_ui"
-                app:tint="@color/white" />
+                app:tint="@color/nav_white" />
         </FrameLayout>
 
         <FrameLayout
@@ -41,8 +41,11 @@
             android:layout_marginRight="10dp"
             android:gravity="center">
             <SearchView
+                android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:queryHint="ISBN"
+                android:inputType="number"
                 android:searchIcon="@drawable/explorar_icon_ui"
                 android:searchHintIcon="@drawable/explorar_icon_ui"/>
         </FrameLayout>

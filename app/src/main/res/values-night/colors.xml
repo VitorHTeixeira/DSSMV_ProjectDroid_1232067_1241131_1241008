@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Switch -->
+    <color name="black">@color/dark_black</color>
+    <color name="white">@color/dark_white</color>
+
+    <color name="bookcover_red">@color/dark_bookcover_red</color>
+    <color name="new_paper">@color/dark_new_paper</color>
+    <color name="old_paper">@color/dark_old_paper</color>
+    <color name="grey_sweater">@color/dark_grey_sweater</color>
+    <color name="wood">@color/dark_wood</color>
+    <color name="coca_cola_red">@color/dark_coca_cola_red</color>
+    <color name="elsa_blue">@color/dark_elsa_blue</color>
+    <color name="transparent">@color/dark_transparent</color>
+    <color name="overlay_background">@color/dark_overlay_background</color>
+
+    <color  name="gold">@color/dark_gold</color>
+    <color name="red">@color/dark_red</color>
+    <color  name="translucid_white">@color/dark_translucid_white</color>
+</resources>

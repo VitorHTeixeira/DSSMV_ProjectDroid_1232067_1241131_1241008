@@ -26,5 +26,5 @@ replay_pid*
 # Pastas desnecessárias ao Version Control
 .idea
 .gradle
-local.properties
-.secrets.properties
+/local.properties
+/secrets.properties

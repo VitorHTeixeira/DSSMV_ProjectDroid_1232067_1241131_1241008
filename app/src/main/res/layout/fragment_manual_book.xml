@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Required Fields "
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Book Name "
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -163,7 +163,7 @@
                         android:inputType="textCapWords"
                         android:maxLines="1"
                         android:padding="12dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -178,7 +178,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Author "
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -203,7 +203,7 @@
                         android:inputType="textCapWords"
                         android:maxLines="1"
                         android:padding="12dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
                 </RelativeLayout>
             </LinearLayout>
@@ -226,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/optional_divisor"
                 android:text="Optional Fields"
-                android:textColor="@android:color/black"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginLeft="15dp"
@@ -252,8 +252,8 @@
                         android:id="@+id/label_edition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Edition"
-                        android:textColor="@android:color/black"
+                        android:text="Categories (seperated by a comma)"
+                        android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -263,11 +263,11 @@
                         android:layout_height="48dp"
                         android:layout_below="@+id/label_edition"
                         android:layout_marginTop="4dp"
-                        android:hint="ex. 1, 2, 3..."
+                        android:hint="ex. Fiction, Sci-Fi, Romance..."
                         android:inputType="number"
                         android:maxLines="1"
                         android:padding="12dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -282,7 +282,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Release Year"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -297,7 +297,7 @@
                         android:maxLines="1"
                         android:maxLength="4"
                         android:padding="12dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -312,7 +312,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Page Number"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -327,7 +327,7 @@
                         android:maxLines="1"
                         android:maxLength="5"
                         android:padding="12dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -342,7 +342,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ISBN"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="16sp" />
 
@@ -357,7 +357,7 @@
                         android:maxLines="1"
                         android:maxLength="17"
                         android:padding="12dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
                 </RelativeLayout>
             </LinearLayout>
@@ -392,7 +392,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="Cancel"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -415,7 +415,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="Save Book"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </RelativeLayout>

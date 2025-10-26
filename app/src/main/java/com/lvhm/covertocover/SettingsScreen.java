@@ -1,15 +1,19 @@
 package com.lvhm.covertocover;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,7 +22,6 @@ public class SettingsScreen extends Fragment {
     private RadioGroup app_theme_radio_group, export_app_data_radio_group;
     private ImageView app_theme_arrow, export_app_data_arrow;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -26,43 +29,66 @@ public class SettingsScreen extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        // App Theme
         RelativeLayout app_theme_toggle = view.findViewById(R.id.app_theme_menu);
         app_theme_toggle.setOnClickListener(this::clickAction);
         app_theme_radio_group = view.findViewById(R.id.app_theme_radio_group);
 
+        RadioButton radio_light_mode = view.findViewById(R.id.radio_light_mode);
+        radio_light_mode.setOnClickListener(this::clickAction);
+
+        RadioButton radio_dark_mode = view.findViewById(R.id.radio_dark_mode);
+        radio_dark_mode.setOnClickListener(this::clickAction);
+
+        RadioButton radio_system_preference = view.findViewById(R.id.radio_system_preference);
+        radio_system_preference.setChecked(true);
+        radio_system_preference.setOnClickListener(this::clickAction);
+
+        // Export
         RelativeLayout export_app_data_toggle = view.findViewById(R.id.export_app_data_menu);
         export_app_data_toggle.setOnClickListener(this::clickAction);
         export_app_data_radio_group = view.findViewById(R.id.export_app_data_radio_group);
 
+        // Force Save
         RelativeLayout force_save_data_toggle = view.findViewById(R.id.force_save_data_menu);
         force_save_data_toggle.setOnClickListener(this::clickAction);
 
+        // Profile Settings
         RelativeLayout profile_settings_toggle = view.findViewById(R.id.profile_settings_menu);
         profile_settings_toggle.setOnClickListener(this::clickAction);
-
 
         app_theme_arrow = view.findViewById(R.id.app_theme_arrow);
         export_app_data_arrow = view.findViewById(R.id.export_app_data_arrow);
 
-
         return view;
     }
+
     protected void clickAction(View view) {
-        int id = view.getId();
-        if (id == R.id.app_theme_menu) {
+        int view_id = view.getId();
+        if (view_id == R.id.app_theme_menu) {
             toggleVisibility(app_theme_radio_group, app_theme_arrow);
         }
-        else if (id == R.id.export_app_data_menu) {
+        else if (view_id == R.id.export_app_data_menu) {
             toggleVisibility(export_app_data_radio_group, export_app_data_arrow);
         }
-        else if (id == R.id.force_save_data_menu) {}
-        else if (id == R.id.profile_settings_menu) {
+        else if (view_id == R.id.force_save_data_menu) {}
+        else if (view_id == R.id.profile_settings_menu) {
             Fragment fragment = new ProfileSettingsScreen();
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
+        }
+        else if (view_id == R.id.radio_light_mode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        else if (view_id == R.id.radio_dark_mode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else if (view_id == R.id.radio_system_preference) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
     }
 

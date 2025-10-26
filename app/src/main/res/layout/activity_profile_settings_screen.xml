@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:text="Username: "
                         android:inputType="text"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:minWidth="86dp"
                         android:text="Your Username"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
@@ -137,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Password: "
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -149,7 +149,7 @@
                         android:inputType="textPassword"
                         app:passwordToggleEnabled="true"
                         android:autofillHints="password"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
@@ -198,7 +198,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email: "
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -209,7 +209,7 @@
                         android:text="user@isep.ipp.pt"
                         android:minWidth="86dp"
                         android:inputType="textEmailAddress"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
@@ -258,7 +258,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Phone Number: "
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -272,7 +272,7 @@
                         android:singleLine="true"
                         android:text="+351 912 345 678"
                         android:inputType="phone"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
 
@@ -318,7 +318,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Address: "
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -332,7 +332,7 @@
                         android:singleLine="true"
                         android:text="Rua de São Tomé, Porto"
                         android:inputType="text"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
 
@@ -371,7 +371,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date Format: "
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_centerVertical="true" />

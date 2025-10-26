@@ -124,7 +124,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="App Theme"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <ImageView
@@ -186,7 +186,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Export App Data"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <ImageView
@@ -241,7 +241,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:text="Force Saving App Data"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
@@ -271,7 +271,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Profile Settings"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <ImageView
