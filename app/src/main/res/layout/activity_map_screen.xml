@@ -34,18 +34,33 @@
         android:layout_height="match_parent"
         >
 
+        <FrameLayout
+            android:id="@+id/mapa_contentor"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/round_map"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintTop_toTopOf="@id/mapa"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+        </FrameLayout>
+
     <fragment
             android:id="@+id/mapa"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            tools:context="activity_map_screen.xml" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:context="activity_map_screen.xml"
+
+        />
+
         <!-- Zona das localizações -->
 
         <androidx.recyclerview.widget.RecyclerView

@@ -39,41 +39,53 @@
     </LinearLayout>
 
     <!-- Mapa -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/fragment_map_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topbar"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
-        <fragment
-            android:id="@+id/mapa"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="60dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            tools:context="activity_map_screen.xml" />
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp">
+
+
+            <fragment
+                android:id="@+id/mapa"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:background="@drawable/round_map"
+                tools:context="fragment_map.xml" />
+        </androidx.cardview.widget.CardView>
 
         <!-- Zona das localizações -->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_map_container">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/locais"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/mapa"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/mapa"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
             tools:listitem="@layout/locs_maps"
             />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 
 </RelativeLayout>
