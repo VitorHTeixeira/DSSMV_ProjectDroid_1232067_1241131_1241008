@@ -15,12 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 public class SettingsScreen extends Fragment {
     private RadioGroup app_theme_radio_group, export_app_data_radio_group;
     private ImageView app_theme_arrow, export_app_data_arrow;
+    private static final String PREFERENCES_FILE = "CTCPreferences";
+    private static final String THEME_KEY = "ThemeMode";
 
     @Nullable
     @Override
@@ -42,8 +42,19 @@ public class SettingsScreen extends Fragment {
         radio_dark_mode.setOnClickListener(this::clickAction);
 
         RadioButton radio_system_preference = view.findViewById(R.id.radio_system_preference);
-        radio_system_preference.setChecked(true);
         radio_system_preference.setOnClickListener(this::clickAction);
+
+        switch (requireActivity().getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE).getInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)) {
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                radio_light_mode.setChecked(true);
+                break;
+            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
+                radio_system_preference.setChecked(true);
+                break;
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                radio_dark_mode.setChecked(true);
+                break;
+        }
 
         // Export
         RelativeLayout export_app_data_toggle = view.findViewById(R.id.export_app_data_menu);
@@ -66,6 +77,8 @@ public class SettingsScreen extends Fragment {
 
     protected void clickAction(View view) {
         int view_id = view.getId();
+        SharedPreferences shared_preferences = requireActivity().getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared_preferences.edit();
         if (view_id == R.id.app_theme_menu) {
             toggleVisibility(app_theme_radio_group, app_theme_arrow);
         }
@@ -82,12 +95,18 @@ public class SettingsScreen extends Fragment {
                     .commit();
         }
         else if (view_id == R.id.radio_light_mode) {
+            editor.putInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_NO);
+            editor.apply();
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         else if (view_id == R.id.radio_dark_mode) {
+            editor.putInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_YES);
+            editor.apply();
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         else if (view_id == R.id.radio_system_preference) {
+            editor.putInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            editor.apply();
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
     }

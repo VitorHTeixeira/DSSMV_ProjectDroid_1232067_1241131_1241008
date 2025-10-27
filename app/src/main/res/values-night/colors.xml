@@ -10,6 +10,7 @@
     <color name="grey_sweater">@color/dark_grey_sweater</color>
     <color name="wood">@color/dark_wood</color>
     <color name="coca_cola_red">@color/dark_coca_cola_red</color>
+    <color name="watch_green">@color/dark_watch_green</color>
     <color name="elsa_blue">@color/dark_elsa_blue</color>
     <color name="transparent">@color/dark_transparent</color>
     <color name="overlay_background">@color/dark_overlay_background</color>

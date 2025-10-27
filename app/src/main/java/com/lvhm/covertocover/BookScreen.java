@@ -26,11 +26,13 @@ import org.apache.commons.text.WordUtils;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class BookScreen extends Fragment {
     private Bundle book_details = new Bundle();
+    private Bitmap book_cover_bitmap = null;
 
     @Nullable
     @Override
@@ -72,6 +74,24 @@ public class BookScreen extends Fragment {
                     .commit();
         });
 
+        ImageView book_cover = view.findViewById(R.id.book_cover_image);
+        book_cover.setOnClickListener(v -> {
+            Bundle book_cover_info = new Bundle();
+            if(book_info.getString("thumbnail") != null) {
+                book_cover_info.putString("thumbnail", book_info.getString("thumbnail"));
+            }
+            if (book_cover_bitmap != null) {
+                book_cover_info.putParcelable("thumbnail_bitmap", book_cover_bitmap);
+            }
+            Fragment book_cover_fragment = new BookCoverImageOverlay();
+            book_cover_fragment.setArguments(book_cover_info);
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_container, book_cover_fragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         Button tempButton = view.findViewById(R.id.temp_test_button);
         tempButton.setOnClickListener(v -> {
             Fragment fragment = new BookHistoryReviewOverlay();
@@ -100,8 +120,9 @@ public class BookScreen extends Fragment {
         if(book_info.getStringArrayList("categories") != null) {
             TextView label_book_categories = view.findViewById(R.id.label_categories);
             StringBuilder categories = new StringBuilder();
-            for(String category : book_info.getStringArrayList("categories")) {
-                if(categories.length() > 1) {
+            ArrayList<String> book_categories = book_info.getStringArrayList("categories");
+            for(String category : book_categories) {
+                if(book_categories.size() > 1) {
                     categories.append(WordUtils.capitalize(category)).append(", ");
                 }
                 else {
@@ -122,8 +143,9 @@ public class BookScreen extends Fragment {
         if(book_info.getStringArrayList("authors") != null) {
             TextView label_book_author = view.findViewById(R.id.label_author);
             StringBuilder authors = new StringBuilder();
-            for (String author : book_info.getStringArrayList("authors")) {
-                if (authors.length() > 1) {
+            ArrayList<String> book_authors = book_info.getStringArrayList("authors");
+            for (String author : book_authors) {
+                if (book_authors.size() > 1) {
                     authors.append(WordUtils.capitalize(author)).append(", ");
                 } else {
                     authors.append(WordUtils.capitalize(author));
@@ -144,24 +166,24 @@ public class BookScreen extends Fragment {
 
     public void getBookCoverImage(View view, String image_url) {
         image_url = image_url.replace("http://", "https://");
-        ImageView book_cover = view.findViewById(R.id.book_cover_image);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
-        final Bitmap[] image_cover = {null};
-
+        ImageView book_cover = view.findViewById(R.id.book_cover_image);
         String finalImage_url = image_url;
         executor.execute(() -> {
             try {
                 InputStream in = new URL(finalImage_url).openStream();
-                image_cover[0] = BitmapFactory.decodeStream(in);
-                handler.post(() -> book_cover.setImageBitmap(image_cover[0]));
-                FrameLayout book_cover_frame = view.findViewById(R.id.book_cover);
-                book_cover_frame.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent));
+                book_cover_bitmap = BitmapFactory.decodeStream(in);
+                handler.post(() -> {
+                    book_cover.setImageBitmap(book_cover_bitmap);
+                    FrameLayout book_cover_frame = view.findViewById(R.id.book_cover);
+                    book_cover_frame.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent));
+                });
 
             } catch (Exception e) {
                 String message = "Error getting book cover image. Error: " + e.getMessage();
                 System.out.println(message);
-                NotificationCentral.showNotification(requireContext(), message);
+                handler.post(() -> NotificationCentral.showNotification(requireContext(), message));
             }
         });
     }

@@ -15,10 +15,17 @@ import androidx.fragment.app.FragmentTransaction;
 public class MainActivity extends AppCompatActivity {
     private FrameLayout navMain, navProfile, navCamera, navMap, navSettings;
     private PermissionsHandler permissions_handler;
+    private static final String PREFERENCES_FILE = "CTCPreferences";
+    private static final String THEME_KEY = "ThemeMode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences shared_preferences = getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
+        int theme_mode = shared_preferences.getInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        AppCompatDelegate.setDefaultNightMode(theme_mode);
+
         setContentView(R.layout.activity_main);
 
         permissions_handler = new PermissionsHandler(this);
