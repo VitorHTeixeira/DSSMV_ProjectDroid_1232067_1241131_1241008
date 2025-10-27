@@ -390,6 +390,7 @@
                     app:cardCornerRadius="18dp">
 
                     <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spinner_date_format"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:entries="@array/date_formats"
