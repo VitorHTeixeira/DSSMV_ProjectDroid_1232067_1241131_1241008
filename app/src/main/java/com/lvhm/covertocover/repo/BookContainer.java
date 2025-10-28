@@ -1,9 +1,26 @@
-package com.lvhm.covertocover.models;
+package com.lvhm.covertocover.repo;
+
+import com.lvhm.covertocover.models.Book;
 
 import java.util.ArrayList;
 
 public class BookContainer {
+    private static BookContainer instance;
     private ArrayList<Book> books;
+
+    public BookContainer() {
+        books = new ArrayList<>();
+    }
+    public BookContainer(ArrayList<Book> books) {
+        this.books = books;
+    }
+
+    public static synchronized BookContainer getInstance() {
+        if(instance == null) {
+            instance = new BookContainer();
+        }
+        return instance;
+    }
 
     private Book findBook(String isbn, String name) {
         for(Book book : this.books) {
@@ -41,12 +58,6 @@ public class BookContainer {
         return books;
     }
 
-    public BookContainer() {
-        books = new ArrayList<>();
-    }
-    public BookContainer(ArrayList<Book> books) {
-        this.books = books;
-    }
 
     public void addBook(Book book) {
         if(findBook(book.getISBN(), book.getName()) != null) {

@@ -25,10 +25,10 @@ public class Book {
     public Book() {
         this.isbn = "Unknown";
         this.name = "Unknown";
-        this.author = (ArrayList<String>) List.of("Unknown");
+        this.author = new ArrayList<>(List.of("Unknown"));
         this.year = 0;
         this.publisher = "Unknown";
-        this.genre = (ArrayList<String>) List.of("Unknown");
+        this.genre = new ArrayList<>(List.of("Unknown"));
         this.read = false;
         this.edition = 0;
         this.idiom = "Unknown";
@@ -58,7 +58,7 @@ public class Book {
         this.isbn = "Unknown";
         this.year = 0;
         this.publisher = "Unknown";
-        this.genre = (ArrayList<String>) List.of("Unknown");
+        this.genre = new ArrayList<>(List.of("Unknown"));
         this.read = false;
         this.edition = 0;
         this.idiom = "Unknown";
@@ -73,7 +73,7 @@ public class Book {
         this.isbn = isbn;
         this.year = year;
         this.publisher = "Unknown";
-        this.genre = (ArrayList<String>) List.of("Unknown");
+        this.genre = new ArrayList<>(List.of("Unknown"));
         this.read = false;
         this.edition = edition;
         this.idiom = "Unknown";

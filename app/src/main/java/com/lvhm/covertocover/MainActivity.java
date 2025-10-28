@@ -12,9 +12,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.lvhm.covertocover.models.Book;
+import com.lvhm.covertocover.repo.BookContainer;
+import com.lvhm.covertocover.repo.ReviewContainer;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private FrameLayout navMain, navProfile, navCamera, navMap, navSettings;
     private PermissionsHandler permissions_handler;
+    private BookContainer book_container;
+    private ReviewContainer review_container;
     private static final String PREFERENCES_FILE = "CTCPreferences";
     private static final String THEME_KEY = "ThemeMode";
 
@@ -25,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences shared_preferences = getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         int theme_mode = shared_preferences.getInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         AppCompatDelegate.setDefaultNightMode(theme_mode);
+
+        book_container = BookContainer.getInstance();
+        review_container = ReviewContainer.getInstance();
 
         setContentView(R.layout.activity_main);
 
@@ -41,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             loadFragment(new MainScreen());
             permissions_handler.requestPermissions();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ArrayList<Book> books = book_container.getBooks();
+        for(Book book : books) {
+            System.out.println(book.getName());
         }
     }
 

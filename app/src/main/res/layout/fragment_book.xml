@@ -254,7 +254,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:textAlignment="center"
-                            android:background="@android:color/transparent"
+                            android:background="@color/transparent"
                             android:popupBackground="@color/nav_white"
                             android:spinnerMode="dropdown"
                             android:paddingStart="12dp"
@@ -484,14 +484,6 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginBottom="8dp" />
 
-                <Button
-                    android:id="@+id/temp_test_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rating_history_title"
-                    android:text="TESTE - Abrir Overlay"
-                    android:layout_margin="10dp"/>
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rating_history_recycler"
                     android:layout_width="match_parent"
@@ -504,6 +496,65 @@
                     tools:itemCount="5"
                     tools:listitem="@layout/item_rating_history" />
             </RelativeLayout>
+
+            <!-- Buttons -->
+            <LinearLayout
+                android:id="@+id/buttons_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/rating_history_section"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@color/old_paper"
+                android:padding="15dp">
+
+                <!-- Cancel Button -->
+                <RelativeLayout
+                    android:id="@+id/cancel_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/island_topbar"
+                    android:backgroundTint="@color/grey_sweater"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Cancel"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <!-- Save Button -->
+                <RelativeLayout
+                    android:id="@+id/save_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/island_topbar"
+                    android:backgroundTint="@color/watch_green"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Save Book"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
