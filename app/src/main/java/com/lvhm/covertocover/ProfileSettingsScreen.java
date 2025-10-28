@@ -2,6 +2,7 @@ package com.lvhm.covertocover;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,21 +29,21 @@ public class ProfileSettingsScreen extends Fragment {
     private static final String KEY_ADDRESS = "profile_address";
     private static final String KEY_DATE_FORMAT = "profile_date_format";
 
-    private void setReadOnly(EditText editText) {
-        editText.setFocusable(false);
-        editText.setFocusableInTouchMode(false);
-        editText.setCursorVisible(false);
+    private void setReadOnly(EditText edit_text) {
+        edit_text.setFocusable(false);
+        edit_text.setFocusableInTouchMode(false);
+        edit_text.setCursorVisible(false);
     }
 
-    private void setEditable(EditText editText) {
-        editText.setFocusable(true);
-        editText.setFocusableInTouchMode(true);
-        editText.setCursorVisible(true);
-        editText.requestFocus();
-        editText.setSelection(editText.getText().length());
+    private void setEditable(EditText edit_text) {
+        edit_text.setFocusable(true);
+        edit_text.setFocusableInTouchMode(true);
+        edit_text.setCursorVisible(true);
+        edit_text.requestFocus();
+        edit_text.setSelection(edit_text.getText().length());
 
         InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+        imm.showSoftInput(edit_text, InputMethodManager.SHOW_IMPLICIT);
     }
 
     @Nullable
@@ -83,27 +84,19 @@ public class ProfileSettingsScreen extends Fragment {
 
         // Username
         edit_text_username.setOnClickListener(v -> setEditable(edit_text_username));
-        save_username_button.setOnClickListener(v -> {
-            saveField(shared_preferences, KEY_USERNAME, edit_text_username, "Username saved");
-        });
+        save_username_button.setOnClickListener(v -> saveField(shared_preferences, KEY_USERNAME, edit_text_username, "Username saved"));
 
         // Password
         edit_text_password.setOnClickListener(v -> setEditable(edit_text_password));
-        save_password_button.setOnClickListener(v -> {
-            saveField(shared_preferences, KEY_PASSWORD, edit_text_password, "Password saved");
-        });
+        save_password_button.setOnClickListener(v -> saveField(shared_preferences, KEY_PASSWORD, edit_text_password, "Password saved"));
 
         // Email
         edit_text_email.setOnClickListener(v -> setEditable(edit_text_email));
-        save_email_button.setOnClickListener(v -> {
-            saveField(shared_preferences, KEY_EMAIL, edit_text_email, "Email saved");
-        });
+        save_email_button.setOnClickListener(v -> saveField(shared_preferences, KEY_EMAIL, edit_text_email, "Email saved"));
 
         // Phone Number
         edit_text_phone_number.setOnClickListener(v -> setEditable(edit_text_phone_number));
-        save_phone_button.setOnClickListener(v -> {
-            saveField(shared_preferences, KEY_PHONE, edit_text_phone_number, "Phone Number saved");
-        });
+        save_phone_button.setOnClickListener(v -> saveField(shared_preferences, KEY_PHONE, edit_text_phone_number, "Phone Number saved"));
 
         // Address
         edit_text_address.setOnClickListener(v -> setEditable(edit_text_address));
@@ -112,28 +105,21 @@ public class ProfileSettingsScreen extends Fragment {
         });
 
         // Spinner
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.date_formats, android.R.layout.simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_date_format.setAdapter(spinnerAdapter);
+        ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.date_formats, R.layout.spinner_item_text);
+        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_date_format.setAdapter(spinner_adapter);
 
-        String saved_date_format_text = shared_preferences.getString(KEY_DATE_FORMAT, null);
-        int positionToSet = 0;
-        if (saved_date_format_text != null) {
-            int foundPosition = spinnerAdapter.getPosition(saved_date_format_text);
-            if (foundPosition >= 0) {
-                positionToSet = foundPosition;
-            }
-        }
-        spinner_date_format.setSelection(positionToSet);
+        int saved_date_format = shared_preferences.getInt(KEY_DATE_FORMAT, 0);
+        spinner_date_format.setSelection(saved_date_format);
         spinner_date_format.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-                String selectedFormat = parent.getItemAtPosition(position).toString();
-                String currentlySavedFormat = shared_preferences.getString(KEY_DATE_FORMAT, "");
-                if (!selectedFormat.equals(currentlySavedFormat)) {
+                int selected_format = parent.getSelectedItemPosition();
+                int currently_saved_format = shared_preferences.getInt(KEY_DATE_FORMAT, 0);
+                if (currently_saved_format != selected_format) {
                     SharedPreferences.Editor editor = shared_preferences.edit();
-                    editor.putString(KEY_DATE_FORMAT, selectedFormat);
+                    editor.putInt(KEY_DATE_FORMAT, selected_format);
                     editor.apply();
                     Toast.makeText(requireContext(), "Date format saved!", Toast.LENGTH_SHORT).show();
                 }
@@ -146,17 +132,17 @@ public class ProfileSettingsScreen extends Fragment {
     }
 
 
-    private void saveField(SharedPreferences prefs, String key, EditText editText, String toastMessage) {
+    private void saveField(SharedPreferences preferences, String key, EditText edit_text, String toast_message) {
 
         InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
 
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(key, editText.getText().toString());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(key, edit_text.getText().toString());
         editor.apply();
-        Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), toast_message, Toast.LENGTH_SHORT).show();
 
-        setReadOnly(editText);
-        editText.clearFocus();
+        setReadOnly(edit_text);
+        edit_text.clearFocus();
     }
 }

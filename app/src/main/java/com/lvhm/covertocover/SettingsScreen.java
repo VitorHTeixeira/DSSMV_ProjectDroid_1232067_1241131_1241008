@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 public class SettingsScreen extends Fragment {
     private RadioGroup app_theme_radio_group, export_app_data_radio_group;
     private ImageView app_theme_arrow, export_app_data_arrow;
+    private SharedPreferences shared_preferences = null;
     private static final String PREFERENCES_FILE = "CTCPreferences";
     private static final String THEME_KEY = "ThemeMode";
 
@@ -29,6 +31,11 @@ public class SettingsScreen extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        shared_preferences = requireActivity().getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+        // User Overview
+        TextView username = view.findViewById(R.id.username);
+        username.setText(shared_preferences.getString("profile_username", "Username"));
 
         // App Theme
         RelativeLayout app_theme_toggle = view.findViewById(R.id.app_theme_menu);
@@ -77,7 +84,6 @@ public class SettingsScreen extends Fragment {
 
     protected void clickAction(View view) {
         int view_id = view.getId();
-        SharedPreferences shared_preferences = requireActivity().getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = shared_preferences.edit();
         if (view_id == R.id.app_theme_menu) {
             toggleVisibility(app_theme_radio_group, app_theme_arrow);
