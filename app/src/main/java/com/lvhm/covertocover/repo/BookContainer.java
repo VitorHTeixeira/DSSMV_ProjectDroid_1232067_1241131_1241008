@@ -1,5 +1,7 @@
 package com.lvhm.covertocover.repo;
 
+import android.util.Log;
+
 import com.lvhm.covertocover.models.Book;
 
 import java.util.ArrayList;
@@ -23,9 +25,23 @@ public class BookContainer {
     }
 
     private Book findBook(String isbn, String name) {
-        for(Book book : this.books) {
-            if(book.getISBN().equals(isbn) || book.getName().equals(name)) {
-                return book;
+        boolean has_valid_isbn = isbn != null && !isbn.trim().isEmpty();
+        for (Book existing_book : this.books) {
+            boolean name_matches = existing_book.getName() != null && existing_book.getName().equals(name);
+
+            if (has_valid_isbn) {
+                boolean isbn_matches = existing_book.getISBN() != null && existing_book.getISBN().equals(isbn);
+                if (isbn_matches) {
+                    return existing_book;
+                }
+            }
+            else {
+                if (name_matches) {
+                    boolean existing_isbn_invalid = existing_book.getISBN() == null || existing_book.getISBN().trim().isEmpty();
+                    if (existing_isbn_invalid) {
+                        return existing_book;
+                    }
+                }
             }
         }
         return null;
@@ -64,6 +80,7 @@ public class BookContainer {
             // throw exception
             return;
         }
+        Log.i("BookContainer_DEBUG", "Adicionando livro: " + book.getName()); // Use Log.i para Info
         books.add(book);
     }
     public void deleteBook(Book book) {
