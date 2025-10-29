@@ -9,9 +9,9 @@
 
     <string-array
         name="status_options">
+        <item>Read</item>
         <item>Want To Read</item>
         <item>Reading</item>
-        <item>Read</item>
     </string-array>
 
 </resources>

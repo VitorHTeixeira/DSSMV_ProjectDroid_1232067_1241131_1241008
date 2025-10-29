@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lvhm.covertocover.adapter.ReviewAdapter;
+import com.lvhm.covertocover.adapter.WishlistAdapter;
 import com.lvhm.covertocover.api.BookAPICallback;
 import com.lvhm.covertocover.api.BookAPIClient;
 import com.lvhm.covertocover.R;
@@ -23,10 +24,10 @@ import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainScreen extends Fragment {
     private ReviewAdapter review_adapter;
+    private WishlistAdapter wishlist_adapter;
     private BookContainer book_container;
     private ReviewContainer review_container;
 
@@ -62,12 +63,10 @@ public class MainScreen extends Fragment {
                     public void onBookFound(BookResponse.Item item, String isbn, Bundle response_bundle) {
                         navigateToBookScreen(item, isbn, response_bundle);
                     }
-
                     @Override
                     public void onNoBookFound(String isbn) {
                         navigateToManualBookScreen(isbn);
                     }
-
                     @Override
                     public void onAPIFailure(String errorMessage) {}
                 });
@@ -85,6 +84,10 @@ public class MainScreen extends Fragment {
         review_adapter = new ReviewAdapter(review_data);
         review_carousel.setAdapter(review_adapter);
 
+        RecyclerView wishlist_carousel = view.findViewById(R.id.wishlist_carousel);
+        ArrayList<Book> wishlist_data = book_container.getLatestWishlistedBooks(5);
+        wishlist_adapter = new WishlistAdapter(wishlist_data);
+        wishlist_carousel.setAdapter(wishlist_adapter);
 
         return view;
     }
@@ -92,6 +95,8 @@ public class MainScreen extends Fragment {
     public void onResume() {
         super.onResume();
         review_adapter.updateData(review_container.getLatestReviews(3));
+        wishlist_adapter.updateData(book_container.getLatestWishlistedBooks(5));
+
     }
 
     private void navigateToBookScreen(BookResponse.Item item, String isbn, Bundle response_bundle) {

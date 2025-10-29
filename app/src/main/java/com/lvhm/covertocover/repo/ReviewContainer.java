@@ -3,6 +3,7 @@ package com.lvhm.covertocover.repo;
 import com.lvhm.covertocover.models.Review;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ReviewContainer {
     private static ReviewContainer instance = new ReviewContainer();
@@ -43,4 +44,37 @@ public class ReviewContainer {
         deleteReview(review);
         addReview(review);
     }
+
+    public double getAverageRating() {
+        double sum = 0;
+        for (Review review : reviews) {
+            sum += review.getRating();
+        }
+        double scale = Math.pow(10, reviews.size());
+        return Math.round(sum * scale) / scale;
+    }
+    public int getTotalBooksThisYear() {
+        int count = 0;
+        for (Review review : reviews) {
+            if(review.getDate().getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
+                count++;
+            }
+        }
+        return count;
+    }
+//    public int getMostUsedRating() {
+//        int[][] counts = new int[11][];
+//        for (Review review : reviews) {
+//            counts[review.getRating()]++;
+//        }
+//        int max = 0;
+//        int index = 0;
+//        for (int i = 0; i < counts.length; i++) {
+//            if(counts[i] > max) {
+//                max = counts[i];
+//                index = i;
+//            }
+//        }
+//        return index;
+//    }
 }

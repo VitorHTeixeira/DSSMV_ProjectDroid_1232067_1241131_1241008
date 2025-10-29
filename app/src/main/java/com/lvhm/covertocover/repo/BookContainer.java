@@ -116,4 +116,13 @@ public class BookContainer {
     public ArrayList<Book> getListWishlistedBooks() {
         return findWishlistedBooks(true);
     }
+
+    public ArrayList<Book> getLatestWishlistedBooks(int number) {
+        ArrayList<Book> wishlisted = getListWishlistedBooks();
+        if(wishlisted.size() < number) {
+            return wishlisted;
+        } else {
+            return new ArrayList<>(wishlisted.subList(wishlisted.size() - number, wishlisted.size()));
+        }
+    }
 }

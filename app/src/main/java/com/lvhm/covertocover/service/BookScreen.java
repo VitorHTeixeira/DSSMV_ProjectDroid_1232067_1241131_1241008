@@ -3,6 +3,7 @@ package com.lvhm.covertocover.service;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -84,7 +85,12 @@ public class BookScreen extends Fragment {
         status_spinner.setAdapter(adapter);
 
         RelativeLayout add_review = view.findViewById(R.id.review_button);
+
         add_review.setOnClickListener(v -> {
+            BookContainer book_container = BookContainer.getInstance();
+            if(book_container.getBook(book_isbn) == null) {
+                saveBook();
+            }
             SharedBookViewModel view_model = new ViewModelProvider(requireActivity()).get(SharedBookViewModel.class);
             view_model.selectBook(getBookForReview());
             Fragment fragment = new BookReviewOverlay();
@@ -212,6 +218,8 @@ public class BookScreen extends Fragment {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         ImageView book_cover = view.findViewById(R.id.book_cover_image);
+        FrameLayout book_cover_frame = view.findViewById(R.id.book_cover);
+        book_cover_frame.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent));
         String finalImage_url = image_url;
         executor.execute(() -> {
             try {
@@ -219,8 +227,6 @@ public class BookScreen extends Fragment {
                 book_cover_bitmap = BitmapFactory.decodeStream(in);
                 handler.post(() -> {
                     book_cover.setImageBitmap(book_cover_bitmap);
-                    FrameLayout book_cover_frame = view.findViewById(R.id.book_cover);
-                    book_cover_frame.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent));
                 });
 
             } catch (Exception e) {
@@ -233,7 +239,19 @@ public class BookScreen extends Fragment {
 
     public Book getBookForReview() {
         BookContainer book_container = BookContainer.getInstance();
-        return book_container.getBook(book_isbn);
+        Book book = book_container.getBook(book_isbn);
+        if(book != null && book.getCoverImage() == null) {
+            Bitmap default_book_cover = Bitmap.createBitmap(
+                    requireView().getWidth(),
+                    requireView().getHeight(),
+                    Bitmap.Config.ARGB_8888);
+
+            int color = ContextCompat.getColor(requireContext(), R.color.black);
+            Canvas canvas = new Canvas(default_book_cover);
+            canvas.drawColor(color);
+            book.setCoverImage(default_book_cover);
+        }
+        return book;
     }
 
     public void saveBook() {
