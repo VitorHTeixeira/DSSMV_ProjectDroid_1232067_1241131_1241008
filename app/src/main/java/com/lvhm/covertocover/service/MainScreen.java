@@ -1,11 +1,13 @@
 package com.lvhm.covertocover.service;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +32,7 @@ public class MainScreen extends Fragment {
     private WishlistAdapter wishlist_adapter;
     private BookContainer book_container;
     private ReviewContainer review_container;
+    private TextView average_rating_text, total_books_text, best_month_text, most_used_rating_text;
 
 
 
@@ -89,6 +92,16 @@ public class MainScreen extends Fragment {
         wishlist_adapter = new WishlistAdapter(wishlist_data);
         wishlist_carousel.setAdapter(wishlist_adapter);
 
+
+        average_rating_text = view.findViewById(R.id.average_rating_text);
+        average_rating_text.append(String.valueOf(review_container.getAverageRatingThisYear()));
+        total_books_text = view.findViewById(R.id.total_books_text);
+        total_books_text.append(String.valueOf(review_container.getTotalReviewsThisYear()));
+        best_month_text = view.findViewById(R.id.best_month_text);
+        best_month_text.append(review_container.getBestMonthThisYear());
+        most_used_rating_text = view.findViewById(R.id.most_used_rating_text);
+        most_used_rating_text.append(String.valueOf(review_container.getMostUsedRatingThisYear()));
+
         return view;
     }
     @Override
@@ -96,6 +109,12 @@ public class MainScreen extends Fragment {
         super.onResume();
         review_adapter.updateData(review_container.getLatestReviews(3));
         wishlist_adapter.updateData(book_container.getLatestWishlistedBooks(5));
+        Log.d("MainScreen", "onResume called!");
+        Log.d("MainScreen", "Average: " + review_container.getAverageRatingThisYear());
+        average_rating_text.setText("Average Rating: " + review_container.getAverageRatingThisYear());
+        total_books_text.setText("Total Books: " + review_container.getTotalReviewsThisYear());
+        best_month_text.setText("Best Month: " + review_container.getBestMonthThisYear());
+        most_used_rating_text.setText("Most Used Rating: " + review_container.getMostUsedRatingThisYear());
 
     }
 

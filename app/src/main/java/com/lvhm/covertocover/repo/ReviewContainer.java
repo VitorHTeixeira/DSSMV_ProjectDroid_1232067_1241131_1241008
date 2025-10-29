@@ -4,6 +4,9 @@ import com.lvhm.covertocover.models.Review;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReviewContainer {
     private static ReviewContainer instance = new ReviewContainer();
@@ -45,15 +48,29 @@ public class ReviewContainer {
         addReview(review);
     }
 
-    public double getAverageRating() {
-        double sum = 0;
-        for (Review review : reviews) {
-            sum += review.getRating();
+    public double getAverageRatingThisYear() {
+        if(reviews.isEmpty()) {
+            return 0.0;
         }
-        double scale = Math.pow(10, reviews.size());
-        return Math.round(sum * scale) / scale;
+        double sum = 0;
+        int count = 0;
+        for (Review review : reviews) {
+            if(review.getDate().getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
+                sum += review.getRating();
+                count++;
+            }
+        }
+        if(count == 0) {
+            return 0.0;
+        }
+        double average = sum / count;
+        double scale = Math.pow(10, 2);
+        return Math.round(average * scale) / scale;
     }
-    public int getTotalBooksThisYear() {
+    public int getTotalReviewsThisYear() {
+        if(reviews.isEmpty()) {
+            return 0;
+        }
         int count = 0;
         for (Review review : reviews) {
             if(review.getDate().getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
@@ -62,19 +79,75 @@ public class ReviewContainer {
         }
         return count;
     }
-//    public int getMostUsedRating() {
-//        int[][] counts = new int[11][];
-//        for (Review review : reviews) {
-//            counts[review.getRating()]++;
-//        }
-//        int max = 0;
-//        int index = 0;
-//        for (int i = 0; i < counts.length; i++) {
-//            if(counts[i] > max) {
-//                max = counts[i];
-//                index = i;
-//            }
-//        }
-//        return index;
-//    }
+    public double getMostUsedRatingThisYear() {
+        if(reviews.isEmpty()) {
+            return 0.0;
+        }
+        ArrayList<Review> this_year_reviews = new ArrayList<>();
+        HashMap<Double, Integer> counts = new HashMap<>();
+        for (Review review : reviews) {
+            if(review.getDate().getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
+                this_year_reviews.add(review);
+            }
+        }
+        for (Review review : this_year_reviews) {
+            double rating = review.getRating();
+            counts.merge(rating, 1, Integer::sum);
+        }
+        if(counts.isEmpty()) {
+            return 0.0;
+        }
+        int max_value = (Collections.max(counts.values()));
+        double max_key = 0.0;
+        for (Map.Entry<Double, Integer> entry :
+                counts.entrySet()) {
+            if (entry.getValue() == max_value) {
+                max_key = entry.getKey();
+            }
+        }
+        return max_key;
+    }
+
+    public String getBestMonthThisYear() {
+        if(reviews.isEmpty()) {
+            return "?";
+        }
+        ArrayList<Review> this_year_reviews = new ArrayList<>();
+        HashMap<Integer, Integer> counts = new HashMap<>();
+        for (Review review : reviews) {
+            if(review.getDate().getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
+                this_year_reviews.add(review);
+            }
+        }
+        for (Review review : this_year_reviews) {
+            int month = review.getDate().getMonth();
+            counts.merge(month, 1, Integer::sum);
+        }
+        if(counts.isEmpty()) {
+            return "?";
+        }
+        int max_value = (Collections.max(counts.values()));
+        int max_key = 0;
+        for (Map.Entry<Integer, Integer> entry :
+                counts.entrySet()) {
+            if (entry.getValue() == max_value) {
+                max_key = entry.getKey();
+            }
+        }
+        switch (max_key) {
+            case 1: return "January";
+            case 2: return "February";
+            case 3: return "March";
+            case 4: return "April";
+            case 5: return "May";
+            case 6: return "June";
+            case 7: return "July";
+            case 8: return "August";
+            case 9: return "September";
+            case 10: return "October";
+            case 11: return "November";
+            case 12: return "December";
+            default: return "?";
+        }
+    }
 }
