@@ -136,7 +136,6 @@ public class ManualBookScreen extends Fragment {
             
             book_container.addBook(requireContext(), manual_book);
             getParentFragmentManager().popBackStack();
-            Toast.makeText(requireContext(), "Book added successfully.", Toast.LENGTH_SHORT).show();
         });
             
         return view;

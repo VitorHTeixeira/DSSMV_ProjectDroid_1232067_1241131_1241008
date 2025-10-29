@@ -10,13 +10,28 @@ import android.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.lvhm.covertocover.adapter.ReviewAdapter;
 import com.lvhm.covertocover.api.BookAPICallback;
 import com.lvhm.covertocover.api.BookAPIClient;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.datamodels.BookResponse;
+import com.lvhm.covertocover.models.Book;
+import com.lvhm.covertocover.models.Review;
+import com.lvhm.covertocover.repo.BookContainer;
+import com.lvhm.covertocover.repo.ReviewContainer;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainScreen extends Fragment {
+    private ReviewAdapter review_adapter;
+    private BookContainer book_container;
+    private ReviewContainer review_container;
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -24,6 +39,9 @@ public class MainScreen extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        book_container = BookContainer.getInstance();
+        review_container = ReviewContainer.getInstance();
 
         FrameLayout add_book = view.findViewById(R.id.add_book_button);
         add_book.setOnClickListener(v -> {
@@ -61,7 +79,19 @@ public class MainScreen extends Fragment {
                 return false;
             }
         });
+
+        RecyclerView review_carousel = view.findViewById(R.id.review_carousel);
+        ArrayList<Review> review_data = review_container.getLatestReviews(3);
+        review_adapter = new ReviewAdapter(review_data);
+        review_carousel.setAdapter(review_adapter);
+
+
         return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        review_adapter.updateData(review_container.getLatestReviews(3));
     }
 
     private void navigateToBookScreen(BookResponse.Item item, String isbn, Bundle response_bundle) {

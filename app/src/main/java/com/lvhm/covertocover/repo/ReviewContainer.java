@@ -24,4 +24,23 @@ public class ReviewContainer {
     public ArrayList<Review> getReviews() {
         return reviews;
     }
+
+    public ArrayList<Review> getLatestReviews(int number) {
+        if(reviews.size() < number) {
+            return reviews;
+        } else {
+            return new ArrayList<>(reviews.subList(reviews.size() - number, reviews.size()));
+        }
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+    }
+    public void deleteReview(Review review) {
+        reviews.remove(review);
+    }
+    public void updateReview(Review review) {
+        deleteReview(review);
+        addReview(review);
+    }
 }

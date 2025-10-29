@@ -20,12 +20,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.OnGoingBook;
 import com.lvhm.covertocover.models.ReadBook;
+import com.lvhm.covertocover.models.SharedBookViewModel;
 import com.lvhm.covertocover.repo.BookContainer;
 
 import org.apache.commons.text.WordUtils;
@@ -83,6 +85,8 @@ public class BookScreen extends Fragment {
 
         RelativeLayout add_review = view.findViewById(R.id.review_button);
         add_review.setOnClickListener(v -> {
+            SharedBookViewModel view_model = new ViewModelProvider(requireActivity()).get(SharedBookViewModel.class);
+            view_model.selectBook(getBookForReview());
             Fragment fragment = new BookReviewOverlay();
             getParentFragmentManager()
                     .beginTransaction()
@@ -225,6 +229,11 @@ public class BookScreen extends Fragment {
                 handler.post(() -> NotificationCentral.showNotification(requireContext(), message));
             }
         });
+    }
+
+    public Book getBookForReview() {
+        BookContainer book_container = BookContainer.getInstance();
+        return book_container.getBook(book_isbn);
     }
 
     public void saveBook() {

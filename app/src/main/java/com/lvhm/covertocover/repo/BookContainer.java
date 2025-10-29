@@ -2,6 +2,7 @@ package com.lvhm.covertocover.repo;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.exceptions.BookNotFoundException;
@@ -68,14 +69,18 @@ public class BookContainer {
         return books;
     }
 
+    public Book getBook(String isbn) {
+        return findBook(isbn);
+    }
 
     public void addBook(Context context, Book book) {
         try {
             if(findBook(book.getISBN()) != null) {
                 throw new DuplicateBookException(book.getISBN());
             }
-            Log.i("BookContainer_DEBUG", "Adicionando livro: " + book.getName()); // Use Log.i para Info
             books.add(book);
+            Log.i("BookContainer_DEBUG", "Adicionando livro: " + book.getName()); // Use Log.i para Info
+            Toast.makeText(context, "Book added successfully.", Toast.LENGTH_SHORT).show();
         } catch(DuplicateBookException e) {
             NotificationCentral.showNotification(context, e.getMessage());
         }

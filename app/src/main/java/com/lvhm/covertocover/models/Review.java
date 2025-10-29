@@ -3,22 +3,22 @@ package com.lvhm.covertocover.models;
 import java.util.Date;
 
 public class Review {
-    private ReadBook book;
+    private Book book;
     private double rating;
     private String reviewText;
     private Date date;
 
-    public Review(ReadBook book, double rating, String reviewText, Date date) {
+    public Review(Book book, double rating, String reviewText, Date date) {
         this.book = book;
         this.rating = rating;
         this.reviewText = reviewText;
         this.date = date;
     }
 
-    public ReadBook getBook() {
+    public Book getBook() {
         return book;
     }
-    public void setBook(ReadBook book) {
+    public void setBook(Book book) {
         this.book = book;
     }
     public double getRating() {
