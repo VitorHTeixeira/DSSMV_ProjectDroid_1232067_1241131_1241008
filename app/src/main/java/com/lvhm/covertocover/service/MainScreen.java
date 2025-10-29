@@ -1,6 +1,5 @@
-package com.lvhm.covertocover;
+package com.lvhm.covertocover.service;
 
-import android.graphics.Camera;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.lvhm.covertocover.api.BookAPICallback;
+import com.lvhm.covertocover.api.BookAPIClient;
+import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.datamodels.BookResponse;
-import com.lvhm.covertocover.models.Book;
 
 public class MainScreen extends Fragment {
     @Nullable

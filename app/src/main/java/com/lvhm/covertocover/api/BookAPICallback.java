@@ -1,4 +1,4 @@
-package com.lvhm.covertocover;
+package com.lvhm.covertocover.api;
 
 import android.os.Bundle;
 

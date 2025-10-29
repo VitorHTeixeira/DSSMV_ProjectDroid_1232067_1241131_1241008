@@ -1,7 +1,11 @@
 package com.lvhm.covertocover.repo;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.lvhm.covertocover.NotificationCentral;
+import com.lvhm.covertocover.exceptions.BookNotFoundException;
+import com.lvhm.covertocover.exceptions.DuplicateBookException;
 import com.lvhm.covertocover.models.Book;
 
 import java.util.ArrayList;
@@ -24,23 +28,13 @@ public class BookContainer {
         return instance;
     }
 
-    private Book findBook(String isbn, String name) {
+    private Book findBook(String isbn) {
         boolean has_valid_isbn = isbn != null && !isbn.trim().isEmpty();
         for (Book existing_book : this.books) {
-            boolean name_matches = existing_book.getName() != null && existing_book.getName().equals(name);
-
             if (has_valid_isbn) {
                 boolean isbn_matches = existing_book.getISBN() != null && existing_book.getISBN().equals(isbn);
                 if (isbn_matches) {
                     return existing_book;
-                }
-            }
-            else {
-                if (name_matches) {
-                    boolean existing_isbn_invalid = existing_book.getISBN() == null || existing_book.getISBN().trim().isEmpty();
-                    if (existing_isbn_invalid) {
-                        return existing_book;
-                    }
                 }
             }
         }
@@ -75,28 +69,38 @@ public class BookContainer {
     }
 
 
-    public void addBook(Book book) {
-        if(findBook(book.getISBN(), book.getName()) != null) {
-            // throw exception
-            return;
+    public void addBook(Context context, Book book) {
+        try {
+            if(findBook(book.getISBN()) != null) {
+                throw new DuplicateBookException(book.getISBN());
+            }
+            Log.i("BookContainer_DEBUG", "Adicionando livro: " + book.getName()); // Use Log.i para Info
+            books.add(book);
+        } catch(DuplicateBookException e) {
+            NotificationCentral.showNotification(context, e.getMessage());
         }
-        Log.i("BookContainer_DEBUG", "Adicionando livro: " + book.getName()); // Use Log.i para Info
-        books.add(book);
     }
-    public void deleteBook(Book book) {
-        if(findBook(book.getISBN(), book.getName()) == null) {
-            // throw exception
-            return;
+    public void deleteBook(Context context, Book book) {
+        try {
+
+            if(findBook(book.getISBN()) == null) {
+                throw new BookNotFoundException(book.getISBN());
+            }
+            books.remove(book);
+        } catch(BookNotFoundException e) {
+            NotificationCentral.showNotification(context, e.getMessage());
         }
-        books.remove(book);
     }
-    public void updateBook(Book book) {
-        if(findBook(book.getISBN(), book.getName()) == null) {
-            // throw exception
-            return;
+    public void updateBook(Context context, Book book) {
+        try {
+            if(findBook(book.getISBN()) == null) {
+                throw new BookNotFoundException(book.getISBN());
+            }
+            deleteBook(context, book);
+            addBook(context, book);
+        } catch(BookNotFoundException e) {
+            NotificationCentral.showNotification(context, e.getMessage());
         }
-        deleteBook(book);
-        addBook(book);
     }
     public ArrayList<Book> getListReadBooks() {
         return findReadBooks(true);

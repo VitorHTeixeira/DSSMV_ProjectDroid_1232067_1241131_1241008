@@ -1,4 +1,4 @@
-package com.lvhm.covertocover;
+package com.lvhm.covertocover.service;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.lvhm.covertocover.NotificationCentral;
+import com.lvhm.covertocover.R;
 
 import java.io.InputStream;
 import java.net.URL;

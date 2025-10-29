@@ -1,4 +1,4 @@
-package com.lvhm.covertocover;
+package com.lvhm.covertocover.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+
+import com.lvhm.covertocover.R;
 
 public class SettingsScreen extends Fragment {
     private RadioGroup app_theme_radio_group, export_app_data_radio_group;

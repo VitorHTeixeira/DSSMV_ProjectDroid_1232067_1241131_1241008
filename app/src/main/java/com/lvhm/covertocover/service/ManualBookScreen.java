@@ -1,4 +1,4 @@
-package com.lvhm.covertocover;
+package com.lvhm.covertocover.service;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.repo.BookContainer;
 
@@ -133,7 +134,7 @@ public class ManualBookScreen extends Fragment {
                     break;
             }
             
-            book_container.addBook(manual_book); 
+            book_container.addBook(requireContext(), manual_book);
             getParentFragmentManager().popBackStack();
             Toast.makeText(requireContext(), "Book added successfully.", Toast.LENGTH_SHORT).show();
         });

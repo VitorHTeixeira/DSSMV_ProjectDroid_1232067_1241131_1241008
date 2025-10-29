@@ -1,4 +1,4 @@
-package com.lvhm.covertocover;
+package com.lvhm.covertocover.service;
 
 import android.annotation.SuppressLint;
 import android.graphics.Rect;
@@ -27,26 +27,25 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gson.Gson;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
+import com.lvhm.covertocover.BarcodeFrame;
+import com.lvhm.covertocover.api.BookAPICallback;
+import com.lvhm.covertocover.api.BookAPIClient;
+import com.lvhm.covertocover.NotificationCentral;
+import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.datamodels.BookResponse;
 
 import java.util.concurrent.ExecutionException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CameraScreen extends Fragment {
     private PreviewView preview_view;
     private BarcodeFrame barcode_frame;
     private ListenableFuture<ProcessCameraProvider> camera_provider_future;
     private ImageAnalysis image_analysis;
-
     private LinearLayout capture_button;
     private volatile boolean should_read_barcode = false;
     private Bundle book_details_bundle = new Bundle();
@@ -71,7 +70,6 @@ public class CameraScreen extends Fragment {
             }
             capture_button.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             should_read_barcode = true;
-            // NotificationCentral.showNotification(requireContext(), "The image is still being processed. Please wait.");
         });
 
         NotificationCentral.createNotificationChannel(requireContext());

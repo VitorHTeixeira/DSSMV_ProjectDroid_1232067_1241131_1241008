@@ -1,4 +1,4 @@
-package com.lvhm.covertocover;
+package com.lvhm.covertocover.service;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.lvhm.covertocover.NotificationCentral;
+import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.OnGoingBook;
 import com.lvhm.covertocover.models.ReadBook;
@@ -32,7 +34,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -231,7 +232,7 @@ public class BookScreen extends Fragment {
         String status = status_spinner.getSelectedItem().toString();
         switch (status) {
             case "Read":
-                ReadBook read_book = new ReadBook();
+                Book read_book = new Book();
                 read_book.setName(book_title);
                 read_book.setAuthor(book_authors);
                 read_book.setGenre(book_categories);
@@ -239,10 +240,13 @@ public class BookScreen extends Fragment {
                 read_book.setYear(book_year);
                 read_book.setPageCount(book_pages);
                 read_book.setISBN(book_isbn);
-                book_container.addBook(read_book);
+                read_book.setRead(true);
+                read_book.setIsWishlisted(false);
+                read_book.setOnGoing(false);
+                book_container.addBook(requireContext(), read_book);
                 break;
             case "Reading":
-                OnGoingBook on_going_book = new OnGoingBook();
+                Book on_going_book = new Book();
                 on_going_book.setName(book_title);
                 on_going_book.setAuthor(book_authors);
                 on_going_book.setGenre(book_categories);
@@ -250,8 +254,9 @@ public class BookScreen extends Fragment {
                 on_going_book.setYear(book_year);
                 on_going_book.setPageCount(book_pages);
                 on_going_book.setISBN(book_isbn);
+                on_going_book.setIsWishlisted(false);
                 on_going_book.setOnGoing(true);
-                book_container.addBook(on_going_book);
+                book_container.addBook(requireContext(), on_going_book);
                 break;
             case "Want To Read":
                 Book wishlisted_book = new Book();
@@ -262,8 +267,10 @@ public class BookScreen extends Fragment {
                 wishlisted_book.setYear(book_year);
                 wishlisted_book.setPageCount(book_pages);
                 wishlisted_book.setISBN(book_isbn);
+                wishlisted_book.setRead(false);
                 wishlisted_book.setIsWishlisted(true);
-                book_container.addBook(wishlisted_book);
+                wishlisted_book.setOnGoing(false);
+                book_container.addBook(requireContext(), wishlisted_book);
                 break;
         }
     }

@@ -32,7 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoverToCover">
         <activity
-            android:name=".MainActivity"
+            android:name=".service.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.CoverToCover">
             <intent-filter>

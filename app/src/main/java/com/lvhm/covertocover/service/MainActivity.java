@@ -1,9 +1,8 @@
-package com.lvhm.covertocover;
+package com.lvhm.covertocover.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.lvhm.covertocover.PermissionsHandler;
+import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ArrayList<Book> books = book_container.getBooks();
+        System.out.println(books.size());
         for(Book book : books) {
             System.out.println(book.getName());
         }

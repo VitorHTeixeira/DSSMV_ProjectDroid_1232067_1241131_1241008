@@ -1,12 +1,12 @@
-package com.lvhm.covertocover;
+package com.lvhm.covertocover.api;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
+import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.datamodels.BookResponse;
 
 import java.util.concurrent.TimeUnit;
