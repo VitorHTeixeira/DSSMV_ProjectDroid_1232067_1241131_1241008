@@ -1,17 +1,22 @@
 package com.lvhm.covertocover.service;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,6 +25,7 @@ import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.repo.BookContainer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -32,6 +38,9 @@ public class ManualBookScreen extends Fragment {
     private EditText input_page_number;
     private EditText input_isbn;
     private Spinner status_spinner;
+    private ImageView cover_image_view;
+    private Bitmap selected_cover_bitmap = null;
+    private ActivityResultLauncher<String> gallery_launcher;
 
     @Nullable
     @Override
@@ -41,13 +50,37 @@ public class ManualBookScreen extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_manual_book, container, false);
 
+        gallery_launcher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null && getContext() != null) {
+                        try {
+                            selected_cover_bitmap = MediaStore.Images.Media.getBitmap(
+                                    requireContext().getContentResolver(), uri);
+
+                            cover_image_view.setImageBitmap(selected_cover_bitmap);
+
+                        } catch (IOException e) {
+                            Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
+                            selected_cover_bitmap = null;
+                        }
+                    } else {
+                        selected_cover_bitmap = null;
+                    }
+                });
+
         input_book_name = view.findViewById(R.id.input_book_name);
         input_author = view.findViewById(R.id.input_author);
         input_categories = view.findViewById(R.id.input_categories);
         input_release_year = view.findViewById(R.id.input_release_year);
         input_page_number = view.findViewById(R.id.input_page_number);
         input_isbn = view.findViewById(R.id.input_isbn);
+        cover_image_view = view.findViewById(R.id.galery_book_cover);
         status_spinner = view.findViewById(R.id.status_spinner);
+
+        cover_image_view.setOnClickListener(v -> {
+            gallery_launcher.launch("image/*");
+        });
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.status_options, R.layout.spinner_item_text);
@@ -88,6 +121,7 @@ public class ManualBookScreen extends Fragment {
                 return;
             }
 
+
             ArrayList<String> authorsList;
             ArrayList<String> categoriesList;
             int year = 0;
@@ -121,6 +155,12 @@ public class ManualBookScreen extends Fragment {
             manual_book.setYear(year);
             manual_book.setPageCount(pageCount);
             manual_book.setISBN(isbn);
+
+            if (selected_cover_bitmap != null) {
+                manual_book.setCoverImage(selected_cover_bitmap);
+            } else {
+                manual_book.setCoverImage(null);
+            }
 
             switch (status) {
                 case "Read":
