@@ -1,6 +1,7 @@
 package com.lvhm.covertocover.adapter;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +34,15 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistViewHolder> {
     public void onBindViewHolder(@NonNull WishlistViewHolder holder, int position) {
         Book item = data.get(position);
         if(item.getCoverImage() == null) {
+            Bitmap default_book_cover = Bitmap.createBitmap(
+                    100,
+                    152,
+                    Bitmap.Config.ARGB_8888);
+
             int color = ContextCompat.getColor(holder.book_cover.getContext(), R.color.black);
-            holder.book_cover.setImageDrawable(new ColorDrawable(color));
+            Canvas canvas = new Canvas(default_book_cover);
+            canvas.drawColor(color);
+            holder.book_cover.setImageBitmap(default_book_cover);
         }
         else {
             Bitmap book_cover_image = item.getCoverImage();

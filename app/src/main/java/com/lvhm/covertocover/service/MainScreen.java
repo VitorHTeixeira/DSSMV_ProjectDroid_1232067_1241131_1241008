@@ -109,8 +109,6 @@ public class MainScreen extends Fragment {
         super.onResume();
         review_adapter.updateData(review_container.getLatestReviews(3));
         wishlist_adapter.updateData(book_container.getLatestWishlistedBooks(5));
-        Log.d("MainScreen", "onResume called!");
-        Log.d("MainScreen", "Average: " + review_container.getAverageRatingThisYear());
         average_rating_text.setText("Average Rating: " + review_container.getAverageRatingThisYear());
         total_books_text.setText("Total Books: " + review_container.getTotalReviewsThisYear());
         best_month_text.setText("Best Month: " + review_container.getBestMonthThisYear());

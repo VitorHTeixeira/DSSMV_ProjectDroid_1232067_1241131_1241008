@@ -1,12 +1,16 @@
 package com.lvhm.covertocover.repo;
 
+import android.util.Log;
+
 import com.lvhm.covertocover.models.Review;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ReviewContainer {
     private static ReviewContainer instance = new ReviewContainer();
@@ -27,6 +31,16 @@ public class ReviewContainer {
 
     public ArrayList<Review> getReviews() {
         return reviews;
+    }
+
+    public ArrayList<Review> getReviewsByBook(String isbn) {
+        ArrayList<Review> reviews_book = new ArrayList<>();
+        for(Review review : reviews) {
+            if (Objects.equals(review.getBook().getISBN(), isbn)) {
+                reviews_book.add(review);
+            }
+        }
+        return reviews_book;
     }
 
     public ArrayList<Review> getLatestReviews(int number) {
@@ -54,8 +68,12 @@ public class ReviewContainer {
         }
         double sum = 0;
         int count = 0;
+        int current_year = Calendar.getInstance().get(Calendar.YEAR);
         for (Review review : reviews) {
-            if(review.getDate().getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(review.getDate());
+            int review_year_calendar = cal.get(Calendar.YEAR);
+            if(review_year_calendar == current_year) {
                 sum += review.getRating();
                 count++;
             }
@@ -72,8 +90,12 @@ public class ReviewContainer {
             return 0;
         }
         int count = 0;
+        int current_year = Calendar.getInstance().get(Calendar.YEAR);
         for (Review review : reviews) {
-            if(review.getDate().getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(review.getDate());
+            int review_year_calendar = cal.get(Calendar.YEAR);
+            if(review_year_calendar == current_year) {
                 count++;
             }
         }
@@ -85,8 +107,12 @@ public class ReviewContainer {
         }
         ArrayList<Review> this_year_reviews = new ArrayList<>();
         HashMap<Double, Integer> counts = new HashMap<>();
+        int current_year = Calendar.getInstance().get(Calendar.YEAR);
         for (Review review : reviews) {
-            if(review.getDate().getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(review.getDate());
+            int review_year_calendar = cal.get(Calendar.YEAR);
+            if(review_year_calendar == current_year) {
                 this_year_reviews.add(review);
             }
         }
@@ -114,8 +140,12 @@ public class ReviewContainer {
         }
         ArrayList<Review> this_year_reviews = new ArrayList<>();
         HashMap<Integer, Integer> counts = new HashMap<>();
+        int current_year = Calendar.getInstance().get(Calendar.YEAR);
         for (Review review : reviews) {
-            if(review.getDate().getYear() == Calendar.getInstance().get(Calendar.YEAR)) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(review.getDate());
+            int review_year_calendar = cal.get(Calendar.YEAR);
+            if(review_year_calendar == current_year) {
                 this_year_reviews.add(review);
             }
         }
@@ -135,18 +165,18 @@ public class ReviewContainer {
             }
         }
         switch (max_key) {
-            case 1: return "January";
-            case 2: return "February";
-            case 3: return "March";
-            case 4: return "April";
-            case 5: return "May";
-            case 6: return "June";
-            case 7: return "July";
-            case 8: return "August";
-            case 9: return "September";
-            case 10: return "October";
-            case 11: return "November";
-            case 12: return "December";
+            case 0: return "January";
+            case 1: return "February";
+            case 2: return "March";
+            case 3: return "April";
+            case 4: return "May";
+            case 5: return "June";
+            case 6: return "July";
+            case 7: return "August";
+            case 8: return "September";
+            case 9: return "October";
+            case 10: return "November";
+            case 11: return "December";
             default: return "?";
         }
     }

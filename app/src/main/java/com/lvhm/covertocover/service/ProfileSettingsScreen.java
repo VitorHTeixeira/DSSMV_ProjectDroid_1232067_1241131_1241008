@@ -107,7 +107,7 @@ public class ProfileSettingsScreen extends Fragment {
 
         // Spinner
         ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.date_formats, R.layout.spinner_item_text);
+                R.array.date_formats, R.layout.date_spinner_item_text);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_date_format.setAdapter(spinner_adapter);
 

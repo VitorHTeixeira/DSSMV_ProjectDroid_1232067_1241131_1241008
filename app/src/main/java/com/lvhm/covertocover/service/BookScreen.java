@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,14 +23,16 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.R;
+import com.lvhm.covertocover.adapter.RatingHistoryAdapter;
 import com.lvhm.covertocover.models.Book;
-import com.lvhm.covertocover.models.OnGoingBook;
-import com.lvhm.covertocover.models.ReadBook;
+import com.lvhm.covertocover.models.Review;
 import com.lvhm.covertocover.models.SharedBookViewModel;
 import com.lvhm.covertocover.repo.BookContainer;
+import com.lvhm.covertocover.repo.ReviewContainer;
 
 import org.apache.commons.text.WordUtils;
 
@@ -42,6 +45,8 @@ import java.util.concurrent.Executors;
 
 public class BookScreen extends Fragment {
     private Bundle book_details = new Bundle();
+    private ReviewContainer review_container;
+    private RatingHistoryAdapter rating_adapter;
     private Bitmap book_cover_bitmap = null;
     private String book_title;
     private ArrayList<String> book_authors;
@@ -56,6 +61,8 @@ public class BookScreen extends Fragment {
     private TextView label_book_pages;
     private TextView label_book_isbn;
     private Spinner status_spinner;
+    private RatingBar book_rating;
+
 
     @Nullable
     @Override
@@ -66,12 +73,15 @@ public class BookScreen extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book, container, false);
         Bundle book_info = getArguments();
 
+        review_container = ReviewContainer.getInstance();
+
         label_book_name = view.findViewById(R.id.label_book_name);
         label_book_categories = view.findViewById(R.id.label_categories);
         label_book_date = view.findViewById(R.id.label_release_year);
         label_book_author = view.findViewById(R.id.label_author);
         label_book_pages = view.findViewById(R.id.label_page_number);
         label_book_isbn = view.findViewById(R.id.label_isbn_number);
+        book_rating = view.findViewById(R.id.book_rating);
 
         if(book_info != null) {
             book_details = book_info.getBundle("response");
@@ -140,6 +150,11 @@ public class BookScreen extends Fragment {
                     .commit();
         });
 
+        RecyclerView rating_history = view.findViewById(R.id.rating_history_recycler);
+        ArrayList<Review> review_data = review_container.getReviewsByBook(book_isbn);
+        rating_adapter = new RatingHistoryAdapter(requireContext(), review_data);
+        rating_history.setAdapter(rating_adapter);
+
         RelativeLayout cancel_button = view.findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
@@ -149,7 +164,22 @@ public class BookScreen extends Fragment {
             getParentFragmentManager().popBackStack();
         });
 
+        SharedBookViewModel book_view_model = new ViewModelProvider(requireActivity()).get(SharedBookViewModel.class);
+        book_view_model.getReviewUpdated().observe(getViewLifecycleOwner(), updated -> {
+            if (updated != null && updated) {
+                ArrayList<Review> new_review_data = review_container.getReviewsByBook(book_isbn);
+                rating_adapter.updateData(new_review_data);
+                book_rating.setRating((float) new_review_data.get(new_review_data.size() - 1).getRating());
+            }
+        });
+
         return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ArrayList<Review> review_data = review_container.getReviewsByBook(book_isbn);
+        rating_adapter.updateData(review_data);
     }
 
     public void fillBookInfo(View view, Bundle book_info) {

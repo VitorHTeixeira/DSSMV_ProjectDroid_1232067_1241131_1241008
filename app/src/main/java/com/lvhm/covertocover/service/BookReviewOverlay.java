@@ -44,9 +44,12 @@ public class BookReviewOverlay extends Fragment {
 
         RelativeLayout save_button = view.findViewById(R.id.save_button);
         save_button.setOnClickListener(v -> {
-            view_model.getSelectedBook().observe(getViewLifecycleOwner(), this::saveReview);
+            Book book = view_model.getSelectedBook().getValue();
+            if (book != null) {
+                saveReview(book);
+                NotificationCentral.showNotification(requireContext(), "Review saved successfully");
+            }
             getParentFragmentManager().popBackStack();
-            NotificationCentral.showNotification(requireContext(), "Review saved successfully");
         });
 
         return view;
@@ -63,5 +66,7 @@ public class BookReviewOverlay extends Fragment {
         Date review_date = new Date();
         Review review = new Review(book, review_rating, review_text, review_date);
         review_container.addReview(review);
+        SharedBookViewModel book_view_model = new ViewModelProvider(requireActivity()).get(SharedBookViewModel.class);
+        book_view_model.notifyReviewUpdated();
     }
 }
