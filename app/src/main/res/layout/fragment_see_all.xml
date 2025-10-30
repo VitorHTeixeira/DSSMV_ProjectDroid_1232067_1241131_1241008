@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text=""
+            android:text="My Books"
             android:textColor="@color/black"
             android:textSize="22sp"
             android:fontFamily="sans-serif-condensed-medium" />
@@ -36,24 +36,23 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <!-- See All View -->
-    <ScrollView
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topbar"
+        android:background="@color/old_paper"
+        app:tabTextColor="@color/grey_sweater"
+        app:tabSelectedTextColor="@color/black"
+        app:tabIndicatorColor="@color/black"
+        app:tabMode="fixed"
+        app:tabGravity="fill"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:layout_below="@+id/topbar"
-        android:layout_alignParentBottom="true">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/review_carousel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="3"
-            tools:listitem="@layout/item_bookcover"
-            tools:itemCount="12"
-            />
-    </ScrollView>
+        android:layout_below="@id/tab_layout"
+        android:layout_alignParentBottom="true" />
+
 </RelativeLayout>
