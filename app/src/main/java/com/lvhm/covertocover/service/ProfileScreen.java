@@ -38,7 +38,7 @@ public class ProfileScreen extends Fragment {
     private LinearLayout bookshelf_section;
     private LinearLayout reading_activity_section;
     private LinearLayout wishlisted_books_section;
-    
+
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
@@ -48,14 +48,13 @@ public class ProfileScreen extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         bookshelf_section = view.findViewById(R.id.bookshelf_section);
-
         bookshelf_section.setOnClickListener(v -> {
-            SeeAllBooksScreen see_all_fragment = new SeeAllBooksScreen();
-
-            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, see_all_fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            Fragment see_all_fragment = new SeeAllBooksScreen();
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, see_all_fragment)
+                    .addToBackStack(null)
+                    .commit();
         });
 
         reading_activity_section = view.findViewById(R.id.reading_activity_section);

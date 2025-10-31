@@ -30,7 +30,7 @@ import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.RatingHistoryAdapter;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
-import com.lvhm.covertocover.models.SharedBookViewModel;
+import com.lvhm.covertocover.models.SharedBookReviewViewModel;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
 
@@ -40,6 +40,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -72,6 +73,7 @@ public class BookScreen extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_book, container, false);
         Bundle book_info = getArguments();
+        SharedBookReviewViewModel recycler_view_model = new ViewModelProvider(requireActivity()).get(SharedBookReviewViewModel.class);
 
         review_container = ReviewContainer.getInstance();
 
@@ -87,6 +89,10 @@ public class BookScreen extends Fragment {
             book_details = book_info.getBundle("response");
             fillBookInfo(view, book_info);
         }
+        else {
+            Book book = recycler_view_model.getSelectedBook().getValue();
+            fillBookInfo(view, book);
+        }
 
         status_spinner = view.findViewById(R.id.status_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
@@ -101,7 +107,7 @@ public class BookScreen extends Fragment {
             if(book_container.getBook(book_isbn) == null) {
                 saveBook();
             }
-            SharedBookViewModel view_model = new ViewModelProvider(requireActivity()).get(SharedBookViewModel.class);
+            SharedBookReviewViewModel view_model = new ViewModelProvider(requireActivity()).get(SharedBookReviewViewModel.class);
             view_model.selectBook(getBookForReview());
             Fragment fragment = new BookReviewOverlay();
             getParentFragmentManager()
@@ -164,7 +170,7 @@ public class BookScreen extends Fragment {
             getParentFragmentManager().popBackStack();
         });
 
-        SharedBookViewModel book_view_model = new ViewModelProvider(requireActivity()).get(SharedBookViewModel.class);
+        SharedBookReviewViewModel book_view_model = new ViewModelProvider(requireActivity()).get(SharedBookReviewViewModel.class);
         book_view_model.getReviewUpdated().observe(getViewLifecycleOwner(), updated -> {
             if (updated != null && updated) {
                 ArrayList<Review> new_review_data = review_container.getReviewsByBook(book_isbn);
@@ -184,10 +190,56 @@ public class BookScreen extends Fragment {
         rating_adapter.updateData(review_data);
     }
 
+    public void fillBookInfo(View view, Book book) {
+        book_title = book.getName();
+        label_book_name.append("\"" + book.getName() + "\"");
+        if(book.getGenre() != List.of("Unknown")) {
+            StringBuilder categories = new StringBuilder();
+            book_categories = book.getGenre();
+            ArrayList<String> book_categories_array = book.getGenre();
+            for(String category : book_categories_array) {
+                if(book_categories_array.size() > 1) {
+                    categories.append(WordUtils.capitalize(category)).append(", ");
+                }
+                else {
+                    categories.append(WordUtils.capitalize(category));
+                }
+            }
+            label_book_categories.append(categories);
+        }
+        book_year = book.getYear();
+        label_book_date.append("" + book_year);
+        if(book.getAuthor() != List.of("Unknown")) {
+            StringBuilder authors = new StringBuilder();
+            book_authors = book.getAuthor();
+            ArrayList<String> book_authors_array = book.getAuthor();
+            for (String author : book_authors_array) {
+                if (book_authors_array.size() > 1) {
+                    authors.append(WordUtils.capitalize(author)).append(", ");
+                } else {
+                    authors.append(WordUtils.capitalize(author));
+                }
+            }
+            label_book_author.append(authors);
+        }
+        book_pages = book.getPageCount();
+        label_book_pages.append("" + book_pages);
+        book_isbn = book.getISBN();
+        label_book_isbn.append(book_isbn);
+        book_cover_bitmap = book.getCoverImage();
+        if(book_cover_bitmap != null) {
+            ImageView book_cover = view.findViewById(R.id.book_cover_image);
+            book_cover.setImageBitmap(book_cover_bitmap);
+        }
+    }
+
     public void fillBookInfo(View view, Bundle book_info) {
         if(book_info.getString("title") != null) {
             String title = book_info.getString("title");
-            String subtitle = book_info.getString("subtitle");
+            String subtitle = "";
+            if(book_info.getString("subtitle") != null) {
+                subtitle = book_info.getString("subtitle");
+            }
             String fullTitle = title;
             if (subtitle != null && !subtitle.isEmpty()) {
                 fullTitle += ": " + subtitle;
@@ -238,8 +290,10 @@ public class BookScreen extends Fragment {
             book_pages = Integer.parseInt(book_info.getString("pageCount"));
             label_book_pages.append(book_info.getString("pageCount"));
         }
-        book_isbn = book_info.getString("isbn");
-        label_book_isbn.append(book_info.getString("isbn"));
+        if(book_info.getString("isbn") != null) {
+            book_isbn = book_info.getString("isbn");
+            label_book_isbn.append(book_info.getString("isbn"));
+        }
         if(book_info.getString("thumbnail") != null) {
             getBookCoverImage(view, book_info.getString("thumbnail"));
         }

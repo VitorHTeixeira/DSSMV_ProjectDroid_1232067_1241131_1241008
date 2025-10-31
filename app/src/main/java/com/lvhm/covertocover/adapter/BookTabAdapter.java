@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.lvhm.covertocover.service.BookListFragment;
+import com.lvhm.covertocover.service.SeeAllTabsScreen;
 
 public class BookTabAdapter extends FragmentStateAdapter {
     private static final int NUM_PAGES = 3;
@@ -18,11 +18,11 @@ public class BookTabAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return BookListFragment.newInstance(BookListFragment.TYPE_WANT_TO_READ);
+                return SeeAllTabsScreen.newInstance(SeeAllTabsScreen.TYPE_WANT_TO_READ);
             case 1:
-                return BookListFragment.newInstance(BookListFragment.TYPE_READING);
+                return SeeAllTabsScreen.newInstance(SeeAllTabsScreen.TYPE_READING);
             case 2:
-                return BookListFragment.newInstance(BookListFragment.TYPE_READ);
+                return SeeAllTabsScreen.newInstance(SeeAllTabsScreen.TYPE_READ);
             default:
                 return new Fragment();
         }

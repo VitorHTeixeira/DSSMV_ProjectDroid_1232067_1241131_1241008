@@ -30,9 +30,11 @@ public class SeeAllBooksScreen extends Fragment {
 
         view_pager = view.findViewById(R.id.view_pager);
         tab_layout = view.findViewById(R.id.tab_layout);
-        
+
+        System.out.println("Creating BookTabAdapter");
         book_list_tab_adapter = new BookTabAdapter(this);
 
+        System.out.println("Setting adapter to ViewPager2");
         view_pager.setAdapter(book_list_tab_adapter);
 
         

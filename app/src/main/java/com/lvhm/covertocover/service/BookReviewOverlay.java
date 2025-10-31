@@ -17,7 +17,7 @@ import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
-import com.lvhm.covertocover.models.SharedBookViewModel;
+import com.lvhm.covertocover.models.SharedBookReviewViewModel;
 import com.lvhm.covertocover.repo.ReviewContainer;
 
 import java.util.Date;
@@ -34,7 +34,7 @@ public class BookReviewOverlay extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_overlay_review, container, false);
-        SharedBookViewModel view_model = new ViewModelProvider(requireActivity()).get(SharedBookViewModel.class);
+        SharedBookReviewViewModel view_model = new ViewModelProvider(requireActivity()).get(SharedBookReviewViewModel.class);
 
         review_rating_bar = view.findViewById(R.id.review_rating_bar);
         review_text_input = view.findViewById(R.id.review_text_input);
@@ -66,7 +66,7 @@ public class BookReviewOverlay extends Fragment {
         Date review_date = new Date();
         Review review = new Review(book, review_rating, review_text, review_date);
         review_container.addReview(review);
-        SharedBookViewModel book_view_model = new ViewModelProvider(requireActivity()).get(SharedBookViewModel.class);
+        SharedBookReviewViewModel book_view_model = new ViewModelProvider(requireActivity()).get(SharedBookReviewViewModel.class);
         book_view_model.notifyReviewUpdated();
     }
 }
