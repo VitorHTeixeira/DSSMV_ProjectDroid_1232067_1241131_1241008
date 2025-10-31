@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Outline;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -52,9 +54,17 @@ public class SettingsScreen extends Fragment {
         // User Overview
         TextView username = view.findViewById(R.id.username);
         username.setText(shared_preferences.getString("profile_username", "Username"));
-        profile_picture = view.findViewById(R.id.profile_picture);
 
         // User profile picture
+        profile_picture = view.findViewById(R.id.profile_picture);
+        profile_picture.setClipToOutline(true);
+        profile_picture.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setOval(0, 0, view.getWidth(), view.getHeight());
+            }
+        });
+
         String imageBase64 = shared_preferences.getString(PROFILE_IMAGE_KEY, null);
         if (imageBase64 != null) {
             try {
@@ -64,8 +74,7 @@ public class SettingsScreen extends Fragment {
                     profile_picture.setImageBitmap(bitmap);
                 }
             } catch (Exception e) {
-                // Em vez de um comentário, vamos registar o erro para o podermos ver no Logcat.
-                Log.e("SettingsScreen", "Erro ao descodificar imagem Base64.", e);
+                Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -86,7 +95,6 @@ public class SettingsScreen extends Fragment {
                             byte[] byteArray = baos.toByteArray();
                             String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-                            // Guarda nas SharedPreferences
                             SharedPreferences.Editor editor = shared_preferences.edit();
                             editor.putString(PROFILE_IMAGE_KEY, base64Image);
                             editor.apply();
