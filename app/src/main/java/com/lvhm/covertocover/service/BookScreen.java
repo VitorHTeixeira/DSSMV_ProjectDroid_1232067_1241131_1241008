@@ -169,7 +169,9 @@ public class BookScreen extends Fragment {
             if (updated != null && updated) {
                 ArrayList<Review> new_review_data = review_container.getReviewsByBook(book_isbn);
                 rating_adapter.updateData(new_review_data);
-                book_rating.setRating((float) new_review_data.get(new_review_data.size() - 1).getRating());
+                if(!new_review_data.isEmpty()) {
+                    book_rating.setRating((float) new_review_data.get(new_review_data.size() - 1).getRating());
+                }
             }
         });
 
@@ -300,7 +302,12 @@ public class BookScreen extends Fragment {
                 read_book.setRead(true);
                 read_book.setIsWishlisted(false);
                 read_book.setOnGoing(false);
-                book_container.addBook(requireContext(), read_book);
+                if(book_container.getBook(book_isbn) != null) {
+                    book_container.updateBook(requireContext(), read_book);
+                }
+                else {
+                    book_container.addBook(requireContext(), read_book);
+                }
                 break;
             case "Reading":
                 Book on_going_book = new Book();
@@ -313,7 +320,12 @@ public class BookScreen extends Fragment {
                 on_going_book.setISBN(book_isbn);
                 on_going_book.setIsWishlisted(false);
                 on_going_book.setOnGoing(true);
-                book_container.addBook(requireContext(), on_going_book);
+                if(book_container.getBook(book_isbn) != null) {
+                    book_container.updateBook(requireContext(), on_going_book);
+                }
+                else {
+                    book_container.addBook(requireContext(), on_going_book);
+                }
                 break;
             case "Want To Read":
                 Book wishlisted_book = new Book();
@@ -327,7 +339,12 @@ public class BookScreen extends Fragment {
                 wishlisted_book.setRead(false);
                 wishlisted_book.setIsWishlisted(true);
                 wishlisted_book.setOnGoing(false);
-                book_container.addBook(requireContext(), wishlisted_book);
+                if(book_container.getBook(book_isbn) != null) {
+                    book_container.updateBook(requireContext(), wishlisted_book);
+                }
+                else {
+                    book_container.addBook(requireContext(), wishlisted_book);
+                }
                 break;
         }
     }
