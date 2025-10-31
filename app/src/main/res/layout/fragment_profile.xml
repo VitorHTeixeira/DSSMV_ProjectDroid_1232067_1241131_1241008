@@ -116,6 +116,7 @@
 
             <!-- Reading Activity -->
             <LinearLayout
+                android:id="@+id/reading_activity_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -177,6 +178,7 @@
 
             <!-- Your Wishlisted Books -->
             <LinearLayout
+                android:id="@+id/wishlisted_books_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

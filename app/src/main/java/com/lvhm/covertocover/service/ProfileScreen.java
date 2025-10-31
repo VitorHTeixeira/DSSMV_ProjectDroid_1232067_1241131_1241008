@@ -7,7 +7,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -37,6 +36,8 @@ public class ProfileScreen extends Fragment {
     private BarChart review_barplot;
     private ReviewContainer review_container;
     private LinearLayout bookshelf_section;
+    private LinearLayout reading_activity_section;
+    private LinearLayout wishlisted_books_section;
     
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -57,6 +58,27 @@ public class ProfileScreen extends Fragment {
             transaction.commit();
         });
 
+        reading_activity_section = view.findViewById(R.id.reading_activity_section);
+
+        reading_activity_section.setOnClickListener(v -> {
+            ReadingActivityScreen reading_activity_fragment = new ReadingActivityScreen();
+
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, reading_activity_fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+
+        wishlisted_books_section = view.findViewById(R.id.wishlisted_books_section);
+
+        wishlisted_books_section.setOnClickListener(v -> {
+            WishlistedBooksScreen wishlisted_books_fragment = new WishlistedBooksScreen();
+
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, wishlisted_books_fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
 
         review_container = ReviewContainer.getInstance();
         review_barplot = view.findViewById(R.id.review_barplot);
