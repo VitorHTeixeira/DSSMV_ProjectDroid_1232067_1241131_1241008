@@ -1,7 +1,6 @@
 package com.lvhm.covertocover.service;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lvhm.covertocover.adapter.BookNavigationListener;
+import com.lvhm.covertocover.adapter.OnBookClickListener;
 import com.lvhm.covertocover.adapter.ReviewAdapter;
-import com.lvhm.covertocover.adapter.WishlistAdapter;
+import com.lvhm.covertocover.adapter.BookAdapter;
 import com.lvhm.covertocover.api.BookAPICallback;
 import com.lvhm.covertocover.api.BookAPIClient;
 import com.lvhm.covertocover.R;
@@ -27,9 +28,9 @@ import com.lvhm.covertocover.repo.ReviewContainer;
 
 import java.util.ArrayList;
 
-public class MainScreen extends Fragment {
+public class MainScreen extends Fragment implements OnBookClickListener {
     private ReviewAdapter review_adapter;
-    private WishlistAdapter wishlist_adapter;
+    private BookAdapter wishlist_adapter;
     private BookContainer book_container;
     private ReviewContainer review_container;
     private TextView average_rating_text, total_books_text, best_month_text, most_used_rating_text;
@@ -84,12 +85,12 @@ public class MainScreen extends Fragment {
 
         RecyclerView review_carousel = view.findViewById(R.id.review_carousel);
         ArrayList<Review> review_data = review_container.getLatestReviews(3);
-        review_adapter = new ReviewAdapter(review_data);
+        review_adapter = new ReviewAdapter(review_data, this);
         review_carousel.setAdapter(review_adapter);
 
         RecyclerView wishlist_carousel = view.findViewById(R.id.wishlist_carousel);
         ArrayList<Book> wishlist_data = book_container.getLatestWishlistedBooks(5);
-        wishlist_adapter = new WishlistAdapter(wishlist_data);
+        wishlist_adapter = new BookAdapter(wishlist_data, this);
         wishlist_carousel.setAdapter(wishlist_adapter);
 
 
@@ -115,27 +116,25 @@ public class MainScreen extends Fragment {
         most_used_rating_text.setText("Most Used Rating: " + review_container.getMostUsedRatingThisYear());
 
     }
-
+    @Override
+    public void onBookClick(Book book) {
+        if (getActivity() instanceof BookNavigationListener) {
+            ((BookNavigationListener) getActivity()).navigateToBookScreenFromBook(book);
+        }
+    }
     private void navigateToBookScreen(BookResponse.Item item, String isbn, Bundle response_bundle) {
-        Fragment book_screen_fragment = new BookScreen();
         Bundle book_info = item.getVolumeInfo().getBundle();
         book_info.putString("isbn", isbn);
         book_info.putBundle("response", response_bundle);
-        book_screen_fragment.setArguments(book_info);
-
-        getParentFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, book_screen_fragment)
-                .addToBackStack(null)
-                .commit();
+        if (getActivity() instanceof BookNavigationListener) {
+            ((BookNavigationListener) getActivity()).navigateToBookScreenFromAPI(book_info);
+        }
     }
-
     private void navigateToManualBookScreen(String isbn) {
         Fragment manual_book_screen_fragment = new ManualBookScreen();
         Bundle book_info = new Bundle();
         book_info.putString("isbn", isbn);
         manual_book_screen_fragment.setArguments(book_info);
-
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, manual_book_screen_fragment)

@@ -220,18 +220,21 @@
                         android:layout_marginStart="24dp"
                         android:visibility="gone">
                         <RadioButton
+                            android:id="@+id/export_csv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="CSV"
                             android:textSize="16sp"
                             android:textColor="@color/black" />
                         <RadioButton
+                            android:id="@+id/export_json"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="JSON"
                             android:textSize="16sp"
                             android:textColor="@color/black" />
                         <RadioButton
+                            android:id="@+id/export_xlsx"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="XLSX"

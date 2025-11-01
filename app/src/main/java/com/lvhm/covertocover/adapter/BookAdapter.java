@@ -2,7 +2,6 @@ package com.lvhm.covertocover.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +12,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.models.Book;
-import com.lvhm.covertocover.viewholder.WishlistViewHolder;
+import com.lvhm.covertocover.viewholder.BookViewHolder;
 
 import java.util.ArrayList;
 
-public class WishlistAdapter extends RecyclerView.Adapter<WishlistViewHolder> {
+public class BookAdapter extends RecyclerView.Adapter<BookViewHolder> {
     private ArrayList<Book> data;
+    private OnBookClickListener listener;
 
-    public WishlistAdapter(ArrayList<Book> data) {
+    public BookAdapter(ArrayList<Book> data, OnBookClickListener listener) {
         this.data = data;
+        this.listener = listener;
     }
     @NonNull
     @Override
-    public WishlistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_bookcover, parent, false);
-        return new WishlistViewHolder(view);
+        return new BookViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(@NonNull WishlistViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         Book item = data.get(position);
         if(item.getCoverImage() == null) {
             Bitmap default_book_cover = Bitmap.createBitmap(
@@ -48,6 +49,14 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistViewHolder> {
             Bitmap book_cover_image = item.getCoverImage();
             holder.book_cover.setImageBitmap(book_cover_image);
         }
+        holder.book_cover.setOnClickListener(v -> {
+            if (listener != null) {
+                int adapter_position = holder.getAdapterPosition();
+                if (adapter_position != RecyclerView.NO_POSITION) {
+                    listener.onBookClick(data.get(adapter_position));
+                }
+            }
+        });
     }
     public void updateData(ArrayList<Book> newData) {
         this.data = newData;

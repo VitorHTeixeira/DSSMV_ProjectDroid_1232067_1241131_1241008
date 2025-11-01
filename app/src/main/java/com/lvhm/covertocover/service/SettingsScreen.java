@@ -28,6 +28,11 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import com.lvhm.covertocover.R;
+import com.lvhm.covertocover.repo.BookContainer;
+import com.lvhm.covertocover.repo.ExportToCSV;
+import com.lvhm.covertocover.repo.ExportToJSON;
+import com.lvhm.covertocover.repo.ExportToXLSX;
+import com.lvhm.covertocover.repo.ReviewContainer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -41,6 +46,8 @@ public class SettingsScreen extends Fragment {
     private static final String PROFILE_IMAGE_KEY = "ProfileImageBase64";
     private ImageView profile_picture;
     private ActivityResultLauncher<String> gallery_launcher;
+    private BookContainer book_container;
+    private ReviewContainer review_container;
 
     @Nullable
     @Override
@@ -50,6 +57,9 @@ public class SettingsScreen extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         shared_preferences = requireActivity().getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+        book_container = BookContainer.getInstance();
+        review_container = ReviewContainer.getInstance();
 
         // User Overview
         TextView username = view.findViewById(R.id.username);
@@ -141,6 +151,13 @@ public class SettingsScreen extends Fragment {
         export_app_data_toggle.setOnClickListener(this::clickAction);
         export_app_data_radio_group = view.findViewById(R.id.export_app_data_radio_group);
 
+        RadioButton export_csv = view.findViewById(R.id.export_csv);
+        export_csv.setOnClickListener(this::clickAction);
+        RadioButton export_json = view.findViewById(R.id.export_json);
+        export_json.setOnClickListener(this::clickAction);
+        RadioButton export_xlsx = view.findViewById(R.id.export_xlsx);
+        export_xlsx.setOnClickListener(this::clickAction);
+
         // Force Save
         RelativeLayout force_save_data_toggle = view.findViewById(R.id.force_save_data_menu);
         force_save_data_toggle.setOnClickListener(this::clickAction);
@@ -201,6 +218,15 @@ public class SettingsScreen extends Fragment {
             editor.putInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
             editor.apply();
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
+        else if(view_id == R.id.export_csv) {
+            ExportToCSV.exportToCSV(book_container.getBooks(), review_container.getReviews(), "cover_to_cover.csv", requireContext());
+        }
+        else if(view_id == R.id.export_json) {
+            ExportToJSON.exportToJSON(book_container.getBooks(), review_container.getReviews(), "cover_to_cover.json", requireContext());
+        }
+        else if(view_id == R.id.export_xlsx) {
+            ExportToXLSX.exportToXLSX(book_container.getBooks(), review_container.getReviews(), "cover_to_cover.xlsx", requireContext());
         }
     }
 

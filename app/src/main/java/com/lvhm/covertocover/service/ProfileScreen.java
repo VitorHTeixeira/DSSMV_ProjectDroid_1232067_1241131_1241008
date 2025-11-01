@@ -14,9 +14,16 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.Chart;
+import com.lvhm.covertocover.adapter.BookNavigationListener;
+import com.lvhm.covertocover.adapter.OnBookClickListener;
+import com.lvhm.covertocover.adapter.ReviewAdapter;
+import com.lvhm.covertocover.adapter.BookAdapter;
+import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
+import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,13 +38,17 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import com.lvhm.covertocover.R;
 
-public class ProfileScreen extends Fragment {
+public class ProfileScreen extends Fragment implements OnBookClickListener {
 
     private BarChart review_barplot;
     private ReviewContainer review_container;
     private LinearLayout bookshelf_section;
     private LinearLayout reading_activity_section;
     private LinearLayout wishlisted_books_section;
+    private ReviewAdapter review_adapter;
+    private BookAdapter book_adapter, wishlist_adapter;
+    private BookContainer book_container;
+
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -47,6 +58,9 @@ public class ProfileScreen extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        book_container = BookContainer.getInstance();
+        review_container = ReviewContainer.getInstance();
+
         bookshelf_section = view.findViewById(R.id.bookshelf_section);
         bookshelf_section.setOnClickListener(v -> {
             Fragment see_all_fragment = new SeeAllBooksScreen();
@@ -56,20 +70,26 @@ public class ProfileScreen extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+        RecyclerView bookshelf_carousel = view.findViewById(R.id.review_carousel_bookshelf);
+        ArrayList<Book> book_data = book_container.getBooks();
+        book_adapter = new BookAdapter(book_data, this);
+        bookshelf_carousel.setAdapter(book_adapter);
 
         reading_activity_section = view.findViewById(R.id.reading_activity_section);
-
         reading_activity_section.setOnClickListener(v -> {
-            ReadingActivityScreen reading_activity_fragment = new ReadingActivityScreen();
+            ReviewActivityScreen reading_activity_fragment = new ReviewActivityScreen();
 
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, reading_activity_fragment);
             transaction.addToBackStack(null);
             transaction.commit();
         });
+        RecyclerView review_carousel = view.findViewById(R.id.review_carousel_activity);
+        ArrayList<Review> review_data = review_container.getReviews();
+        review_adapter = new ReviewAdapter(review_data, this);
+        review_carousel.setAdapter(review_adapter);
 
         wishlisted_books_section = view.findViewById(R.id.wishlisted_books_section);
-
         wishlisted_books_section.setOnClickListener(v -> {
             WishlistedBooksScreen wishlisted_books_fragment = new WishlistedBooksScreen();
 
@@ -78,15 +98,24 @@ public class ProfileScreen extends Fragment {
             transaction.addToBackStack(null);
             transaction.commit();
         });
+        RecyclerView wishlist_carousel = view.findViewById(R.id.profile_carousel_wishlisted);
+        ArrayList<Book> wishlist_data = book_container.getListWishlistedBooks();
+        wishlist_adapter = new BookAdapter(wishlist_data, this);
+        wishlist_carousel.setAdapter(wishlist_adapter);
 
-        review_container = ReviewContainer.getInstance();
+
         review_barplot = view.findViewById(R.id.review_barplot);
 
         setup_review_barchart();
 
         return view;
     }
-
+    @Override
+    public void onBookClick(Book book) {
+        if (getActivity() instanceof BookNavigationListener) {
+            ((BookNavigationListener) getActivity()).navigateToBookScreenFromBook(book);
+        }
+    }
     private void setup_review_barchart() {
 
         if (getContext() == null) {

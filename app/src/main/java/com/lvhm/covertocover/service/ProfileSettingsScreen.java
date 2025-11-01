@@ -23,8 +23,7 @@ import com.lvhm.covertocover.R;
 public class ProfileSettingsScreen extends Fragment {
 
     private static final String PREFERENCES_FILE = "CTCPreferences";
-    private static final String KEY_USERNAME = "profile_username";
-    private static final String KEY_PASSWORD = "profile_password";
+    private static final String KEY_USER_TOKEN = "profile_user_token";
     private static final String KEY_EMAIL = "profile_email";
     private static final String KEY_PHONE = "profile_phone";
     private static final String KEY_ADDRESS = "profile_address";
@@ -57,22 +56,17 @@ public class ProfileSettingsScreen extends Fragment {
         SharedPreferences shared_preferences = requireContext().getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
 
         EditText edit_text_username = view.findViewById(R.id.value_your_username);
-        EditText edit_text_password = view.findViewById(R.id.value_user_password);
         EditText edit_text_email = view.findViewById(R.id.value_user_email);
         EditText edit_text_phone_number = view.findViewById(R.id.value_user_phone);
         EditText edit_text_address = view.findViewById(R.id.value_user_address);
         Spinner spinner_date_format = view.findViewById(R.id.spinner_date_format);
         ImageView save_username_button = view.findViewById(R.id.edit_username_image_icon);
-        ImageView save_password_button = view.findViewById(R.id.edit_password_image_icon);
         ImageView save_email_button = view.findViewById(R.id.edit_email_image_icon);
         ImageView save_phone_button = view.findViewById(R.id.edit_phone_image_icon);
         ImageView save_address_button = view.findViewById(R.id.edit_address_image_icon);
 
-        edit_text_username.setText(shared_preferences.getString(KEY_USERNAME, ""));
+        edit_text_username.setText(shared_preferences.getString(KEY_USER_TOKEN, ""));
         setReadOnly(edit_text_username);
-
-        edit_text_password.setText(shared_preferences.getString(KEY_PASSWORD, ""));
-        setReadOnly(edit_text_password);
 
         edit_text_email.setText(shared_preferences.getString(KEY_EMAIL, ""));
         setReadOnly(edit_text_email);
@@ -85,11 +79,7 @@ public class ProfileSettingsScreen extends Fragment {
 
         // Username
         edit_text_username.setOnClickListener(v -> setEditable(edit_text_username));
-        save_username_button.setOnClickListener(v -> saveField(shared_preferences, KEY_USERNAME, edit_text_username, "Username saved"));
-
-        // Password
-        edit_text_password.setOnClickListener(v -> setEditable(edit_text_password));
-        save_password_button.setOnClickListener(v -> saveField(shared_preferences, KEY_PASSWORD, edit_text_password, "Password saved"));
+        save_username_button.setOnClickListener(v -> saveField(shared_preferences, KEY_USER_TOKEN, edit_text_username, "User Token saved"));
 
         // Email
         edit_text_email.setOnClickListener(v -> setEditable(edit_text_email));
@@ -101,9 +91,7 @@ public class ProfileSettingsScreen extends Fragment {
 
         // Address
         edit_text_address.setOnClickListener(v -> setEditable(edit_text_address));
-        save_address_button.setOnClickListener(v -> {
-            saveField(shared_preferences, KEY_ADDRESS, edit_text_address, "Address saved");
-        });
+        save_address_button.setOnClickListener(v -> saveField(shared_preferences, KEY_ADDRESS, edit_text_address, "Address saved"));
 
         // Spinner
         ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(requireContext(),

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.lvhm.covertocover"
-        minSdk 26
+        minSdk 29
         targetSdk 36
         versionCode 1
         versionName "1.0"
@@ -58,4 +58,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
     implementation 'org.apache.commons:commons-text:1.10.0'
     implementation libs.mpandroidchart
+    implementation 'org.apache.commons:commons-csv:1.14.1'
+    implementation 'org.apache.poi:poi:5.4.1'
+    implementation 'org.apache.poi:poi-ooxml:5.4.1'
+
+
 }

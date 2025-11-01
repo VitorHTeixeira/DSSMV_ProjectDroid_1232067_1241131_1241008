@@ -13,13 +13,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.lvhm.covertocover.PermissionsHandler;
 import com.lvhm.covertocover.R;
+import com.lvhm.covertocover.adapter.BookNavigationListener;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BookNavigationListener {
     private FrameLayout navMain, navProfile, navCamera, navMap, navSettings;
     private PermissionsHandler permissions_handler;
     private BookContainer book_container;
@@ -85,5 +86,23 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragment_manager.beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
+    }
+    @Override
+    public void navigateToBookScreenFromBook(Book book) {
+        Fragment book_screen = BookScreen.newInstanceFromBook(book);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, book_screen)
+                .addToBackStack(null)
+                .commit();
+    }
+    @Override
+    public void navigateToBookScreenFromAPI(Bundle api_bundle) {
+        Fragment book_screen = BookScreen.newInstanceFromAPI(api_bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, book_screen)
+                .addToBackStack(null)
+                .commit();
     }
 }

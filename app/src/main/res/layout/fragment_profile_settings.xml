@@ -75,7 +75,7 @@
                         android:id="@+id/label_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Username: "
+                        android:text="User Token: "
                         android:inputType="text"
                         android:textColor="@color/black"
                         android:textSize="20sp"
@@ -86,7 +86,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minWidth="86dp"
-                        android:text="Your Username"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:paddingStart="4dp"
@@ -108,74 +107,12 @@
                     android:background="@drawable/circe_ripple" />
             </RelativeLayout>
 
-            <!-- password -->
-            <RelativeLayout
-                android:id="@+id/change_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/change_username"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:background="@drawable/island_topbar"
-                android:backgroundTint="@color/watch_green"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:focusable="false">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_password_image_icon"
-                    android:layout_centerVertical="true"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/label_password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Password: "
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/value_user_password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minWidth="86dp"
-                        android:inputType="textPassword"
-                        app:passwordToggleEnabled="true"
-                        android:autofillHints="password"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:paddingStart="4dp"
-                        android:singleLine="true"
-                        android:ellipsize="end" />
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/edit_password_image_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/check_icon_ui"
-                    app:tint="@color/black"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:padding="8dp"
-                    android:background="@drawable/circe_ripple" />
-            </RelativeLayout>
-
             <!-- email -->
             <RelativeLayout
                 android:id="@+id/change_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/change_password"
+                android:layout_below="@id/change_username"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:paddingStart="16dp"
@@ -207,7 +144,6 @@
                         android:id="@+id/value_user_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="user@isep.ipp.pt"
                         android:minWidth="86dp"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/black"
@@ -272,7 +208,6 @@
                         android:minWidth="86dp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
-                        android:text="+351 912 345 678"
                         android:inputType="phone"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
@@ -333,7 +268,6 @@
                         android:minWidth="86dp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
-                        android:text="Rua de São Tomé, Porto"
                         android:inputType="text"
                         android:textColor="@color/black"
                         android:textSize="18sp" />

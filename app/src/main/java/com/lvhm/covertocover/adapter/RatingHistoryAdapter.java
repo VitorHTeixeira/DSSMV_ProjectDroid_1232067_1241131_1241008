@@ -19,11 +19,13 @@ import java.util.ArrayList;
 public class RatingHistoryAdapter extends RecyclerView.Adapter<RatingHistoryViewHolder> {
     private Context context;
     private ArrayList<Review> data;
+    private OnReviewClickListener listener;
     String review_date = "";
 
-    public RatingHistoryAdapter(Context context, ArrayList<Review> data) {
+    public RatingHistoryAdapter(Context context, ArrayList<Review> data, OnReviewClickListener listener) {
         this.context = context;
         this.data = data;
+        this.listener = listener;
     }
     @Override
     public RatingHistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,7 +38,7 @@ public class RatingHistoryAdapter extends RecyclerView.Adapter<RatingHistoryView
         Review item = data.get(position);
         SharedPreferences shared_preferences = context.getSharedPreferences("CTCPreferences", Context.MODE_PRIVATE);
         int date_format = shared_preferences.getInt("profile_date_format", 0);
-        switch(date_format) {
+        switch (date_format) {
             case 0:
                 review_date = new SimpleDateFormat("dd/MM/yyyy").format(item.getDate());
                 break;
@@ -46,11 +48,21 @@ public class RatingHistoryAdapter extends RecyclerView.Adapter<RatingHistoryView
             case 2:
                 review_date = new SimpleDateFormat("yyyy/MM/dd").format(item.getDate());
                 break;
-            default: break;
+            default:
+                break;
         }
         holder.history_rating_bar.setRating((float) item.getRating());
         holder.history_date.setText(review_date);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                int adapter_position = holder.getAdapterPosition();
+                if (adapter_position != RecyclerView.NO_POSITION) {
+                    listener.onReviewClick(data.get(adapter_position));
+                }
+            }
+        });
     }
+
     public void updateData(ArrayList<Review> newData) {
         this.data = newData;
         notifyDataSetChanged();

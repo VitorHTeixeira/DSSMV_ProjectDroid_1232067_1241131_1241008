@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.BookTabAdapter;
+import com.lvhm.covertocover.adapter.OnBookClickListener;
 
 
 public class SeeAllBooksScreen extends Fragment {

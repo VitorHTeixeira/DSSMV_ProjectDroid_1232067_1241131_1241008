@@ -33,6 +33,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 import com.lvhm.covertocover.BarcodeFrame;
+import com.lvhm.covertocover.adapter.BookNavigationListener;
 import com.lvhm.covertocover.api.BookAPICallback;
 import com.lvhm.covertocover.api.BookAPIClient;
 import com.lvhm.covertocover.NotificationCentral;
@@ -192,17 +193,12 @@ public class CameraScreen extends Fragment {
     }
 
     private void navigateToBookScreen(BookResponse.Item item, String isbn, Bundle response_bundle) {
-        Fragment book_screen_fragment = new BookScreen();
         Bundle book_info = item.getVolumeInfo().getBundle();
         book_info.putString("isbn", isbn);
         book_info.putBundle("response", response_bundle);
-        book_screen_fragment.setArguments(book_info);
-
-        getParentFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, book_screen_fragment)
-                .addToBackStack(null)
-                .commit();
+        if (getActivity() instanceof BookNavigationListener) {
+            ((BookNavigationListener) getActivity()).navigateToBookScreenFromAPI(book_info);
+        }
     }
 
     private void navigateToManualBookScreen(String isbn) {

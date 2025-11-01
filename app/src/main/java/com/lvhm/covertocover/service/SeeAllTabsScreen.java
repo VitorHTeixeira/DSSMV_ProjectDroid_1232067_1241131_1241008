@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lvhm.covertocover.R;
+import com.lvhm.covertocover.adapter.BookNavigationListener;
 import com.lvhm.covertocover.adapter.SeeAllAdapter;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.SharedBookViewModel;
@@ -30,7 +31,6 @@ public class SeeAllTabsScreen extends Fragment {
     private String list_type;
 
     public static SeeAllTabsScreen newInstance(String listType) {
-        System.out.println("Creating fragment with type: " + listType);
         SeeAllTabsScreen fragment = new SeeAllTabsScreen();
         Bundle args = new Bundle();
         args.putString(ARG_LIST_TYPE, listType);
@@ -45,13 +45,8 @@ public class SeeAllTabsScreen extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_list, container, false);
 
-        System.out.println("onCreateView called");
-        System.out.println("getArguments() is null? " + (getArguments() == null));
-
-
         if (getArguments() != null) {
             list_type = getArguments().getString(ARG_LIST_TYPE);
-            System.out.println("List type received: " + list_type);
         }
 
         book_container = BookContainer.getInstance();
@@ -86,13 +81,8 @@ public class SeeAllTabsScreen extends Fragment {
     }
 
     private void openBookScreen(Book book) {
-        SharedBookViewModel view_model = new ViewModelProvider(requireActivity()).get(SharedBookViewModel.class);
-        view_model.selectBook(book);
-        Fragment book_screen = new BookScreen();
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, book_screen)
-                .addToBackStack(null)
-                .commit();
+        if(getActivity() instanceof BookNavigationListener) {
+            ((BookNavigationListener) getActivity()).navigateToBookScreenFromBook(book);
+        }
     }
 }

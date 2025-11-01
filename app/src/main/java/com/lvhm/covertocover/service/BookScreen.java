@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.R;
+import com.lvhm.covertocover.adapter.OnReviewClickListener;
 import com.lvhm.covertocover.adapter.RatingHistoryAdapter;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
@@ -44,7 +45,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class BookScreen extends Fragment {
+public class BookScreen extends Fragment implements OnReviewClickListener {
     private Bundle book_details = new Bundle();
     private ReviewContainer review_container;
     private RatingHistoryAdapter rating_adapter;
@@ -63,7 +64,23 @@ public class BookScreen extends Fragment {
     private TextView label_book_isbn;
     private Spinner status_spinner;
     private RatingBar book_rating;
+    private static final String BOOK_RECYCLER = "book_recycler";
+    private static final String BOOK_API = "book_api";
 
+    public static BookScreen newInstanceFromBook(Book book) {
+        BookScreen fragment = new BookScreen();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BOOK_RECYCLER, book);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+    public static BookScreen newInstanceFromAPI(Bundle api_bundle) {
+        BookScreen fragment = new BookScreen();
+        Bundle bundle = new Bundle();
+        bundle.putBundle(BOOK_API, api_bundle);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -73,7 +90,6 @@ public class BookScreen extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_book, container, false);
         Bundle book_info = getArguments();
-        SharedBookReviewViewModel recycler_view_model = new ViewModelProvider(requireActivity()).get(SharedBookReviewViewModel.class);
 
         review_container = ReviewContainer.getInstance();
 
@@ -85,13 +101,27 @@ public class BookScreen extends Fragment {
         label_book_isbn = view.findViewById(R.id.label_isbn_number);
         book_rating = view.findViewById(R.id.book_rating);
 
+        Book book = null;
+        Bundle api_bundle = null;
+
+        if(getArguments() != null) {
+            book = getArguments().getParcelable(BOOK_RECYCLER);
+            api_bundle = getArguments().getBundle(BOOK_API);
+        }
+        if(book == null && api_bundle != null) {
+            SharedBookReviewViewModel recycler_view_model = new ViewModelProvider(requireActivity()).get(SharedBookReviewViewModel.class);
+            book = recycler_view_model.getSelectedBook().getValue();
+        }
+        if(book != null) {
+            fillBookInfo(view, book);
+            prepareBookDetails(book);
+        }
+        else if(api_bundle != null) {
+            fillBookInfo(view, api_bundle);
+        }
         if(book_info != null) {
             book_details = book_info.getBundle("response");
             fillBookInfo(view, book_info);
-        }
-        else {
-            Book book = recycler_view_model.getSelectedBook().getValue();
-            fillBookInfo(view, book);
         }
 
         status_spinner = view.findViewById(R.id.status_spinner);
@@ -130,9 +160,13 @@ public class BookScreen extends Fragment {
 
         RelativeLayout share_button_layout = view.findViewById(R.id.share_book_layout);
         share_button_layout.setOnClickListener(v -> {
+            String share_content = "Livro: ";
+            if(book_title != null) {
+                share_content += book_title + " / " + book_year;
+            }
             Intent share_intent = new Intent();
             share_intent.setAction(Intent.ACTION_SEND);
-            share_intent.putExtra(Intent.EXTRA_TEXT, book_details.toString());
+            share_intent.putExtra(Intent.EXTRA_TEXT, share_content);
             share_intent.setType("text/plain");
             startActivity(Intent.createChooser(share_intent, "Share Book"));
         });
@@ -158,7 +192,7 @@ public class BookScreen extends Fragment {
 
         RecyclerView rating_history = view.findViewById(R.id.rating_history_recycler);
         ArrayList<Review> review_data = review_container.getReviewsByBook(book_isbn);
-        rating_adapter = new RatingHistoryAdapter(requireContext(), review_data);
+        rating_adapter = new RatingHistoryAdapter(requireContext(), review_data, this);
         rating_history.setAdapter(rating_adapter);
 
         RelativeLayout cancel_button = view.findViewById(R.id.cancel_button);
@@ -199,7 +233,7 @@ public class BookScreen extends Fragment {
             ArrayList<String> book_categories_array = book.getGenre();
             for(String category : book_categories_array) {
                 if(book_categories_array.size() > 1) {
-                    categories.append(WordUtils.capitalize(category)).append(", ");
+                    categories.append(WordUtils.capitalize(category)).append(" / ");
                 }
                 else {
                     categories.append(WordUtils.capitalize(category));
@@ -215,7 +249,7 @@ public class BookScreen extends Fragment {
             ArrayList<String> book_authors_array = book.getAuthor();
             for (String author : book_authors_array) {
                 if (book_authors_array.size() > 1) {
-                    authors.append(WordUtils.capitalize(author)).append(", ");
+                    authors.append(WordUtils.capitalize(author)).append(" / ");
                 } else {
                     authors.append(WordUtils.capitalize(author));
                 }
@@ -228,6 +262,8 @@ public class BookScreen extends Fragment {
         label_book_isbn.append(book_isbn);
         book_cover_bitmap = book.getCoverImage();
         if(book_cover_bitmap != null) {
+            FrameLayout book_cover_frame = view.findViewById(R.id.book_cover);
+            book_cover_frame.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent));
             ImageView book_cover = view.findViewById(R.id.book_cover_image);
             book_cover.setImageBitmap(book_cover_bitmap);
         }
@@ -254,7 +290,7 @@ public class BookScreen extends Fragment {
             ArrayList<String> book_categories_array = book_info.getStringArrayList("categories");
             for(String category : book_categories_array) {
                 if(book_categories_array.size() > 1) {
-                    categories.append(WordUtils.capitalize(category)).append(", ");
+                    categories.append(WordUtils.capitalize(category)).append(" / ");
                 }
                 else {
                     categories.append(WordUtils.capitalize(category));
@@ -279,7 +315,7 @@ public class BookScreen extends Fragment {
             ArrayList<String> book_authors_array = book_info.getStringArrayList("authors");
             for (String author : book_authors_array) {
                 if (book_authors_array.size() > 1) {
-                    authors.append(WordUtils.capitalize(author)).append(", ");
+                    authors.append(WordUtils.capitalize(author)).append(" / ");
                 } else {
                     authors.append(WordUtils.capitalize(author));
                 }
@@ -402,4 +438,25 @@ public class BookScreen extends Fragment {
                 break;
         }
     }
+    private void prepareBookDetails(Book book) {
+        if(book_details == null) {
+            book_details = new Bundle();
+        }
+        book_details.putString("isbn", book.getISBN());
+        book_details.putString("title", book.getName());
+        book_details.putStringArrayList("authors", book.getAuthor());
+        book_details.putStringArrayList("categories", book.getGenre());
+        book_details.putString("publishedDate", String.valueOf(book.getYear()));
+        book_details.putString("pageCount", String.valueOf(book.getPageCount()));
+    }
+    @Override
+    public void onReviewClick(Review review) {
+        Fragment review_overlay = BookReviewOverlay.newInstance(review);
+        getParentFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, review_overlay)
+                .addToBackStack(null)
+                .commit();
+    }
+
 }

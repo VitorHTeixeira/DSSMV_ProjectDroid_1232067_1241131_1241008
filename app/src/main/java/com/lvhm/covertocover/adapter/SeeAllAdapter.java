@@ -40,7 +40,7 @@ public class SeeAllAdapter extends RecyclerView.Adapter<SeeAllViewHolder> {
     }
     @Override
     public void onBindViewHolder(@NonNull SeeAllViewHolder holder, int position) {
-        Book item = data.get(position);
+        final Book item = data.get(position);
         if(item.getCoverImage() == null) {
             Bitmap default_book_cover = Bitmap.createBitmap(
                     100,
@@ -56,13 +56,15 @@ public class SeeAllAdapter extends RecyclerView.Adapter<SeeAllViewHolder> {
             Bitmap book_cover_image = item.getCoverImage();
             holder.book_cover.setImageBitmap(book_cover_image);
         }
-        holder.book_cover.setOnClickListener(v -> {
-            System.out.println("Click registado na posição: " + position);
-            if (listener != null) {
-                System.out.println("A chamar listener.onBookClick");
-                listener.onBookClick(item);
-            } else {
-                System.out.println("ERRO: listener é null!");
+        holder.book_cover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    int position = holder.getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION) {
+                        listener.onBookClick(data.get(position));
+                    }
+                }
             }
         });
     }

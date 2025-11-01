@@ -16,9 +16,11 @@ import java.util.ArrayList;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
     private ArrayList<Review> data;
+    private OnBookClickListener listener;
 
-    public ReviewAdapter(ArrayList<Review> data) {
+    public ReviewAdapter(ArrayList<Review> data, OnBookClickListener listener) {
         this.data = data;
+        this.listener = listener;
     }
     @Override
     public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,6 +38,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
             Bitmap book_cover_image = item.getBook().getCoverImage();
             holder.book_cover.setImageBitmap(book_cover_image);
         }
+        holder.book_cover.setOnClickListener(v -> {
+            if (listener != null) {
+                int adapter_position = holder.getAdapterPosition();
+                if (adapter_position != RecyclerView.NO_POSITION) {
+                    listener.onBookClick(data.get(adapter_position).getBook());
+                }
+            }
+        });
     }
     public void updateData(ArrayList<Review> newData) {
         this.data = newData;
