@@ -1,10 +1,12 @@
 package com.lvhm.covertocover.models;
 
 import android.graphics.Bitmap;
-import android.media.Image;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +19,7 @@ public class Book implements Parcelable {
     protected ArrayList<String> genre;
     protected boolean read;
     protected int page_count;
+    protected String cover_image64;
     protected Bitmap cover_image;
     protected boolean isWishlisted;
     protected boolean onGoing;
@@ -29,6 +32,7 @@ public class Book implements Parcelable {
         this.genre = new ArrayList<>(List.of("Unknown"));
         this.read = false;
         this.page_count = 0;
+        this.cover_image64 = null;
         this.cover_image = null;
         this.isWishlisted = false;
         this.onGoing = false;
@@ -79,8 +83,29 @@ public class Book implements Parcelable {
     public void setPageCount(int page_count) {
         this.page_count = page_count;
     }
+    public String getCoverImageBase64() {
+        return this.cover_image64;
+    }
     public Bitmap getCoverImage() {
-        return this.cover_image;
+        String image_base64 = this.cover_image64;
+        if (image_base64 != null) {
+            try {
+                byte[] byteArray = Base64.decode(image_base64, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                if (bitmap != null) {
+                    return bitmap;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    public void setCoverImageBase64(Bitmap cover_image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        cover_image.compress(Bitmap.CompressFormat.WEBP, 80, baos);
+        byte[] byteArray = baos.toByteArray();
+        this.cover_image64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
     public void setCoverImage(Bitmap cover_image) {
         this.cover_image = cover_image;
@@ -113,7 +138,7 @@ public class Book implements Parcelable {
         isWishlisted = in.readBoolean();
         onGoing = in.readBoolean();
     }
-    public static final Creator<Book> CREATOR = new Creator<Book>() {
+    public static final Creator<Book> CREATOR = new Creator<>() {
         @Override
         public Book createFromParcel(Parcel in) {
             return new Book(in);
@@ -137,6 +162,7 @@ public class Book implements Parcelable {
         parcel.writeStringList(genre);
         parcel.writeBoolean(read);
         parcel.writeInt(page_count);
+        parcel.writeString(cover_image64);
         parcel.writeParcelable(cover_image, flags);
         parcel.writeBoolean(isWishlisted);
         parcel.writeBoolean(onGoing);

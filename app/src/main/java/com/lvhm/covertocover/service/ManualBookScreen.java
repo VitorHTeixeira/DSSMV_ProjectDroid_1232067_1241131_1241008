@@ -158,6 +158,7 @@ public class ManualBookScreen extends Fragment {
 
             if (selected_cover_bitmap != null) {
                 manual_book.setCoverImage(selected_cover_bitmap);
+                manual_book.setCoverImageBase64(selected_cover_bitmap);
             } else {
                 manual_book.setCoverImage(null);
             }

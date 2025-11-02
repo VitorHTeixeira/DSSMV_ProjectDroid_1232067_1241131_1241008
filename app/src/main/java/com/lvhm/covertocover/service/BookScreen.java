@@ -372,6 +372,7 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
             Canvas canvas = new Canvas(default_book_cover);
             canvas.drawColor(color);
             book.setCoverImage(default_book_cover);
+            book.setCoverImageBase64(default_book_cover);
         }
         return book;
     }
@@ -385,6 +386,7 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
                 read_book.setName(book_title);
                 read_book.setAuthor(book_authors);
                 read_book.setGenre(book_categories);
+                read_book.setCoverImageBase64(book_cover_bitmap);
                 read_book.setCoverImage(book_cover_bitmap);
                 read_book.setYear(book_year);
                 read_book.setPageCount(book_pages);
@@ -404,6 +406,7 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
                 on_going_book.setName(book_title);
                 on_going_book.setAuthor(book_authors);
                 on_going_book.setGenre(book_categories);
+                on_going_book.setCoverImageBase64(book_cover_bitmap);
                 on_going_book.setCoverImage(book_cover_bitmap);
                 on_going_book.setYear(book_year);
                 on_going_book.setPageCount(book_pages);
@@ -422,6 +425,7 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
                 wishlisted_book.setName(book_title);
                 wishlisted_book.setAuthor(book_authors);
                 wishlisted_book.setGenre(book_categories);
+                wishlisted_book.setCoverImageBase64(book_cover_bitmap);
                 wishlisted_book.setCoverImage(book_cover_bitmap);
                 wishlisted_book.setYear(book_year);
                 wishlisted_book.setPageCount(book_pages);
