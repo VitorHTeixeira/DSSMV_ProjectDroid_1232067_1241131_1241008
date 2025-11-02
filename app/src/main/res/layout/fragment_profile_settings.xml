@@ -1,20 +1,19 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/old_paper">
+    android:background="@color/old_paper"
+    android:orientation="vertical">
 
     <!-- Top Bar -->
     <LinearLayout
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:orientation="horizontal"
         android:background="@drawable/island_topbar"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
@@ -25,11 +24,12 @@
             android:id="@+id/profile_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
             android:text="Profile Settings"
             android:textColor="@color/black"
-            android:textSize="22sp"
-            android:fontFamily="sans-serif-condensed-medium" />
+            android:textSize="22sp" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -40,95 +40,95 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
         android:layout_below="@+id/topbar"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:scrollbars="none">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <!-- Username -->
+            <!-- User Token -->
             <RelativeLayout
-                android:id="@+id/change_username"
+                android:id="@+id/user_token_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/island_topbar"
                 android:backgroundTint="@color/watch_green"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:focusable="false">
+                android:focusable="false"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_username_image_icon"
                     android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/copy_token_image_icon" 
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/label_username"
+                        android:id="@+id/label_user_token"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="User Token: "
-                        android:inputType="text"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/value_your_username"
+                    <EditText
+                        android:id="@+id/value_user_token"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:ellipsize="end"
                         android:minWidth="86dp"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
-                        android:ellipsize="end" />
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/edit_username_image_icon"
+                    android:id="@+id/copy_token_image_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/check_icon_ui"
-                    app:tint="@color/black"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:focusable="true"
+                    android:background="@drawable/circe_ripple"
                     android:clickable="true"
+                    android:focusable="true"
                     android:padding="8dp"
-                    android:background="@drawable/circe_ripple" />
+                    android:src="@drawable/share_icon_ui"
+                    app:tint="@color/black" />
             </RelativeLayout>
 
-            <!-- email -->
+            <!-- Email -->
             <RelativeLayout
                 android:id="@+id/change_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/change_username"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/island_topbar"
                 android:backgroundTint="@color/watch_green"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:focusable="false">
+                android:focusable="false"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_email_image_icon"
                     android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/edit_email_image_icon"
                     android:orientation="horizontal">
 
                     <TextView
@@ -140,55 +140,55 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <EditText
                         android:id="@+id/value_user_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minWidth="86dp"
+                        android:background="@android:color/transparent"
+                        android:ellipsize="end"
                         android:inputType="textEmailAddress"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
+                        android:minWidth="86dp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
-                        android:ellipsize="end" />
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/edit_email_image_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/check_icon_ui"
-                    app:tint="@color/black"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:focusable="true"
+                    android:background="@drawable/circe_ripple"
                     android:clickable="true"
+                    android:focusable="true"
                     android:padding="8dp"
-                    android:background="@drawable/circe_ripple" />
+                    android:src="@drawable/check_icon_ui"
+                    app:tint="@color/black" />
             </RelativeLayout>
 
-            <!-- N Telemóvel -->
+            <!-- Phone Number -->
             <RelativeLayout
                 android:id="@+id/change_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/change_email"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/island_topbar"
                 android:backgroundTint="@color/watch_green"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:focusable="false">
+                android:focusable="false"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_phone_image_icon"
                     android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/edit_phone_image_icon"
                     android:orientation="horizontal">
 
                     <TextView
@@ -200,15 +200,16 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <EditText
                         android:id="@+id/value_user_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
                         android:ellipsize="end"
+                        android:inputType="phone"
                         android:minWidth="86dp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
-                        android:inputType="phone"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -217,38 +218,37 @@
                     android:id="@+id/edit_phone_image_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/check_icon_ui"
-                    app:tint="@color/black"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:focusable="true"
+                    android:background="@drawable/circe_ripple"
                     android:clickable="true"
+                    android:focusable="true"
                     android:padding="8dp"
-                    android:background="@drawable/circe_ripple" />
+                    android:src="@drawable/check_icon_ui"
+                    app:tint="@color/black" />
             </RelativeLayout>
 
-            <!-- Morada -->
+            <!-- Address -->
             <RelativeLayout
                 android:id="@+id/change_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/change_phone"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/island_topbar"
                 android:backgroundTint="@color/watch_green"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:focusable="false">
+                android:focusable="false"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/edit_address_image_icon"
                     android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/edit_address_image_icon"
                     android:orientation="horizontal">
 
                     <TextView
@@ -260,15 +260,16 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <EditText
                         android:id="@+id/value_user_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
                         android:ellipsize="end"
+                        android:inputType="text"
                         android:minWidth="86dp"
                         android:paddingStart="4dp"
                         android:singleLine="true"
-                        android:inputType="text"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -277,48 +278,47 @@
                     android:id="@+id/edit_address_image_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/check_icon_ui"
-                    app:tint="@color/black"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:focusable="true"
+                    android:background="@drawable/circe_ripple"
                     android:clickable="true"
+                    android:focusable="true"
                     android:padding="8dp"
-                    android:background="@drawable/circe_ripple" />
+                    android:src="@drawable/check_icon_ui"
+                    app:tint="@color/black" />
             </RelativeLayout>
 
-            <!-- Formato de Data -->
+            <!-- Date Format -->
             <RelativeLayout
                 android:id="@+id/change_date_format"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/change_address"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/island_topbar"
                 android:backgroundTint="@color/watch_green"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:focusable="false">
+                android:focusable="false"
+                android:paddingStart="16dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="12dp">
 
                 <TextView
                     android:id="@+id/label_date_format"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text="Date Format: "
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_centerVertical="true" />
+                    android:textStyle="bold" />
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="6dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_toEndOf="@id/label_date_format"
                     android:backgroundTint="@color/nav_white"
                     app:cardCornerRadius="18dp">
@@ -334,6 +334,6 @@
                         android:theme="@style/ThemeOverlay.AppCompat.Light" />
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 </RelativeLayout>

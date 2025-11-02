@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
 
         permissions_handler = new PermissionsHandler(this);
 
+
+
         navMain = findViewById(R.id.nav_main);
         navProfile = findViewById(R.id.nav_profile);
         navCamera = findViewById(R.id.nav_camera);
@@ -55,11 +57,17 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
         navSettings = findViewById(R.id.nav_settings);
 
         setupNavigationListeners();
-        
+
+        // Fragment do Login - Descomentar depois de tudo estar completo
         if (savedInstanceState == null) {
-            loadFragment(new MainScreen());
+            loadFragment(new LoginTokenScreen());
             permissions_handler.requestPermissions();
         }
+
+        /*if (savedInstanceState == null) {
+            loadFragment(new MainScreen());
+            permissions_handler.requestPermissions();
+        }*/
     }
     @Override
     protected void onStop() {

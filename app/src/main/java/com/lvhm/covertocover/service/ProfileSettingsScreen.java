@@ -1,5 +1,7 @@
 package com.lvhm.covertocover.service;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,32 +21,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.lvhm.covertocover.R;
+import com.lvhm.covertocover.repo.UserTokenContainer;
 
 public class ProfileSettingsScreen extends Fragment {
 
     private static final String PREFERENCES_FILE = "CTCPreferences";
-    private static final String KEY_USER_TOKEN = "profile_user_token";
+    private static final String KEY_USERNAME = "profile_username";
+    private static final String KEY_PASSWORD = "profile_password";
     private static final String KEY_EMAIL = "profile_email";
     private static final String KEY_PHONE = "profile_phone";
     private static final String KEY_ADDRESS = "profile_address";
     private static final String KEY_DATE_FORMAT = "profile_date_format";
-
-    private void setReadOnly(EditText edit_text) {
-        edit_text.setFocusable(false);
-        edit_text.setFocusableInTouchMode(false);
-        edit_text.setCursorVisible(false);
-    }
-
-    private void setEditable(EditText edit_text) {
-        edit_text.setFocusable(true);
-        edit_text.setFocusableInTouchMode(true);
-        edit_text.setCursorVisible(true);
-        edit_text.requestFocus();
-        edit_text.setSelection(edit_text.getText().length());
-
-        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(edit_text, InputMethodManager.SHOW_IMPLICIT);
-    }
 
     @Nullable
     @Override
@@ -54,84 +41,126 @@ public class ProfileSettingsScreen extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile_settings, container, false);
         SharedPreferences shared_preferences = requireContext().getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
+        UserTokenContainer token_container = UserTokenContainer.getInstance(requireContext());
 
-        EditText edit_text_username = view.findViewById(R.id.value_your_username);
+        //EditText edit_text_username = view.findViewById(R.id.value_your_username);
         EditText edit_text_email = view.findViewById(R.id.value_user_email);
         EditText edit_text_phone_number = view.findViewById(R.id.value_user_phone);
         EditText edit_text_address = view.findViewById(R.id.value_user_address);
+        EditText edit_text_token = view.findViewById(R.id.value_user_token);
         Spinner spinner_date_format = view.findViewById(R.id.spinner_date_format);
-        ImageView save_username_button = view.findViewById(R.id.edit_username_image_icon);
+        //ImageView save_username_button = view.findViewById(R.id.edit_username_image_icon);
         ImageView save_email_button = view.findViewById(R.id.edit_email_image_icon);
         ImageView save_phone_button = view.findViewById(R.id.edit_phone_image_icon);
         ImageView save_address_button = view.findViewById(R.id.edit_address_image_icon);
-
-        edit_text_username.setText(shared_preferences.getString(KEY_USER_TOKEN, ""));
-        setReadOnly(edit_text_username);
-
-        edit_text_email.setText(shared_preferences.getString(KEY_EMAIL, ""));
-        setReadOnly(edit_text_email);
-
-        edit_text_phone_number.setText(shared_preferences.getString(KEY_PHONE, ""));
-        setReadOnly(edit_text_phone_number);
-
-        edit_text_address.setText(shared_preferences.getString(KEY_ADDRESS, ""));
-        setReadOnly(edit_text_address);
-
-        // Username
-        edit_text_username.setOnClickListener(v -> setEditable(edit_text_username));
-        save_username_button.setOnClickListener(v -> saveField(shared_preferences, KEY_USER_TOKEN, edit_text_username, "User Token saved"));
-
-        // Email
-        edit_text_email.setOnClickListener(v -> setEditable(edit_text_email));
-        save_email_button.setOnClickListener(v -> saveField(shared_preferences, KEY_EMAIL, edit_text_email, "Email saved"));
-
-        // Phone Number
-        edit_text_phone_number.setOnClickListener(v -> setEditable(edit_text_phone_number));
-        save_phone_button.setOnClickListener(v -> saveField(shared_preferences, KEY_PHONE, edit_text_phone_number, "Phone Number saved"));
-
-        // Address
-        edit_text_address.setOnClickListener(v -> setEditable(edit_text_address));
-        save_address_button.setOnClickListener(v -> saveField(shared_preferences, KEY_ADDRESS, edit_text_address, "Address saved"));
+        ImageView copy_token_button = view.findViewById(R.id.copy_token_image_icon); // Assumed ID
 
         // Spinner
-        ArrayAdapter<CharSequence> spinner_adapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.date_formats, R.layout.date_spinner_item_text);
-        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_date_format.setAdapter(spinner_adapter);
+        setup_spinner(spinner_date_format, shared_preferences);
 
-        int saved_date_format = shared_preferences.getInt(KEY_DATE_FORMAT, 0);
-        spinner_date_format.setSelection(saved_date_format);
-        spinner_date_format.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-                int selected_format = parent.getSelectedItemPosition();
-                int currently_saved_format = shared_preferences.getInt(KEY_DATE_FORMAT, 0);
-                if (currently_saved_format != selected_format) {
-                    SharedPreferences.Editor editor = shared_preferences.edit();
-                    editor.putInt(KEY_DATE_FORMAT, selected_format);
-                    editor.apply();
-                    Toast.makeText(requireContext(), "Date format saved!", Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+        // Load saved data
+        //edit_text_username.setText(shared_preferences.getString(KEY_USERNAME, ""));
+        edit_text_email.setText(shared_preferences.getString(KEY_EMAIL, ""));
+        edit_text_phone_number.setText(shared_preferences.getString(KEY_PHONE, ""));
+        edit_text_address.setText(shared_preferences.getString(KEY_ADDRESS, ""));
+        edit_text_token.setText(token_container.getToken());
+
+        // Set initial states
+        //set_read_only(edit_text_username);
+        set_read_only(edit_text_email);
+        set_read_only(edit_text_phone_number);
+        set_read_only(edit_text_address);
+        set_read_only(edit_text_token);
+
+        // Setup edit/save logic
+        //setup_click_to_edit(edit_text_username, save_username_button, shared_preferences, KEY_USERNAME, "Username saved");
+        setup_click_to_edit(edit_text_email, save_email_button, shared_preferences, KEY_EMAIL, "Email saved");
+        setup_click_to_edit(edit_text_phone_number, save_phone_button, shared_preferences, KEY_PHONE, "Phone Number saved");
+        setup_click_to_edit(edit_text_address, save_address_button, shared_preferences, KEY_ADDRESS, "Address saved");
+
+        copy_token_button.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("User Token", token_container.getToken());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(requireContext(), "Token copied to clipboard!", Toast.LENGTH_SHORT).show();
         });
 
         return view;
     }
 
+    private void setup_click_to_edit(final EditText editText, ImageView saveButton, final SharedPreferences prefs, final String key, final String toastMessage) {
+        editText.setOnClickListener(v -> {
+            if (!editText.isFocusable()) {
+                set_editable(editText);
+            }
+        });
+        saveButton.setOnClickListener(v -> {
+            commit_field(prefs, key, editText, toastMessage);
+        });
+    }
 
-    private void saveField(SharedPreferences preferences, String key, EditText edit_text, String toast_message) {
+    private void setup_spinner(Spinner spinner, final SharedPreferences prefs) {
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.date_formats, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+
+        String saved_date_format_text = prefs.getString(KEY_DATE_FORMAT, null);
+        int positionToSet = 0;
+        if (saved_date_format_text != null) {
+            int foundPosition = spinnerAdapter.getPosition(saved_date_format_text);
+            if (foundPosition >= 0) {
+                positionToSet = foundPosition;
+            }
+        }
+        spinner.setSelection(positionToSet);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedFormat = parent.getItemAtPosition(position).toString();
+                String currentlySavedFormat = prefs.getString(KEY_DATE_FORMAT, "");
+
+                if (!selectedFormat.equals(currentlySavedFormat)) {
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(KEY_DATE_FORMAT, selectedFormat);
+                    editor.apply();
+                    Toast.makeText(requireContext(), "Date format saved!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+    }
+
+    private void set_read_only(EditText editText) {
+        editText.setFocusable(false);
+        editText.setFocusableInTouchMode(false);
+        editText.setCursorVisible(false);
+    }
+
+    private void set_editable(EditText editText) {
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.setCursorVisible(true);
+        editText.requestFocus();
+        editText.setSelection(editText.getText().length());
 
         InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(edit_text.getWindowToken(), 0);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+    }
 
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(key, edit_text.getText().toString());
+    private void commit_field(SharedPreferences prefs, String key, EditText editText, String toastMessage) {
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, editText.getText().toString());
         editor.apply();
-        Toast.makeText(requireContext(), toast_message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show();
 
-        setReadOnly(edit_text);
-        edit_text.clearFocus();
+        set_read_only(editText);
+        editText.clearFocus();
     }
 }
