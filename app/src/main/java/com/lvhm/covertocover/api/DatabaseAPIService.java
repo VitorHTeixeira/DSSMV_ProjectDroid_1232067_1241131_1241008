@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import retrofit2.Call;
@@ -43,12 +44,12 @@ public interface DatabaseAPIService {
 
     @POST("rest/books")
     @Headers("content-type: application/json")
-    Call<BookContainer> addBooks(@Body BookContainer book_container);
+    Call<List<Book>> addBooks(@Body List<Book> books);
 
     @GET("rest/reviews")
-    Call<ReviewContainer> getReviews();
+    Call<List<Review>> getReviews();
 
     @POST("rest/reviews")
     @Headers("content-type: application/json")
-    Call<ReviewContainer> addReviews(@Body ReviewContainer review_container);
+    Call<List<Review>> addReviews(@Body List<Review> reviews);
 }

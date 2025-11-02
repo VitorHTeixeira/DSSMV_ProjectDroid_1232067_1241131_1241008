@@ -13,6 +13,7 @@ import com.lvhm.covertocover.repo.ReviewContainer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -85,20 +86,20 @@ public class DatabaseAPIClient {
     }
     public static void addBookToDB(Context context, BookContainer book_container) {
         DatabaseAPIService database_service = getDatabaseAPIService();
-        Call<BookContainer> call_book = database_service.addBooks(book_container);
+        Call<List<Book>> call_book = database_service.addBooks(book_container.getBooks());
         call_book.enqueue(new Callback<>() {
             @Override
-            public void onResponse(@NonNull Call<BookContainer> call, @NonNull Response<BookContainer> response) {
+            public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    BookContainer book_list = response.body();
-                    Toast.makeText(context, "Added " + book_list.getBooks().size() + " books to the database", Toast.LENGTH_SHORT).show();
+                    List<Book> book_list = response.body();
+                    Toast.makeText(context, "Added " + book_list.size() + " books to the database", Toast.LENGTH_SHORT).show();
                 } else {
                     onFailure(call, new Throwable());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<BookContainer> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
                 NotificationCentral.showNotification(context, "Could not save books to the database");
             }
         });
@@ -106,8 +107,8 @@ public class DatabaseAPIClient {
     public static boolean addBookToDB(BookContainer book_container) {
         try {
             DatabaseAPIService book_service = getDatabaseAPIService();
-            Call<BookContainer> book_call = book_service.addBooks(book_container);
-            Response<BookContainer> book_response = book_call.execute();
+            Call<List<Book>> book_call = book_service.addBooks(book_container.getBooks());
+            Response<List<Book>> book_response = book_call.execute();
             return book_response.isSuccessful() && book_response.body() != null;
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,55 +116,53 @@ public class DatabaseAPIClient {
         }
     }
 
-    public static void getReviewsFromDB(Context context, ReviewContainer review_container) {
-        DatabaseAPIService database_service = getDatabaseAPIService();
-        Call<ReviewContainer> call_reviews = database_service.getReviews();
-        call_reviews.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<ReviewContainer> call, @NonNull Response<ReviewContainer> response) {
-                if(response.isSuccessful()) {
-                    ReviewContainer reviews = response.body();
+//    public static void getReviewsFromDB(Context context, ReviewContainer review_container) {
+//        DatabaseAPIService database_service = getDatabaseAPIService();
+//        Call<List<Review>> call_reviews = database_service.getReviews();
+//        call_reviews.enqueue(new Callback<>() {
+//            @Override
+//            public void onResponse(@NonNull Call<List<Review>> call, @NonNull Response<List<Review>> response) {
+//                if(response.isSuccessful()) {
+//                    ReviewContainer reviews = response.body();
 //                    review_container.setReviews(reviews);
-                } else {
-                    onFailure(call, new Throwable());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ReviewContainer> call, @NonNull Throwable t) {
-                NotificationCentral.showNotification(context, "Could not retrieve reviews from database");
-            }
-        });
-    }
+//                } else {
+//                    onFailure(call, new Throwable());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<ReviewContainer> call, @NonNull Throwable t) {
+//                NotificationCentral.showNotification(context, "Could not retrieve reviews from database");
+//            }
+//        });
+//    }
 
     public static boolean addReviewToDB(ReviewContainer review_container) {
         try {
             DatabaseAPIService review_service = getDatabaseAPIService();
-            Call<ReviewContainer> review_call = review_service.addReviews(review_container);
-            Response<ReviewContainer> review_response = review_call.execute();
+            Call<List<Review>> review_call = review_service.addReviews(review_container.getReviews());
+            Response<List<Review>> review_response = review_call.execute();
             return review_response.isSuccessful() && review_response.body() != null;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
-
      public static void addReviewToDB(Context context, ReviewContainer review_container) {
          DatabaseAPIService database_service = getDatabaseAPIService();
-         Call<ReviewContainer> call_book = database_service.addReviews(review_container);
+         Call<List<Review>> call_book = database_service.addReviews(review_container.getReviews());
          call_book.enqueue(new Callback<>() {
              @Override
-             public void onResponse(@NonNull Call<ReviewContainer> call, @NonNull Response<ReviewContainer> response) {
+             public void onResponse(@NonNull Call<List<Review>> call, @NonNull Response<List<Review>> response) {
                  if (response.isSuccessful() && response.body() != null) {
-                     ReviewContainer review_list = response.body();
-                     Toast.makeText(context, "Added " + review_list.getReviews().size() + " reviews to the database", Toast.LENGTH_SHORT).show();
+                     List<Review> review_list = response.body();
+                     Toast.makeText(context, "Added " + review_list.size() + " reviews to the database", Toast.LENGTH_SHORT).show();
                  } else {
                      onFailure(call, new Throwable());
                  }
              }
-
              @Override
-             public void onFailure(@NonNull Call<ReviewContainer> call, @NonNull Throwable t) {
+             public void onFailure(@NonNull Call<List<Review>> call, @NonNull Throwable t) {
                  NotificationCentral.showNotification(context, "Could not save reviews to the database");
              }
          });
