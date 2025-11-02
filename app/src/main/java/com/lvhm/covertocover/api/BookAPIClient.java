@@ -45,10 +45,10 @@ public class BookAPIClient {
 
     public static void getBookFromAPI(Context context, String barcode_value, BookAPICallback callback) {
         String query = "isbn:" + barcode_value.trim();
-        BookAPIService bookAPIService = getBookAPIService();
-        Call<BookResponse> call = bookAPIService.getBookByISBN(query);
+        BookAPIService book_api_service = getBookAPIService();
+        Call<BookResponse> call = book_api_service.getBookByISBN(query);
 
-        call.enqueue(new Callback<BookResponse>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<BookResponse> call, @NonNull Response<BookResponse> response) {
                 final Bundle book_details_bundle = new Bundle();

@@ -32,6 +32,10 @@ public class ReviewContainer {
     public ArrayList<Review> getReviews() {
         return reviews;
     }
+    public void setReviews(ArrayList<Review> reviews) {
+        this.reviews = reviews;
+    }
+
 
     public ArrayList<Review> getReviewsByBook(String isbn) {
         ArrayList<Review> reviews_book = new ArrayList<>();

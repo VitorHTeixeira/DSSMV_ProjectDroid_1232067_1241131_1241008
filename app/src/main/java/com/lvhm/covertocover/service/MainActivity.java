@@ -10,10 +10,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.lvhm.covertocover.PermissionsHandler;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
+import com.lvhm.covertocover.api.DatabaseAPIClient;
+import com.lvhm.covertocover.api.UploadBooksWorker;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DatabaseAPIClient.initialize(this);
 
         SharedPreferences shared_preferences = getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         int theme_mode = shared_preferences.getInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -56,15 +61,11 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
             permissions_handler.requestPermissions();
         }
     }
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ArrayList<Book> books = book_container.getBooks();
-        System.out.println(books.size());
-        for(Book book : books) {
-            System.out.println(book.getName());
-        }
+    protected void onStop() {
+        super.onStop();
+        OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(UploadBooksWorker.class).build();
+        WorkManager.getInstance(this).enqueue(upload_work);
     }
 
     @Override

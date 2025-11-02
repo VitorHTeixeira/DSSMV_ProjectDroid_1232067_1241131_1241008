@@ -7,6 +7,9 @@ import android.net.Uri;
 import androidx.core.content.FileProvider;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
@@ -21,25 +24,28 @@ public class ExportToJSON {
     private static Gson gson;
     public static void exportToJSON(ArrayList<Book> books, ArrayList<Review> reviews, String file_name, Context context) {
         try {
-            gson = new Gson();
+            gson = new GsonBuilder().setPrettyPrinting().create();
             File file = new File(context.getFilesDir(), file_name);
             FileWriter file_writer = new FileWriter(file);
             BufferedWriter buffered_writer = new BufferedWriter(file_writer);
+            JsonObject json_container = new JsonObject();
 
             // Books
+            JsonArray book_json_array = new JsonArray();
             for(Book book : books) {
-                String line = gson.toJson(book);
-                buffered_writer.write(line);
-                buffered_writer.newLine();
+                book_json_array.add(gson.toJsonTree(book));
             }
-            buffered_writer.newLine();
+            json_container.add("books", book_json_array);
 
             // Reviews
+            JsonArray review_json_array = new JsonArray();
             for(Review review : reviews) {
-                String line = gson.toJson(review);
-                buffered_writer.write(line);
-                buffered_writer.newLine();
+                review_json_array.add(gson.toJsonTree(review));
             }
+            json_container.add("reviews", review_json_array);
+
+            String json_content = gson.toJson(json_container);
+            buffered_writer.write(json_content);
             buffered_writer.close();
 
             Uri file_uri = FileProvider.getUriForFile(

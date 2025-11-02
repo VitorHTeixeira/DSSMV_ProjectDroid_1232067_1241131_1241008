@@ -27,4 +27,4 @@ replay_pid*
 .idea
 .gradle
 /local.properties
-/secrets.properties
+/app/src/main/assets/secrets.properties

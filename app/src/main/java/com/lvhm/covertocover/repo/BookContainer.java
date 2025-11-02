@@ -21,6 +21,9 @@ public class BookContainer {
     public BookContainer(ArrayList<Book> books) {
         this.books = books;
     }
+    public BookContainer(BookContainer book_container) {
+        this.books = book_container.getBooks();
+    }
 
     public static synchronized BookContainer getInstance() {
         if(instance == null) {
@@ -67,6 +70,9 @@ public class BookContainer {
 
     public ArrayList<Book> getBooks() {
         return books;
+    }
+    public void setBooks(ArrayList<Book> books) {
+        this.books = books;
     }
 
     public Book getBook(String isbn) {

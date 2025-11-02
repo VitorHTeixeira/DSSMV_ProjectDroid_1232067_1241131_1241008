@@ -19,7 +19,7 @@ android {
 
 
 secrets {
-    propertiesFileName = "secrets.properties"
+    propertiesFileName = "app/src/main/assets/secrets.properties"
 }
 
     buildTypes {
@@ -61,6 +61,7 @@ dependencies {
     implementation 'org.apache.commons:commons-csv:1.14.1'
     implementation 'org.apache.poi:poi:5.4.1'
     implementation 'org.apache.poi:poi-ooxml:5.4.1'
+    implementation "androidx.work:work-runtime:2.8.1"
 
 
 }
