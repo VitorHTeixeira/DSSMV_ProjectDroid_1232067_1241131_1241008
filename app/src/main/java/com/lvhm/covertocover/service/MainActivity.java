@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DatabaseAPIClient.initialize(this);
-        OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(DownloadDBWorker.class).build();
-        WorkManager.getInstance(this).enqueue(upload_work);
 
         SharedPreferences shared_preferences = getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         int theme_mode = shared_preferences.getInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -76,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
                 setupNavigationListeners();
             }
         }
+        loadDataAndStartApp();
     }
 
     @Override
@@ -94,6 +93,23 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissions_handler.handlePermissionsResult(requestCode, permissions, grantResults);
+    }
+    private void loadDataAndStartApp() {
+        new Thread(() -> {
+            DatabaseAPIClient.initialize(this);
+            boolean books_success = DatabaseAPIClient.getBooksFromDB();
+            boolean reviews_success = DatabaseAPIClient.getReviewsFromDB();
+            runOnUiThread(() -> {
+                UserTokenContainer token_container = UserTokenContainer.getInstance(this);
+                if (!token_container.hasToken()) {
+                    loadFragment(new LoginTokenScreen());
+                } else {
+                    loadFragment(new MainScreen());
+                }
+
+                permissions_handler.requestPermissions();
+            });
+        }).start();
     }
     public void loadFragment(Fragment fragment) {
         if (fragment instanceof LoginTokenScreen) {

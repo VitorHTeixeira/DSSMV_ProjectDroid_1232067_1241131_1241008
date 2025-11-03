@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
@@ -53,9 +55,12 @@ public class DatabaseAPIClient {
     }
     public static Retrofit getClient() {
         if(retrofit == null) {
+            Gson gson = new GsonBuilder()
+                    .excludeFieldsWithoutExposeAnnotation()
+                    .create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(getHTTPClient())
                     .build();
         }
@@ -121,6 +126,29 @@ public class DatabaseAPIClient {
             }
         } catch (IOException e) {
             Log.e("UploadBooks", "Exception: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean patchSingleBook(Book book) {
+        if (book.get_id() == null || book.get_id().trim().isEmpty()) {
+            Log.e("PatchSingleBook", "No _id. PATCH is not possible.");
+            return false;
+        }
+        try {
+            DatabaseAPIService book_service = getDatabaseAPIService();
+            String book_id = book.get_id();
+            Call<Book> patch_call = book_service.patchSingleBook(book_id, book);
+            Response<Book> patch_response = patch_call.execute();
+            Log.d("PatchSingleBook", "PATCH individual successful: " + patch_response.isSuccessful());
+            Log.d("PatchSingleBook", "PATCH code: " + patch_response.code());
+            if (!patch_response.isSuccessful()) {
+                String error_body = patch_response.errorBody() != null ? patch_response.errorBody().string() : "N/A";
+                Log.e("PatchSingleBook", "PATCH individual error: " + error_body);
+            }
+            return patch_response.isSuccessful();
+        } catch (IOException e) {
+            Log.e("PatchSingleBook", "Exception during PATCH: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

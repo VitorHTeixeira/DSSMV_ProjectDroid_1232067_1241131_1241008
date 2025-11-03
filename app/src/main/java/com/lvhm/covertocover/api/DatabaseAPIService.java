@@ -51,6 +51,9 @@ public interface DatabaseAPIService {
     @PATCH("rest/books/{id}")
     @Headers("content-type: application/json")
     Call<Book> patchBooks(@Path("id") String id, @Body List<Book> books);
+    @PATCH("rest/books/{id}")
+    @Headers("content-type: application/json")
+    Call<Book> patchSingleBook(@Path("id") String id, @Body Book book);
 
     @POST("rest/books")
     @Headers("content-type: application/json")

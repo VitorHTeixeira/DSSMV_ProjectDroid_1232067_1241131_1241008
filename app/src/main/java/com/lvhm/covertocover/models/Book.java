@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Base64;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.ByteArrayOutputStream;
@@ -16,17 +17,27 @@ import java.util.List;
 public class Book implements Parcelable {
     @SerializedName("_id")
     private String _id;
-
+    @Expose
     protected String isbn;
+    @Expose
     protected String name;
+    @Expose
     protected ArrayList<String> author;
+    @Expose
     protected int year;
+    @Expose
     protected ArrayList<String> genre;
+    @Expose
     protected boolean read;
+    @Expose
     protected int page_count;
+    @Expose
     protected String cover_image64;
-    protected transient Bitmap cover_image;
+    @Expose(serialize = false, deserialize = false)
+    protected Bitmap cover_image;
+    @Expose
     protected boolean isWishlisted;
+    @Expose
     protected boolean onGoing;
 
     public Book() {

@@ -26,13 +26,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.lvhm.covertocover.R;
+import com.lvhm.covertocover.api.UploadDBWorker;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ExportToCSV;
 import com.lvhm.covertocover.repo.ExportToJSON;
 import com.lvhm.covertocover.repo.ExportToXLSX;
 import com.lvhm.covertocover.repo.ReviewContainer;
+import com.lvhm.covertocover.repo.UserTokenContainer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -195,7 +199,14 @@ public class SettingsScreen extends Fragment {
         else if (view_id == R.id.export_app_data_menu) {
             toggleVisibility(export_app_data_radio_group, export_app_data_arrow);
         }
-        else if (view_id == R.id.force_save_data_menu) {}
+        else if (view_id == R.id.force_save_data_menu) {
+            UserTokenContainer token_container = UserTokenContainer.getInstance(requireContext());
+
+            if (token_container.hasToken()) {
+                OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(UploadDBWorker.class).build();
+                WorkManager.getInstance(requireContext()).enqueue(upload_work);
+            }
+        }
         else if (view_id == R.id.profile_settings_menu) {
             Fragment fragment = new ProfileSettingsScreen();
             getParentFragmentManager()

@@ -105,12 +105,11 @@ public class ProfileSettingsScreen extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 
-        String saved_date_format_text = prefs.getString(KEY_DATE_FORMAT, null);
+        int saved_date_format_text = prefs.getInt(KEY_DATE_FORMAT, 0);
         int positionToSet = 0;
-        if (saved_date_format_text != null) {
-            int foundPosition = spinnerAdapter.getPosition(saved_date_format_text);
-            if (foundPosition >= 0) {
-                positionToSet = foundPosition;
+        if (saved_date_format_text != 0) {
+            if (saved_date_format_text >= 0) {
+                positionToSet = saved_date_format_text;
             }
         }
         spinner.setSelection(positionToSet);

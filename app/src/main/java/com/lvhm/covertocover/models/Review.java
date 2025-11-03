@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -11,9 +12,13 @@ import java.util.Date;
 public class Review implements Parcelable {
     @SerializedName("_id")
     private String _id;
+    @Expose
     private Book book;
+    @Expose
     private double rating;
+    @Expose
     private String review_text;
+    @Expose
     private Date date;
 
     public Review(Book book, double rating, String reviewText, Date date) {
