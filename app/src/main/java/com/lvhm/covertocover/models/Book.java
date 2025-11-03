@@ -6,12 +6,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Base64;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Book implements Parcelable {
+    @SerializedName("_id")
+    private String _id;
+
     protected String isbn;
     protected String name;
     protected ArrayList<String> author;
@@ -20,11 +25,12 @@ public class Book implements Parcelable {
     protected boolean read;
     protected int page_count;
     protected String cover_image64;
-    protected Bitmap cover_image;
+    protected transient Bitmap cover_image;
     protected boolean isWishlisted;
     protected boolean onGoing;
 
     public Book() {
+        this._id = "";
         this.isbn = "Unknown";
         this.name = "Unknown";
         this.author = new ArrayList<>(List.of("Unknown"));
@@ -38,6 +44,13 @@ public class Book implements Parcelable {
         this.onGoing = false;
     }
 
+
+    public String get_id() {
+        return _id;
+    }
+    public void set_id(String id) {
+        this._id = id;
+    }
     public String getISBN() {
         return this.isbn;
     }
@@ -127,6 +140,7 @@ public class Book implements Parcelable {
     // Parcelable
 
     protected Book(Parcel in) {
+        _id = in.readString();
         isbn = in.readString();
         name = in.readString();
         author = in.createStringArrayList();
@@ -155,6 +169,7 @@ public class Book implements Parcelable {
     }
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeString(_id);
         parcel.writeString(isbn);
         parcel.writeString(name);
         parcel.writeStringList(author);

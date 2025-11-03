@@ -1,6 +1,7 @@
 package com.lvhm.covertocover.api;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,108 +64,105 @@ public class DatabaseAPIClient {
     public static DatabaseAPIService getDatabaseAPIService() {
         return getClient().create(DatabaseAPIService.class);
     }
-    public static BookContainer getBooksFromDB(Context context) {
-        final BookContainer[] book_container = {BookContainer.getInstance()};
-        DatabaseAPIService database_service = getDatabaseAPIService();
-        Call<BookContainer> call_books = database_service.getBooks();
-        call_books.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<BookContainer> call, @NonNull Response<BookContainer> response) {
-                if(response.isSuccessful()) {
-                    book_container[0] = new BookContainer(response.body().getBooks());
-                }
-                else {
-                    onFailure(call, new Throwable());
-                }
-            }
-            @Override
-            public void onFailure(@NonNull Call<BookContainer> call, @NonNull Throwable t) {
-                NotificationCentral.showNotification(context, "Could not retrieve books from database");
-            }
-        });
-        return book_container[0];
-    }
-    public static void addBookToDB(Context context, BookContainer book_container) {
-        DatabaseAPIService database_service = getDatabaseAPIService();
-        Call<List<Book>> call_book = database_service.addBooks(book_container.getBooks());
-        call_book.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Book> book_list = response.body();
-                    Toast.makeText(context, "Added " + book_list.size() + " books to the database", Toast.LENGTH_SHORT).show();
-                } else {
-                    onFailure(call, new Throwable());
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
-                NotificationCentral.showNotification(context, "Could not save books to the database");
-            }
-        });
-    }
-    public static boolean addBookToDB(BookContainer book_container) {
+    // Books
+    public static boolean getBooksFromDB() {
         try {
             DatabaseAPIService book_service = getDatabaseAPIService();
-            Call<List<Book>> book_call = book_service.addBooks(book_container.getBooks());
+            Call<List<Book>> book_call = book_service.getBooks();
             Response<List<Book>> book_response = book_call.execute();
-            return book_response.isSuccessful() && book_response.body() != null;
+            if (book_response.isSuccessful() && book_response.body() != null) {
+                List<Book> books = book_response.body();
+                BookContainer.getInstance().setBooks((ArrayList<Book>) books);
+                return true;
+            }
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
+    public static boolean uploadBooksToDB(BookContainer book_container) {
+        try {
+            DatabaseAPIService book_service = getDatabaseAPIService();
+            Log.d("UploadBooks", "Número de livros a enviar: " + book_container.getBooks().size());
+            Response<List<Book>> get_response = book_service
+                    .getUniqueBook("{\"state_key\":\"all_books\"}")
+                    .execute();
+            Log.d("UploadBooks", "GET successful: " + get_response.isSuccessful());
+            Log.d("UploadBooks", "GET body is null: " + (get_response.body() == null));
+            Log.d("UploadBooks", "GET body isEmpty: " + (get_response.body() != null && get_response.body().isEmpty()));
+            if (get_response.isSuccessful() && get_response.body() != null && !get_response.body().isEmpty()) {
+                String unique_id = get_response.body().get(0).get_id();
+                Log.d("UploadBooks", "PATCH ID: " + unique_id);
+                Response<Book> patch_response = book_service
+                        .patchBooks(unique_id, book_container.getBooks())
+                        .execute();
+                Log.d("UploadBooks", "PATCH successful: " + patch_response.isSuccessful());
+                Log.d("UploadBooks", "PATCH code: " + patch_response.code());
+                Log.d("UploadBooks", "PATCH body: " + patch_response.body());
+                if (!patch_response.isSuccessful()) {
+                    Log.e("UploadBooks", "PATCH error: " + patch_response.errorBody().string());
+                }
+                return patch_response.isSuccessful();
+            } else {
+                Log.d("UploadBooks", "Criando novo registo POST");
+                Call<List<Book>> post_call = book_service.addBooks(book_container.getBooks());
+                Response<List<Book>> post_response = post_call.execute();
+                Log.d("UploadBooks", "POST successful: " + post_response.isSuccessful());
+                Log.d("UploadBooks", "POST code: " + post_response.code());
+                if (post_response.body() != null) {
+                    Log.d("UploadBooks", "POST retornou " + post_response.body().size() + " livros");
+                    for (Book b : post_response.body()) {
+                        Log.d("UploadBooks", "Livro criado - ID: " + b.get_id() + ", Nome: " + b.getName());
+                    }
+                }
+                return post_response.isSuccessful();
+            }
+        } catch (IOException e) {
+            Log.e("UploadBooks", "Exception: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
 
-//    public static void getReviewsFromDB(Context context, ReviewContainer review_container) {
-//        DatabaseAPIService database_service = getDatabaseAPIService();
-//        Call<List<Review>> call_reviews = database_service.getReviews();
-//        call_reviews.enqueue(new Callback<>() {
-//            @Override
-//            public void onResponse(@NonNull Call<List<Review>> call, @NonNull Response<List<Review>> response) {
-//                if(response.isSuccessful()) {
-//                    ReviewContainer reviews = response.body();
-//                    review_container.setReviews(reviews);
-//                } else {
-//                    onFailure(call, new Throwable());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<ReviewContainer> call, @NonNull Throwable t) {
-//                NotificationCentral.showNotification(context, "Could not retrieve reviews from database");
-//            }
-//        });
-//    }
-
-    public static boolean addReviewToDB(ReviewContainer review_container) {
+    // Reviews
+    public static boolean getReviewsFromDB() {
         try {
             DatabaseAPIService review_service = getDatabaseAPIService();
-            Call<List<Review>> review_call = review_service.addReviews(review_container.getReviews());
+            Call<List<Review>> review_call = review_service.getReviews();
             Response<List<Review>> review_response = review_call.execute();
-            return review_response.isSuccessful() && review_response.body() != null;
+            if (review_response.isSuccessful() && review_response.body() != null) {
+                List<Review> reviews = review_response.body();
+                ReviewContainer.getInstance().setReviews((ArrayList<Review>) reviews);
+                return true;
+            }
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
-     public static void addReviewToDB(Context context, ReviewContainer review_container) {
-         DatabaseAPIService database_service = getDatabaseAPIService();
-         Call<List<Review>> call_book = database_service.addReviews(review_container.getReviews());
-         call_book.enqueue(new Callback<>() {
-             @Override
-             public void onResponse(@NonNull Call<List<Review>> call, @NonNull Response<List<Review>> response) {
-                 if (response.isSuccessful() && response.body() != null) {
-                     List<Review> review_list = response.body();
-                     Toast.makeText(context, "Added " + review_list.size() + " reviews to the database", Toast.LENGTH_SHORT).show();
-                 } else {
-                     onFailure(call, new Throwable());
-                 }
-             }
-             @Override
-             public void onFailure(@NonNull Call<List<Review>> call, @NonNull Throwable t) {
-                 NotificationCentral.showNotification(context, "Could not save reviews to the database");
-             }
-         });
-     }
+    public static boolean uploadReviewsToDB(ReviewContainer review_container) {
+        try {
+            DatabaseAPIService review_service = getDatabaseAPIService();
+            Response<List<Review>> get_response = review_service
+                    .getUniqueReview("{\"state_key\":\"all_reviews\"}")
+                    .execute();
+            if (get_response.isSuccessful() && get_response.body() != null && !get_response.body().isEmpty()) {
+                String unique_id = get_response.body().get(0).get_id();
+                Response<Review> patch_response = review_service
+                        .patchReviews(unique_id, review_container.getReviews())
+                        .execute();
+                return patch_response.isSuccessful();
+            } else {
+                Call<List<Review>> post_call = review_service.addReviews(review_container.getReviews());
+                Response<List<Review>> post_response = post_call.execute();
+                return post_response.isSuccessful();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

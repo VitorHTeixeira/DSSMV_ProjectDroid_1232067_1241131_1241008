@@ -101,7 +101,7 @@ public class ProfileSettingsScreen extends Fragment {
 
     private void setup_spinner(Spinner spinner, final SharedPreferences prefs) {
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.date_formats, android.R.layout.simple_spinner_item);
+                R.array.date_formats, R.layout.date_spinner_item_text);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 
@@ -118,12 +118,11 @@ public class ProfileSettingsScreen extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedFormat = parent.getItemAtPosition(position).toString();
-                String currentlySavedFormat = prefs.getString(KEY_DATE_FORMAT, "");
+                int currentlySavedFormat = prefs.getInt(KEY_DATE_FORMAT, 0);
 
-                if (!selectedFormat.equals(currentlySavedFormat)) {
+                if (position != currentlySavedFormat) {
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString(KEY_DATE_FORMAT, selectedFormat);
+                    editor.putInt(KEY_DATE_FORMAT, position);
                     editor.apply();
                     Toast.makeText(requireContext(), "Date format saved!", Toast.LENGTH_SHORT).show();
                 }

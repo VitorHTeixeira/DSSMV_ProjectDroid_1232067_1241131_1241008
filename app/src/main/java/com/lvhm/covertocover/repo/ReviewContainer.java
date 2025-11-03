@@ -23,10 +23,10 @@ public class ReviewContainer {
         return instance;
     }
 
-    private ReviewContainer() {
+    public ReviewContainer() {
         reviews = new ArrayList<>();
     }
-    private ReviewContainer(ArrayList<Review> reviews) {
+    public ReviewContainer(ArrayList<Review> reviews) {
         this.reviews = reviews;
     }
     public ArrayList<Review> getReviews() {

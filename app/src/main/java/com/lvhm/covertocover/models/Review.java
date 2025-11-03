@@ -4,9 +4,13 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class Review implements Parcelable {
+    @SerializedName("_id")
+    private String _id;
     private Book book;
     private double rating;
     private String review_text;
@@ -19,6 +23,12 @@ public class Review implements Parcelable {
         this.date = date;
     }
 
+    public String get_id() {
+        return _id;
+    }
+    public void set_id(String id) {
+        this._id = id;
+    }
     public Book getBook() {
         return book;
     }

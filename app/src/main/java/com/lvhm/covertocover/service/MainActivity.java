@@ -17,8 +17,10 @@ import com.lvhm.covertocover.PermissionsHandler;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
 import com.lvhm.covertocover.api.DatabaseAPIClient;
-import com.lvhm.covertocover.api.UploadBooksWorker;
+import com.lvhm.covertocover.api.DownloadDBWorker;
+import com.lvhm.covertocover.api.UploadDBWorker;
 import com.lvhm.covertocover.models.Book;
+import com.lvhm.covertocover.models.Review;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
 
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DatabaseAPIClient.initialize(this);
+        OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(DownloadDBWorker.class).build();
+        WorkManager.getInstance(this).enqueue(upload_work);
 
         SharedPreferences shared_preferences = getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         int theme_mode = shared_preferences.getInt(THEME_KEY, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
     @Override
     protected void onStop() {
         super.onStop();
-        OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(UploadBooksWorker.class).build();
+        OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(UploadDBWorker.class).build();
         WorkManager.getInstance(this).enqueue(upload_work);
     }
 

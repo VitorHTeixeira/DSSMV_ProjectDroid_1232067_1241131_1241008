@@ -17,9 +17,13 @@ import java.util.Properties;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface DatabaseAPIService {
     static String loadAPIKey(Context context) {
@@ -40,7 +44,13 @@ public interface DatabaseAPIService {
 
 
     @GET("rest/books")
-    Call<BookContainer> getBooks();
+    Call<List<Book>> getBooks();
+    @GET("rest/books")
+    Call<List<Book>> getUniqueBook(@Query("q") String query);
+
+    @PATCH("rest/books/{id}")
+    @Headers("content-type: application/json")
+    Call<Book> patchBooks(@Path("id") String id, @Body List<Book> books);
 
     @POST("rest/books")
     @Headers("content-type: application/json")
@@ -48,8 +58,20 @@ public interface DatabaseAPIService {
 
     @GET("rest/reviews")
     Call<List<Review>> getReviews();
+    @GET("rest/reviews")
+    Call<List<Review>> getUniqueReview(@Query("q") String query);
+
+    @PATCH("rest/reviews/{id}")
+    @Headers("content-type: application/json")
+    Call<Review> patchReviews(@Path("id") String id, @Body List<Review> reviews);
 
     @POST("rest/reviews")
     @Headers("content-type: application/json")
     Call<List<Review>> addReviews(@Body List<Review> reviews);
+
+    @DELETE("rest/books/*?q={}")
+    Call<Void> deleteBooks();
+
+    @DELETE("rest/reviews/*?q={}")
+    Call<Void> deleteReviews();
 }
