@@ -28,8 +28,8 @@ public class LoginTokenScreen extends Fragment {
     private UserTokenContainer token_container;
     private EditText input_token;
     private TextInputLayout input_token_layout;
-    private CardView button_generate_token; // **ALTERADO** para CardView
-    private CardView button_use_token; // **ALTERADO** para CardView
+    private CardView button_generate_token;
+    private CardView button_use_token;
     private TextView text_generated_token;
     private TextView text_description;
     private ProgressBar progress_bar;
@@ -50,14 +50,6 @@ public class LoginTokenScreen extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_logintoken, container, false);
 
-        initializeViews(view);
-        setupListeners();
-        updateTextColors();
-
-        return view;
-    }
-
-    private void initializeViews(View view) {
         input_token_layout = view.findViewById(R.id.input_token_layout);
         input_token = view.findViewById(R.id.input_token);
         button_generate_token = view.findViewById(R.id.button_generate_token);
@@ -67,9 +59,7 @@ public class LoginTokenScreen extends Fragment {
         progress_bar = view.findViewById(R.id.progress_bar);
 
         text_generated_token.setVisibility(View.GONE);
-    }
 
-    private void setupListeners() {
         button_generate_token.setOnClickListener(v -> generateToken());
         button_use_token.setOnClickListener(v -> useExistingToken());
 
@@ -85,23 +75,24 @@ public class LoginTokenScreen extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {}
         });
-    }
 
-    private void updateTextColors() {
-        TypedValue typedValue = new TypedValue();
-        requireContext().getTheme().resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
-        text_description.setTextColor(typedValue.data);
+        TypedValue typed_value = new TypedValue();
+        requireContext().getTheme().resolveAttribute(android.R.attr.textColorPrimary, typed_value, true);
+        //text_description.setTextColor(Color.);
 
-        TextView generateButtonText = findTextViewInChildren(button_generate_token);
-        if (generateButtonText != null) {
-            generateButtonText.setTextColor(Color.WHITE);
+        TextView generate_button_text = findTextViewInChildren(button_generate_token);
+        if (generate_button_text != null) {
+            generate_button_text.setTextColor(Color.WHITE);
         }
 
-        TextView useButtonText = findTextViewInChildren(button_use_token);
-        if (useButtonText != null) {
-            useButtonText.setTextColor(Color.WHITE);
+        TextView use_button_text = findTextViewInChildren(button_use_token);
+        if (use_button_text != null) {
+            use_button_text.setTextColor(Color.WHITE);
         }
+
+        return view;
     }
+
 
     private void generateToken() {
         setLoadingState(true);
@@ -115,18 +106,18 @@ public class LoginTokenScreen extends Fragment {
 
         setLoadingState(false);
 
-        TextView generateButtonText = findTextViewInChildren(button_generate_token);
-        if (generateButtonText != null) {
-            generateButtonText.setText("Token Generated");
-            generateButtonText.setTextColor(Color.WHITE);
+        TextView generate_button_text = findTextViewInChildren(button_generate_token);
+        if (generate_button_text != null) {
+            generate_button_text.setText("Token Generated");
+            generate_button_text.setTextColor(Color.WHITE);
+
+            text_description.setText("Touch 'Continue' to start using the app.");
         }
 
-        text_description.setText("Touch 'Continue' to start using the app.");
-
-        TextView useButtonText = findTextViewInChildren(button_use_token);
-        if (useButtonText != null) {
-            useButtonText.setText("Continue");
-            useButtonText.setTextColor(Color.WHITE);
+        TextView use_button_text = findTextViewInChildren(button_use_token);
+        if (use_button_text != null) {
+            use_button_text.setText("Continue");
+            use_button_text.setTextColor(Color.WHITE);
         }
 
         button_use_token.setEnabled(true);
@@ -150,15 +141,11 @@ public class LoginTokenScreen extends Fragment {
 
         if (token_container.saveToken(token)) {
             setLoadingState(false);
-            Toast.makeText(requireContext(),
-                    "Token saved successfully!",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Token saved successfully!", Toast.LENGTH_SHORT).show();
             proceedToMainScreen();
         } else {
             setLoadingState(false);
-            Toast.makeText(requireContext(),
-                    "Error saving token",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Error saving token", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -214,11 +201,9 @@ public class LoginTokenScreen extends Fragment {
     private void proceedToMainScreen() {
         token_container.setFirstLaunch();
 
-        if (getActivity() != null) {
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new MainScreen())
-                    .commit();
+        if (getActivity() instanceof MainActivity) {
+
+            ((MainActivity) getActivity()).loadFragment(new MainScreen());
         }
     }
 

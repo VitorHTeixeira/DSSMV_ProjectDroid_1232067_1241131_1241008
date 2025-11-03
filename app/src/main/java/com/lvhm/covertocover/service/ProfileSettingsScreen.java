@@ -43,23 +43,23 @@ public class ProfileSettingsScreen extends Fragment {
         SharedPreferences shared_preferences = requireContext().getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         UserTokenContainer token_container = UserTokenContainer.getInstance(requireContext());
 
-        //EditText edit_text_username = view.findViewById(R.id.value_your_username);
+        EditText edit_text_username = view.findViewById(R.id.value_your_username);
         EditText edit_text_email = view.findViewById(R.id.value_user_email);
         EditText edit_text_phone_number = view.findViewById(R.id.value_user_phone);
         EditText edit_text_address = view.findViewById(R.id.value_user_address);
         EditText edit_text_token = view.findViewById(R.id.value_user_token);
         Spinner spinner_date_format = view.findViewById(R.id.spinner_date_format);
-        //ImageView save_username_button = view.findViewById(R.id.edit_username_image_icon);
+        ImageView save_username_button = view.findViewById(R.id.edit_username_image_icon);
         ImageView save_email_button = view.findViewById(R.id.edit_email_image_icon);
         ImageView save_phone_button = view.findViewById(R.id.edit_phone_image_icon);
         ImageView save_address_button = view.findViewById(R.id.edit_address_image_icon);
-        ImageView copy_token_button = view.findViewById(R.id.copy_token_image_icon); // Assumed ID
+        ImageView copy_token_button = view.findViewById(R.id.copy_token_image_icon);
 
         // Spinner
         setup_spinner(spinner_date_format, shared_preferences);
 
         // Load saved data
-        //edit_text_username.setText(shared_preferences.getString(KEY_USERNAME, ""));
+        edit_text_username.setText(shared_preferences.getString(KEY_USERNAME, ""));
         edit_text_email.setText(shared_preferences.getString(KEY_EMAIL, ""));
         edit_text_phone_number.setText(shared_preferences.getString(KEY_PHONE, ""));
         edit_text_address.setText(shared_preferences.getString(KEY_ADDRESS, ""));
@@ -73,7 +73,7 @@ public class ProfileSettingsScreen extends Fragment {
         set_read_only(edit_text_token);
 
         // Setup edit/save logic
-        //setup_click_to_edit(edit_text_username, save_username_button, shared_preferences, KEY_USERNAME, "Username saved");
+        setup_click_to_edit(edit_text_username, save_username_button, shared_preferences, KEY_USERNAME, "Username saved");
         setup_click_to_edit(edit_text_email, save_email_button, shared_preferences, KEY_EMAIL, "Email saved");
         setup_click_to_edit(edit_text_phone_number, save_phone_button, shared_preferences, KEY_PHONE, "Phone Number saved");
         setup_click_to_edit(edit_text_address, save_address_button, shared_preferences, KEY_ADDRESS, "Address saved");

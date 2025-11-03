@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -23,8 +24,7 @@ import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
-
-import java.util.ArrayList;
+import com.lvhm.covertocover.repo.UserTokenContainer;
 
 public class MainActivity extends AppCompatActivity implements BookNavigationListener {
     private FrameLayout navMain, navProfile, navCamera, navMap, navSettings;
@@ -52,32 +52,42 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
 
         permissions_handler = new PermissionsHandler(this);
 
-
-
         navMain = findViewById(R.id.nav_main);
         navProfile = findViewById(R.id.nav_profile);
         navCamera = findViewById(R.id.nav_camera);
         navMap = findViewById(R.id.nav_map);
         navSettings = findViewById(R.id.nav_settings);
 
-        setupNavigationListeners();
-
-        // Fragment do Login - Descomentar depois de tudo estar completo
         if (savedInstanceState == null) {
-            loadFragment(new LoginTokenScreen());
-            permissions_handler.requestPermissions();
-        }
+            UserTokenContainer token_container = UserTokenContainer.getInstance(this);
 
-        /*if (savedInstanceState == null) {
-            loadFragment(new MainScreen());
+            if (!token_container.hasToken()) {
+                loadFragment(new LoginTokenScreen());
+            } else {
+                loadFragment(new MainScreen());
+            }
+
             permissions_handler.requestPermissions();
-        }*/
+        } else {
+            Fragment current_fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            if (current_fragment instanceof LoginTokenScreen) {
+                disableNavigationListeners();
+            } else {
+                setupNavigationListeners();
+            }
+        }
     }
+
     @Override
     protected void onStop() {
         super.onStop();
-        OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(UploadDBWorker.class).build();
-        WorkManager.getInstance(this).enqueue(upload_work);
+
+        UserTokenContainer token_container = UserTokenContainer.getInstance(this);
+
+        if (token_container.hasToken()) {
+            OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(UploadDBWorker.class).build();
+            WorkManager.getInstance(this).enqueue(upload_work);
+        }
     }
 
     @Override
@@ -85,8 +95,26 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissions_handler.handlePermissionsResult(requestCode, permissions, grantResults);
     }
+    public void loadFragment(Fragment fragment) {
+        if (fragment instanceof LoginTokenScreen) {
+            disableNavigationListeners();
+        } else {
+            setupNavigationListeners();
+        }
+
+        FragmentManager fragment_manager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragment_manager.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
+    }
 
     private void setupNavigationListeners() {
+        navMain.setClickable(true);
+        navProfile.setClickable(true);
+        navCamera.setClickable(true);
+        navMap.setClickable(true);
+        navSettings.setClickable(true);
+
         navMain.setOnClickListener(v -> loadFragment(new MainScreen()));
         navProfile.setOnClickListener(v -> loadFragment(new ProfileScreen()));
         navCamera.setOnClickListener(v -> loadFragment(new CameraScreen()));
@@ -94,12 +122,14 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
         navSettings.setOnClickListener(v -> loadFragment(new SettingsScreen()));
     }
 
-    private void loadFragment(Fragment fragment) {
-        FragmentManager fragment_manager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragment_manager.beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.commit();
+    private void disableNavigationListeners() {
+        navMain.setClickable(false);
+        navProfile.setClickable(false);
+        navCamera.setClickable(false);
+        navMap.setClickable(false);
+        navSettings.setClickable(false);
     }
+
     @Override
     public void navigateToBookScreenFromBook(Book book) {
         Fragment book_screen = BookScreen.newInstanceFromBook(book);
@@ -109,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
                 .addToBackStack(null)
                 .commit();
     }
+
     @Override
     public void navigateToBookScreenFromAPI(Bundle api_bundle) {
         Fragment book_screen = BookScreen.newInstanceFromAPI(api_bundle);
