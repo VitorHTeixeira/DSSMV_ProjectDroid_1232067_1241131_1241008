@@ -57,21 +57,21 @@ public class BookAPIClient {
                     book_details_bundle.putString("book_details", gson.toJson(response.body()));
                     BookResponse.Item item = response.body().getItems().get(0);
                     if (item != null && item.getVolumeInfo() != null) {
-                        NotificationCentral.showNotification(context, "Book found: " + barcode_value);
+                        NotificationCentral.showNotification(context, "📚 Book found: " + barcode_value);
                         callback.onBookFound(item, barcode_value, book_details_bundle);
                     } else {
-                        NotificationCentral.showNotification(context, "Book found, but volume info is missing.");
+                        NotificationCentral.showNotification(context, "⚠ Book found, but volume info is missing.");
                         callback.onNoBookFound(barcode_value);
                     }
                 } else {
-                    NotificationCentral.showNotification(context, "API call successful, but no book found.");
+                    NotificationCentral.showNotification(context, "⚠ API call successful, but no book found.");
                     callback.onNoBookFound(barcode_value);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<BookResponse> call, @NonNull Throwable t) {
-                NotificationCentral.showNotification(context, "API call failed: " + t.getMessage());
+                NotificationCentral.showNotification(context, "❌ API call failed: " + t.getMessage());
                 callback.onAPIFailure(t.getMessage());
             }
         });

@@ -231,15 +231,17 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
             StringBuilder categories = new StringBuilder();
             book_categories = book.getGenre();
             ArrayList<String> book_categories_array = book.getGenre();
-            for(String category : book_categories_array) {
-                if(book_categories_array.size() > 1) {
-                    categories.append(WordUtils.capitalize(category)).append(" / ");
+            if(book_categories_array != null) {
+                for(String category : book_categories_array) {
+                    if(book_categories_array.size() > 1) {
+                        categories.append(WordUtils.capitalize(category)).append(" / ");
+                    }
+                    else {
+                        categories.append(WordUtils.capitalize(category));
+                    }
                 }
-                else {
-                    categories.append(WordUtils.capitalize(category));
-                }
+                label_book_categories.append(categories);
             }
-            label_book_categories.append(categories);
         }
         book_year = book.getYear();
         label_book_date.append("" + book_year);
@@ -352,7 +354,7 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
                 });
 
             } catch (Exception e) {
-                String message = "Error getting book cover image. Error: " + e.getMessage();
+                String message = "❌ Error getting book cover image. Error: " + e.getMessage();
                 System.out.println(message);
                 handler.post(() -> NotificationCentral.showNotification(requireContext(), message));
             }

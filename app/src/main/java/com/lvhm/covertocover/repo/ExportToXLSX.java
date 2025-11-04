@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ExportToXLSX {
@@ -60,8 +61,11 @@ public class ExportToXLSX {
             share_intent.putExtra(Intent.EXTRA_STREAM, file_uri);
             share_intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             context.startActivity(Intent.createChooser(share_intent, "Export XLSX data"));
-            NotificationCentral.showNotification(context, "Successfully exported to XLSX");
+            NotificationCentral.showNotification(context, "✅ Successfully exported to XLSX");
+        } catch (IOException e) {
+            NotificationCentral.showNotification(context, "❌ Error (XLSX): " + e.getMessage());
         } catch (Exception e) {
+            NotificationCentral.showNotification(context, "❌ Error (Share): " + e.getMessage());
             e.printStackTrace();
         }
     }

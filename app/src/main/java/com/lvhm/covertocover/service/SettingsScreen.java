@@ -88,7 +88,7 @@ public class SettingsScreen extends Fragment {
                     profile_picture.setImageBitmap(bitmap);
                 }
             } catch (Exception e) {
-                Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "❌ Failed to load image", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -114,7 +114,7 @@ public class SettingsScreen extends Fragment {
                             editor.apply();
 
                         } catch (IOException e) {
-                            Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "❌ Failed to load image", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Log.d("SettingsScreen", "Nenhuma imagem selecionada.");

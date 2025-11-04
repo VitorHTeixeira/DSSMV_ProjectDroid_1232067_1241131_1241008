@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.lvhm.covertocover.NotificationCentral;
+
 public class DownloadDBWorker extends Worker {
     public DownloadDBWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);

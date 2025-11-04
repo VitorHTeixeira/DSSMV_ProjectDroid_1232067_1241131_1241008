@@ -63,7 +63,7 @@ public class BookCoverImageOverlay extends Fragment {
                 image_cover[0] = BitmapFactory.decodeStream(in);
                 handler.post(() -> book_cover.setImageBitmap(image_cover[0]));
             } catch (Exception e) {
-                String message = "Error getting book cover image. Error: " + e.getMessage();
+                String message = "❌ Error getting book cover image. Error: " + e.getMessage();
                 System.out.println(message);
                 handler.post(() -> NotificationCentral.showNotification(requireContext(), message));
             }

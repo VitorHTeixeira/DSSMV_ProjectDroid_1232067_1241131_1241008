@@ -13,35 +13,39 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class Book implements Parcelable {
     @SerializedName("_id")
     private String _id;
     @Expose
-    protected String isbn;
+    private String uuid;
     @Expose
-    protected String name;
+    private String isbn;
     @Expose
-    protected ArrayList<String> author;
+    private String name;
     @Expose
-    protected int year;
+    private ArrayList<String> author;
     @Expose
-    protected ArrayList<String> genre;
+    private int year;
     @Expose
-    protected boolean read;
+    private ArrayList<String> genre;
     @Expose
-    protected int page_count;
+    private boolean read;
     @Expose
-    protected String cover_image64;
+    private int page_count;
+    @Expose
+    private String cover_image64;
     @Expose(serialize = false, deserialize = false)
-    protected Bitmap cover_image;
+    private Bitmap cover_image;
     @Expose
-    protected boolean isWishlisted;
+    private boolean isWishlisted;
     @Expose
-    protected boolean onGoing;
+    private boolean onGoing;
 
     public Book() {
         this._id = "";
+        this.uuid = UUID.randomUUID().toString();
         this.isbn = "Unknown";
         this.name = "Unknown";
         this.author = new ArrayList<>(List.of("Unknown"));
@@ -61,6 +65,12 @@ public class Book implements Parcelable {
     }
     public void set_id(String id) {
         this._id = id;
+    }
+    public String getUUID() {
+        return this.uuid;
+    }
+    public void setUUID(String uuid) {
+        this.uuid = uuid;
     }
     public String getISBN() {
         return this.isbn;
@@ -126,10 +136,15 @@ public class Book implements Parcelable {
         return null;
     }
     public void setCoverImageBase64(Bitmap cover_image) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        cover_image.compress(Bitmap.CompressFormat.WEBP, 80, baos);
-        byte[] byteArray = baos.toByteArray();
-        this.cover_image64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        if(cover_image != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            cover_image.compress(Bitmap.CompressFormat.WEBP, 80, baos);
+            byte[] byteArray = baos.toByteArray();
+            this.cover_image64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        }
+        else {
+            this.cover_image64 = null;
+        }
     }
     public void setCoverImage(Bitmap cover_image) {
         this.cover_image = cover_image;
@@ -150,8 +165,9 @@ public class Book implements Parcelable {
 
     // Parcelable
 
-    protected Book(Parcel in) {
+    private Book(Parcel in) {
         _id = in.readString();
+        uuid = in.readString();
         isbn = in.readString();
         name = in.readString();
         author = in.createStringArrayList();
@@ -181,6 +197,7 @@ public class Book implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(_id);
+        parcel.writeString(uuid);
         parcel.writeString(isbn);
         parcel.writeString(name);
         parcel.writeStringList(author);

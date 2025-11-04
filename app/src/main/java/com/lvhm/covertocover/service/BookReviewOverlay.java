@@ -64,7 +64,7 @@ public class BookReviewOverlay extends Fragment {
             Book book = view_model.getSelectedBook().getValue();
             if (book != null) {
                 saveReview(book);
-                Toast.makeText(requireContext(), "Review saved successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "✅ Review saved successfully", Toast.LENGTH_SHORT).show();
             }
             getParentFragmentManager().popBackStack();
         });

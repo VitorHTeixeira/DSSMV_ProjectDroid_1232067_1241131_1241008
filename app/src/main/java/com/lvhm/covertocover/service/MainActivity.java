@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.PermissionsHandler;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
             DatabaseAPIClient.initialize(this);
             boolean books_success = DatabaseAPIClient.getBooksFromDB();
             boolean reviews_success = DatabaseAPIClient.getReviewsFromDB();
+            NotificationCentral.showNotification(getApplicationContext(), "✅ Downloaded " + book_container.getBooks().size() + " books and " + review_container.getReviews().size() + " reviews.");
             runOnUiThread(() -> {
                 UserTokenContainer token_container = UserTokenContainer.getInstance(this);
                 if (!token_container.hasToken()) {

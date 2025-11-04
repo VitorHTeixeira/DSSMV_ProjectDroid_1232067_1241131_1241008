@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
 
@@ -24,7 +25,9 @@ public class UploadDBWorker extends Worker {
         boolean books_success = DatabaseAPIClient.uploadBooksToDB(book_container);
         boolean reviews_success = DatabaseAPIClient.uploadReviewsToDB(review_container);
 
+
         if (books_success && reviews_success) {
+            NotificationCentral.showNotification(context, "☁ Uploaded " + book_container.getBooks().size() + " books and " + review_container.getReviews().size() + " reviews.");
             return Result.success();
         } else {
             return Result.retry();

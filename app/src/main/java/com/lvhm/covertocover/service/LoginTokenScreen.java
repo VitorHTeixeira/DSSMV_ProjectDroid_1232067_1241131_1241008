@@ -122,7 +122,7 @@ public class LoginTokenScreen extends Fragment {
 
         button_use_token.setEnabled(true);
 
-        Toast.makeText(requireContext(), "Token generated successfully!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "✅ Token generated successfully!", Toast.LENGTH_SHORT).show();
     }
 
     private void useExistingToken() {
@@ -141,11 +141,11 @@ public class LoginTokenScreen extends Fragment {
 
         if (token_container.saveToken(token)) {
             setLoadingState(false);
-            Toast.makeText(requireContext(), "Token saved successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "✅Token saved successfully!", Toast.LENGTH_SHORT).show();
             proceedToMainScreen();
         } else {
             setLoadingState(false);
-            Toast.makeText(requireContext(), "Error saving token", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "❌ Error saving token", Toast.LENGTH_SHORT).show();
         }
     }
 

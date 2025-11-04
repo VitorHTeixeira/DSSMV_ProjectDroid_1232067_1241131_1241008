@@ -61,7 +61,7 @@ public class ManualBookScreen extends Fragment {
                             cover_image_view.setImageBitmap(selected_cover_bitmap);
 
                         } catch (IOException e) {
-                            Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "❌ Failed to load image", Toast.LENGTH_SHORT).show();
                             selected_cover_bitmap = null;
                         }
                     } else {
@@ -111,12 +111,12 @@ public class ManualBookScreen extends Fragment {
             String isbn = input_isbn.getText().toString();
 
             if (book_name.isEmpty()) {
-                Toast.makeText(requireContext(), "Book Name is required.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "⚠ Book Name is required.", Toast.LENGTH_SHORT).show();
                 input_book_name.requestFocus();
                 return;
             }
             if (author.isEmpty()) {
-                Toast.makeText(requireContext(), "Author is required.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "⚠ Author is required.", Toast.LENGTH_SHORT).show();
                 input_author.requestFocus();
                 return;
             }
@@ -139,10 +139,10 @@ public class ManualBookScreen extends Fragment {
                 }
 
             } catch (NumberFormatException e) {
-                Toast.makeText(requireContext(), "Invalid format for Year or Page Count.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "⚠ Invalid format for Year or Page Count.", Toast.LENGTH_SHORT).show();
                 return;
             } catch (Exception e) {
-                Toast.makeText(requireContext(), "Error processing fields.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "❌ Error processing fields.", Toast.LENGTH_SHORT).show();
                 return;
             }
 

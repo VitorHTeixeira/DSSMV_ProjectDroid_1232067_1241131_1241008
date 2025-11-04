@@ -118,7 +118,7 @@ public class CameraScreen extends Fragment {
             if (!isAdded()) {
                 return;
             }
-            String error_message = "Error initializing camera: " + error.getMessage();
+            String error_message = "❌ Error initializing camera: " + error.getMessage();
             NotificationCentral.showNotification(requireContext(), error_message);
         }
     }
@@ -164,7 +164,7 @@ public class CameraScreen extends Fragment {
                     if (should_read_barcode) {
                         should_read_barcode = false;
                         if (isAdded()) {
-                            String error_message = "Error reading code: " + e.getMessage();
+                            String error_message = "❌ Error reading code: " + e.getMessage();
                             NotificationCentral.showNotification(requireContext(), error_message);
                         }
                     }

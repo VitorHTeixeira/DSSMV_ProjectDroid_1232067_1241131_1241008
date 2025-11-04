@@ -8,10 +8,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Review implements Parcelable {
     @SerializedName("_id")
     private String _id;
+    @Expose
+    private String uuid;
     @Expose
     private Book book;
     @Expose
@@ -22,6 +25,7 @@ public class Review implements Parcelable {
     private Date date;
 
     public Review(Book book, double rating, String reviewText, Date date) {
+        this.uuid = UUID.randomUUID().toString();
         this.book = book;
         this.rating = rating;
         this.review_text = reviewText;
@@ -33,6 +37,12 @@ public class Review implements Parcelable {
     }
     public void set_id(String id) {
         this._id = id;
+    }
+    public String getUUID() {
+        return this.uuid;
+    }
+    public void setUUID(String uuid) {
+        this.uuid = uuid;
     }
     public Book getBook() {
         return book;
@@ -63,6 +73,7 @@ public class Review implements Parcelable {
 
     protected Review(Parcel in) {
         book = in.readParcelable(book.getClass().getClassLoader());
+        uuid = in.readString();
         rating = in.readDouble();
         review_text = in.readString();
         date = (Date) in.readSerializable();
@@ -85,6 +96,7 @@ public class Review implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeParcelable(book, flags);
+        parcel.writeString(uuid);
         parcel.writeDouble(rating);
         parcel.writeString(review_text);
         parcel.writeSerializable(date);

@@ -22,6 +22,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -45,36 +46,17 @@ public interface DatabaseAPIService {
 
     @GET("rest/books")
     Call<List<Book>> getBooks();
-    @GET("rest/books")
-    Call<List<Book>> getUniqueBook(@Query("q") String query);
-
-    @PATCH("rest/books/{id}")
-    @Headers("content-type: application/json")
-    Call<Book> patchBooks(@Path("id") String id, @Body List<Book> books);
-    @PATCH("rest/books/{id}")
-    @Headers("content-type: application/json")
-    Call<Book> patchSingleBook(@Path("id") String id, @Body Book book);
-
     @POST("rest/books")
     @Headers("content-type: application/json")
-    Call<List<Book>> addBooks(@Body List<Book> books);
+    Call<Book> addSingleBook(@Body Book book);
+    @DELETE("rest/books/*")
+    Call<Void> deleteBooksByQuery(@Query("q") String query);
 
     @GET("rest/reviews")
     Call<List<Review>> getReviews();
-    @GET("rest/reviews")
-    Call<List<Review>> getUniqueReview(@Query("q") String query);
-
-    @PATCH("rest/reviews/{id}")
-    @Headers("content-type: application/json")
-    Call<Review> patchReviews(@Path("id") String id, @Body List<Review> reviews);
-
     @POST("rest/reviews")
     @Headers("content-type: application/json")
-    Call<List<Review>> addReviews(@Body List<Review> reviews);
-
-    @DELETE("rest/books/*?q={}")
-    Call<Void> deleteBooks();
-
-    @DELETE("rest/reviews/*?q={}")
-    Call<Void> deleteReviews();
+    Call<Review> addSingleReview(@Body Review review);
+    @DELETE("rest/reviews/*")
+    Call<Void> deleteReviewsByQuery(@Query("q") String query);
 }

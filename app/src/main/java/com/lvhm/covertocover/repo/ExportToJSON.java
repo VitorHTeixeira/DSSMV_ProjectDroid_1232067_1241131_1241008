@@ -59,11 +59,11 @@ public class ExportToJSON {
             share_intent.putExtra(Intent.EXTRA_STREAM, file_uri);
             share_intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             context.startActivity(Intent.createChooser(share_intent, "Export JSON data"));
-            NotificationCentral.showNotification(context, "Successfully exported to JSON");
+            NotificationCentral.showNotification(context, "✅ Successfully exported to JSON");
         } catch (IOException e) {
-            NotificationCentral.showNotification(context, "Error (JSON): " + e.getMessage());
+            NotificationCentral.showNotification(context, "❌ Error (JSON): " + e.getMessage());
         } catch (Exception e) {
-            NotificationCentral.showNotification(context, "Error (Share): " + e.getMessage());
+            NotificationCentral.showNotification(context, "❌ Error (Share): " + e.getMessage());
             e.printStackTrace();
         }
     }

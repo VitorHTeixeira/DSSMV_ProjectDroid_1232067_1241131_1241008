@@ -73,16 +73,16 @@ public class ProfileSettingsScreen extends Fragment {
         set_read_only(edit_text_token);
 
         // Setup edit/save logic
-        setup_click_to_edit(edit_text_username, save_username_button, shared_preferences, KEY_USERNAME, "Username saved");
-        setup_click_to_edit(edit_text_email, save_email_button, shared_preferences, KEY_EMAIL, "Email saved");
-        setup_click_to_edit(edit_text_phone_number, save_phone_button, shared_preferences, KEY_PHONE, "Phone Number saved");
-        setup_click_to_edit(edit_text_address, save_address_button, shared_preferences, KEY_ADDRESS, "Address saved");
+        setup_click_to_edit(edit_text_username, save_username_button, shared_preferences, KEY_USERNAME, "✅ Username saved");
+        setup_click_to_edit(edit_text_email, save_email_button, shared_preferences, KEY_EMAIL, "✅ Email saved");
+        setup_click_to_edit(edit_text_phone_number, save_phone_button, shared_preferences, KEY_PHONE, "✅ Phone Number saved");
+        setup_click_to_edit(edit_text_address, save_address_button, shared_preferences, KEY_ADDRESS, "✅ Address saved");
 
         copy_token_button.setOnClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("User Token", token_container.getToken());
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(requireContext(), "Token copied to clipboard!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "📋 Token copied to clipboard!", Toast.LENGTH_SHORT).show();
         });
 
         return view;
@@ -123,7 +123,7 @@ public class ProfileSettingsScreen extends Fragment {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putInt(KEY_DATE_FORMAT, position);
                     editor.apply();
-                    Toast.makeText(requireContext(), "Date format saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "📆 Date format saved!", Toast.LENGTH_SHORT).show();
                 }
             }
 

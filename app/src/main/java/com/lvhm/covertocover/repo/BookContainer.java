@@ -85,9 +85,9 @@ public class BookContainer {
                 throw new DuplicateBookException(book.getISBN());
             }
             books.add(book);
-            Toast.makeText(context, "Book added successfully.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "✅ Book added successfully.", Toast.LENGTH_SHORT).show();
         } catch(DuplicateBookException e) {
-            NotificationCentral.showNotification(context, e.getMessage());
+            NotificationCentral.showNotification(context, "❌ " + e.getMessage());
         }
     }
     public void deleteBook(Context context, Book book) {
@@ -97,7 +97,7 @@ public class BookContainer {
             }
             books.remove(book);
         } catch(BookNotFoundException e) {
-            NotificationCentral.showNotification(context, e.getMessage());
+            NotificationCentral.showNotification(context, "❌ " + e.getMessage());
         }
     }
     public void updateBook(Context context, Book book) {
@@ -108,9 +108,9 @@ public class BookContainer {
             }
             int index = books.indexOf(existing_book);
             books.set(index, book);
-            Toast.makeText(context, "Book updated successfully.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "✅ Book updated successfully.", Toast.LENGTH_SHORT).show();
         } catch(BookNotFoundException e) {
-            NotificationCentral.showNotification(context, e.getMessage());
+            NotificationCentral.showNotification(context, "❌ " + e.getMessage());
         }
     }
     public ArrayList<Book> getListReadBooks() {
