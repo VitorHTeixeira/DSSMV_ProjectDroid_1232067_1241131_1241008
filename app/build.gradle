@@ -16,6 +16,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+
 
 secrets {
     propertiesFileName = "app/src/main/assets/secrets.properties"
@@ -63,6 +70,32 @@ dependencies {
     implementation 'org.apache.poi:poi:5.4.1'
     implementation 'org.apache.poi:poi-ooxml:5.4.1'
     implementation 'androidx.work:work-runtime:2.11.0'
+
+    // JUnit 5 (recomendado para novos projetos)
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+
+    // Mockito para mocking
+    testImplementation 'org.mockito:mockito-core:5.5.0'
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
+
+    // Mockito-Kotlin (facilita sintaxe)
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.1.0'
+
+    // Truth (assertions do Google)
+    testImplementation 'com.google.truth:truth:1.1.5'
+
+    // Coroutines Test (se necessário)
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
+
+    // Testes instrumentados (Android)
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
 
 
 }
