@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.Chart;
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
 import com.lvhm.covertocover.adapter.OnBookClickListener;
 import com.lvhm.covertocover.adapter.ReviewAdapter;
@@ -48,6 +49,7 @@ public class ProfileScreen extends Fragment implements OnBookClickListener {
     private ReviewAdapter review_adapter;
     private BookAdapter book_adapter, wishlist_adapter;
     private BookContainer book_container;
+    private PrintToast toast_printer;
 
 
     @SuppressLint("MissingInflatedId")

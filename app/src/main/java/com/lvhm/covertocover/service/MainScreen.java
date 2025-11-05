@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
 import com.lvhm.covertocover.adapter.OnBookClickListener;
 import com.lvhm.covertocover.adapter.ReviewAdapter;
@@ -34,7 +35,7 @@ public class MainScreen extends Fragment implements OnBookClickListener {
     private BookContainer book_container;
     private ReviewContainer review_container;
     private TextView average_rating_text, total_books_text, best_month_text, most_used_rating_text;
-
+    private PrintToast toast_printer;
 
 
     @Nullable

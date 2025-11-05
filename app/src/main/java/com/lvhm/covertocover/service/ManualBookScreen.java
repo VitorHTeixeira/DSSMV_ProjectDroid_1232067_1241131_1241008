@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.repo.BookContainer;
@@ -41,6 +42,7 @@ public class ManualBookScreen extends Fragment {
     private ImageView cover_image_view;
     private Bitmap selected_cover_bitmap = null;
     private ActivityResultLauncher<String> gallery_launcher;
+    private PrintToast toast_printer;
 
     @Nullable
     @Override

@@ -1,9 +1,10 @@
 package com.lvhm.covertocover.repo;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.*;
 
 import android.content.Context;
+
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.models.Book;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,12 +21,15 @@ public class BookContainerTest {
     private BookContainer bookContainer;
 
     @Mock
+    private PrintToast toast_printer;
+
+    @Mock
     private Context mockContext;
 
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        bookContainer = new BookContainer();
+        bookContainer = new BookContainer(toast_printer);
     }
 
     @Test

@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.api.UploadDBWorker;
 import com.lvhm.covertocover.repo.BookContainer;
@@ -52,6 +53,7 @@ public class SettingsScreen extends Fragment {
     private ActivityResultLauncher<String> gallery_launcher;
     private BookContainer book_container;
     private ReviewContainer review_container;
+    private PrintToast toast_printer;
 
     @Nullable
     @Override

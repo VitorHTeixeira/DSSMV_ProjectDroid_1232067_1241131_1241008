@@ -16,13 +16,12 @@ import androidx.work.WorkManager;
 
 import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.PermissionsHandler;
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
 import com.lvhm.covertocover.api.DatabaseAPIClient;
-import com.lvhm.covertocover.api.DownloadDBWorker;
 import com.lvhm.covertocover.api.UploadDBWorker;
 import com.lvhm.covertocover.models.Book;
-import com.lvhm.covertocover.models.Review;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
 import com.lvhm.covertocover.repo.UserTokenContainer;
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
     private ReviewContainer review_container;
     private static final String PREFERENCES_FILE = "CTCPreferences";
     private static final String THEME_KEY = "ThemeMode";
+    private PrintToast toast_printer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

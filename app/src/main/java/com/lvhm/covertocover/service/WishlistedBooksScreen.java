@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.BookAdapter;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 public class WishlistedBooksScreen extends Fragment implements OnBookClickListener {
     private BookAdapter adapter;
     private BookContainer book_container;
+    private PrintToast toast_printer;
 
     @Nullable
     @Override

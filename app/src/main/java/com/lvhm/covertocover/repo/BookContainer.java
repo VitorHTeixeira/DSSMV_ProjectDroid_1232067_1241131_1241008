@@ -1,28 +1,35 @@
 package com.lvhm.covertocover.repo;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.lvhm.covertocover.NotificationCentral;
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.exceptions.BookNotFoundException;
 import com.lvhm.covertocover.exceptions.DuplicateBookException;
 import com.lvhm.covertocover.models.Book;
 
 import java.util.ArrayList;
 
-public class BookContainer {
+public class BookContainer implements PrintToast {
+    private PrintToast toast_printer;
     private static BookContainer instance;
     private ArrayList<Book> books;
 
     public BookContainer() {
         books = new ArrayList<>();
+        this.toast_printer = this;
+    }
+    public BookContainer(PrintToast toastPrinter) {
+        this.books = new ArrayList<>();
+        this.toast_printer = toastPrinter;
     }
     public BookContainer(ArrayList<Book> books) {
         this.books = books;
+        this.toast_printer = this;
     }
     public BookContainer(BookContainer book_container) {
         this.books = book_container.getBooks();
+        this.toast_printer = book_container.getToastPrinter();
     }
 
     public static synchronized BookContainer getInstance() {
@@ -30,6 +37,13 @@ public class BookContainer {
             instance = new BookContainer();
         }
         return instance;
+    }
+
+    public PrintToast getToastPrinter() {
+        return toast_printer;
+    }
+    public void setToastPrinter() {
+        this.toast_printer = this;
     }
 
     private Book findBook(String isbn) {
@@ -85,9 +99,9 @@ public class BookContainer {
                 throw new DuplicateBookException(book.getISBN());
             }
             books.add(book);
-            Toast.makeText(context, "✅ Book added successfully.", Toast.LENGTH_SHORT).show();
+            toast_printer.printToast(context, "✅ Book added successfully");
         } catch(DuplicateBookException e) {
-            NotificationCentral.showNotification(context, "❌ " + e.getMessage());
+            toast_printer.printToast(context, "❌ " + e.getMessage());
         }
     }
     public void deleteBook(Context context, Book book) {
@@ -97,7 +111,7 @@ public class BookContainer {
             }
             books.remove(book);
         } catch(BookNotFoundException e) {
-            NotificationCentral.showNotification(context, "❌ " + e.getMessage());
+            toast_printer.printToast(context, "❌ " + e.getMessage());
         }
     }
     public void updateBook(Context context, Book book) {
@@ -108,9 +122,9 @@ public class BookContainer {
             }
             int index = books.indexOf(existing_book);
             books.set(index, book);
-            Toast.makeText(context, "✅ Book updated successfully.", Toast.LENGTH_SHORT).show();
+            toast_printer.printToast(context, "✅ Book updated successfully");
         } catch(BookNotFoundException e) {
-            NotificationCentral.showNotification(context, "❌ " + e.getMessage());
+            toast_printer.printToast(context, "❌ " + e.getMessage());
         }
     }
     public ArrayList<Book> getListReadBooks() {
@@ -130,5 +144,10 @@ public class BookContainer {
         } else {
             return new ArrayList<>(wishlisted.subList(wishlisted.size() - number, wishlisted.size()));
         }
+    }
+
+    @Override
+    public void printToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }

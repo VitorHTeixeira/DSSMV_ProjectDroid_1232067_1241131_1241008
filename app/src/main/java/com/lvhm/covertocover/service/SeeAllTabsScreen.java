@@ -2,20 +2,18 @@ package com.lvhm.covertocover.service;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
 import com.lvhm.covertocover.adapter.SeeAllAdapter;
 import com.lvhm.covertocover.models.Book;
-import com.lvhm.covertocover.models.SharedBookViewModel;
 import com.lvhm.covertocover.repo.BookContainer;
 
 import java.util.ArrayList;
@@ -29,6 +27,7 @@ public class SeeAllTabsScreen extends Fragment {
     private RecyclerView book_view;
     private BookContainer book_container;
     private String list_type;
+    private PrintToast toast_printer;
 
     public static SeeAllTabsScreen newInstance(String listType) {
         SeeAllTabsScreen fragment = new SeeAllTabsScreen();

@@ -1,10 +1,10 @@
 package com.lvhm.covertocover.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
 import com.lvhm.covertocover.repo.BookContainer;
@@ -23,6 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DatabaseAPIClient {
+    private static PrintToast toast_printer;
     private static Retrofit retrofit;
     private static OkHttpClient http_client = null;
     private static Context app_context = null;

@@ -7,10 +7,13 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.lvhm.covertocover.NotificationCentral;
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
 
 public class UploadDBWorker extends Worker {
+    private PrintToast toast_printer;
+
     public UploadDBWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
     }

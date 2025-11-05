@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lvhm.covertocover.NotificationCentral;
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.OnReviewClickListener;
 import com.lvhm.covertocover.adapter.RatingHistoryAdapter;
@@ -46,6 +47,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class BookScreen extends Fragment implements OnReviewClickListener {
+    private PrintToast toast_printer;
     private Bundle book_details = new Bundle();
     private ReviewContainer review_container;
     private RatingHistoryAdapter rating_adapter;
