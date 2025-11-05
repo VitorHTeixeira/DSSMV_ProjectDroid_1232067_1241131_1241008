@@ -112,7 +112,7 @@ public class MainScreen extends Fragment implements OnBookClickListener {
         review_adapter.updateData(review_container.getLatestReviews(3));
         wishlist_adapter.updateData(book_container.getLatestWishlistedBooks(5));
         average_rating_text.setText("Average Rating: " + review_container.getAverageRatingThisYear());
-        total_books_text.setText("Total Books: " + review_container.getTotalReviewsThisYear());
+        total_books_text.setText("Total Reviews: " + review_container.getTotalReviewsThisYear());
         best_month_text.setText("Best Month: " + review_container.getBestMonthThisYear());
         most_used_rating_text.setText("Most Used Rating: " + review_container.getMostUsedRatingThisYear());
 

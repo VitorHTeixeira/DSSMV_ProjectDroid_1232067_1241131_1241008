@@ -1,6 +1,5 @@
 package com.lvhm.covertocover.models;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,7 +14,7 @@ public class Review implements Parcelable {
     private String _id;
 
     @Expose
-    private String userToken;
+    private String user_uuid;
     @Expose
     private String uuid;
     @Expose
@@ -27,20 +26,26 @@ public class Review implements Parcelable {
     @Expose
     private Date date;
 
-    public Review(Book book, double rating, String reviewText, Date date) {
+    public Review(Book book, String user_uuid, double rating, String reviewText, Date date) {
+        this.user_uuid = user_uuid;
         this.uuid = UUID.randomUUID().toString();
         this.book = book;
         this.rating = rating;
         this.review_text = reviewText;
         this.date = date;
     }
-    public String getUserToken() { return userToken; }
-    public void setUserToken(String userToken) { this.userToken = userToken; }
+
     public String get_id() {
         return _id;
     }
     public void set_id(String id) {
         this._id = id;
+    }
+    public String getUserUUID() {
+        return user_uuid;
+    }
+    public void setUserUUID(String user_uuid) {
+        this.user_uuid = user_uuid;
     }
     public String getUUID() {
         return this.uuid;
@@ -77,6 +82,7 @@ public class Review implements Parcelable {
 
     protected Review(Parcel in) {
         book = in.readParcelable(book.getClass().getClassLoader());
+        user_uuid = in.readString();
         uuid = in.readString();
         rating = in.readDouble();
         review_text = in.readString();
@@ -100,6 +106,7 @@ public class Review implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeParcelable(book, flags);
+        parcel.writeString(user_uuid);
         parcel.writeString(uuid);
         parcel.writeDouble(rating);
         parcel.writeString(review_text);

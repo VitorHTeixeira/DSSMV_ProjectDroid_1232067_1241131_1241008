@@ -20,6 +20,7 @@ import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.R;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
 import com.lvhm.covertocover.api.DatabaseAPIClient;
+import com.lvhm.covertocover.api.DownloadDBWorker;
 import com.lvhm.covertocover.api.UploadDBWorker;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.repo.BookContainer;
@@ -66,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
             } else {
                 setupNavigationListeners();
                 loadFragment(new MainScreen());
-
-                syncDataInBackground();
+                OneTimeWorkRequest download_work = new OneTimeWorkRequest.Builder(DownloadDBWorker.class).build();
+                WorkManager.getInstance(this).enqueue(download_work);
             }
 
             permissions_handler.requestPermissions();
@@ -77,45 +78,17 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
                 disableNavigationListeners();
             } else {
                 setupNavigationListeners();
+                OneTimeWorkRequest download_work = new OneTimeWorkRequest.Builder(DownloadDBWorker.class).build();
+                WorkManager.getInstance(this).enqueue(download_work);
             }
         }
-    }
-    private void syncDataInBackground() {
-        new Thread(() -> {
-
-            UserTokenContainer token_container = UserTokenContainer.getInstance(getApplicationContext());
-            String currentToken = token_container.getToken();
-
-            if (currentToken != null && !currentToken.isEmpty()) {
-                boolean success = DatabaseAPIClient.syncUserData(currentToken);
-
-                runOnUiThread(() -> {
-                    if (success) {
-                        int book_count = book_container.getBooks().size();
-                        int review_count = review_container.getReviews().size();
-
-                        NotificationCentral.showNotification(this,
-                                String.format("✅ Data synced: %d books, %d reviews",
-                                        book_count, review_count));
-                    } else {
-                        NotificationCentral.showNotification(this,
-                                "⚠️ Could not sync data. Using local cache.");
-                    }
-                });
-            }
-        }).start();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
-        UserTokenContainer token_container = UserTokenContainer.getInstance(this);
-
-        if (token_container.hasToken()) {
-            OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(UploadDBWorker.class).build();
-            WorkManager.getInstance(this).enqueue(upload_work);
-        }
+        OneTimeWorkRequest upload_work = new OneTimeWorkRequest.Builder(UploadDBWorker.class).build();
+        WorkManager.getInstance(this).enqueue(upload_work);
     }
 
     @Override

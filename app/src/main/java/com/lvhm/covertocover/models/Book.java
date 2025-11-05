@@ -1,5 +1,6 @@
 package com.lvhm.covertocover.models;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Parcel;
@@ -20,7 +21,7 @@ public class Book implements Parcelable {
     private String _id;
 
     @Expose
-    private String userToken;
+    private String user_uuid;
     @Expose
     private String uuid;
     @Expose
@@ -48,6 +49,7 @@ public class Book implements Parcelable {
 
     public Book() {
         this._id = "";
+        this.user_uuid = "";
         this.uuid = UUID.randomUUID().toString();
         this.isbn = "Unknown";
         this.name = "Unknown";
@@ -62,13 +64,17 @@ public class Book implements Parcelable {
         this.onGoing = false;
     }
 
-    public String getUserToken() { return userToken; }
-    public void setUserToken(String userToken) { this.userToken = userToken; }
     public String get_id() {
         return _id;
     }
     public void set_id(String id) {
         this._id = id;
+    }
+    public String getUserUUID() {
+        return this.user_uuid;
+    }
+    public void setUserUUID(String user_uuid) {
+        this.user_uuid = user_uuid;
     }
     public String getUUID() {
         return this.uuid;
@@ -168,9 +174,9 @@ public class Book implements Parcelable {
 
 
     // Parcelable
-
     private Book(Parcel in) {
         _id = in.readString();
+        user_uuid = in.readString();
         uuid = in.readString();
         isbn = in.readString();
         name = in.readString();
@@ -201,6 +207,7 @@ public class Book implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(_id);
+        parcel.writeString(user_uuid);
         parcel.writeString(uuid);
         parcel.writeString(isbn);
         parcel.writeString(name);

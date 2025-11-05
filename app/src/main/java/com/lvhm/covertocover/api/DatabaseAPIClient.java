@@ -1,15 +1,15 @@
 package com.lvhm.covertocover.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
-import com.lvhm.covertocover.models.UserToken;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
+import com.lvhm.covertocover.repo.UserTokenContainer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,27 +24,22 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DatabaseAPIClient {
-    private static Retrofit retrofit = null;
-    private static OkHttpClient httpClient = null;
-    private static Context appContext = null;
+    private static PrintToast toast_printer;
+    private static Retrofit retrofit;
+    private static OkHttpClient http_client = null;
+    private static Context app_context = null;
     private static final String BASE_URL = "https://covertocover-a55f.restdb.io/";
-
     public static void initialize(Context context) {
-        appContext = context.getApplicationContext();
+        app_context = context.getApplicationContext();
     }
-
-    private static OkHttpClient getHttpClient() {
-        if (httpClient == null) {
-            String apiKey = DatabaseAPIService.loadAPIKey(appContext);
-            if (apiKey == null || apiKey.trim().isEmpty()) {
-                Log.e("API_CLIENT", "FATAL: API Key could not be loaded from secrets.properties.");
-                return new OkHttpClient.Builder().build();
-            }
-            httpClient = new OkHttpClient.Builder()
+    private static OkHttpClient getHTTPClient() {
+        if(http_client == null) {
+            String api_key = DatabaseAPIService.loadAPIKey(app_context);
+            http_client = new OkHttpClient.Builder()
                     .addInterceptor(chain -> {
                         Request original = chain.request();
                         Request request = original.newBuilder()
-                                .header("x-apikey", apiKey)
+                                .header("x-apikey", api_key)
                                 .header("cache-control", "no-cache")
                                 .build();
                         return chain.proceed(request);
@@ -53,38 +48,35 @@ public class DatabaseAPIClient {
                     .readTimeout(15, TimeUnit.SECONDS)
                     .build();
         }
-        return httpClient;
+        return http_client;
     }
-
-    private static Retrofit getClient() {
-        if (retrofit == null) {
+    public static Retrofit getClient() {
+        if(retrofit == null) {
             Gson gson = new GsonBuilder()
                     .excludeFieldsWithoutExposeAnnotation()
                     .create();
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(getHttpClient())
+                    .client(getHTTPClient())
                     .build();
         }
         return retrofit;
     }
-
-    private static DatabaseAPIService getService() {
+    public static DatabaseAPIService getDatabaseAPIService() {
         return getClient().create(DatabaseAPIService.class);
     }
 
     // Books
-    public static boolean getBooksFromDBByToken(String token) {
+    public static boolean getBooksFromDB() {
         try {
-            DatabaseAPIService service = getService();
-            String query = String.format("{\"userToken\":\"%s\"}", token);
-            Call<List<Book>> call = service.getBooksByToken(query);
-            Response<List<Book>> response = call.execute();
-
-            if (response.isSuccessful() && response.body() != null) {
-                BookContainer.getInstance().setBooks((ArrayList<Book>) response.body());
+            DatabaseAPIService book_service = getDatabaseAPIService();
+            String query = String.format("{\"user_uuid\":\"%s\"}", UserTokenContainer.getInstance(app_context).getToken());
+            Call<List<Book>> book_call = book_service.getBooks(query);
+            Response<List<Book>> book_response = book_call.execute();
+            if (book_response.isSuccessful() && book_response.body() != null) {
+                List<Book> books = book_response.body();
+                BookContainer.getInstance().setBooks((ArrayList<Book>) books);
                 return true;
             }
             return false;
@@ -93,31 +85,39 @@ public class DatabaseAPIClient {
             return false;
         }
     }
-
     public static boolean uploadBooksToDB(BookContainer book_container) {
-        DatabaseAPIService service = getService();
+        DatabaseAPIService book_service = getDatabaseAPIService();
         boolean all_uploaded = true;
+
         for(Book book : book_container.getBooks()) {
             try {
-                String query = String.format("{\"uuid\":\"%s\"}", book.getUUID());
-                service.deleteBooksByQuery(query).execute();
-                Response<Book> post_response = service.addSingleBook(book).execute();
-                if (!post_response.isSuccessful()) all_uploaded = false;
-            } catch (IOException e) { all_uploaded = false; }
+                String user_uuid_query = String.format("{\"user_uuid\":\"%s\"}", book.getUserUUID());
+                String query = String.format("{" +
+                        "\"user_uuid\":\"%s\"," +
+                        "\"uuid\":\"%s\"" +
+                        "}", book.getUserUUID(), book.getUUID());
+                Response<Void> delete_response = book_service.deleteBooksByQuery(query).execute();
+                Response<Book> post_response = book_service.addSingleBook(user_uuid_query, book).execute();
+                if (!post_response.isSuccessful()) {
+                    all_uploaded = false;
+                }
+            } catch (IOException e) {
+                all_uploaded = false;
+            }
         }
         return all_uploaded;
     }
 
     // Reviews
-    public static boolean getReviewsFromDBByToken(String token) {
+    public static boolean getReviewsFromDB() {
         try {
-            DatabaseAPIService service = getService();
-            String query = String.format("{\"userToken\":\"%s\"}", token);
-            Call<List<Review>> call = service.getReviewsByToken(query);
-            Response<List<Review>> response = call.execute();
-
-            if (response.isSuccessful() && response.body() != null) {
-                ReviewContainer.getInstance().setReviews((ArrayList<Review>) response.body());
+            DatabaseAPIService review_service = getDatabaseAPIService();
+            String query = String.format("{\"user_uuid\":\"%s\"}", UserTokenContainer.getInstance(app_context).getToken());
+            Call<List<Review>> review_call = review_service.getReviews(query);
+            Response<List<Review>> review_response = review_call.execute();
+            if (review_response.isSuccessful() && review_response.body() != null) {
+                List<Review> reviews = review_response.body();
+                ReviewContainer.getInstance().setReviews((ArrayList<Review>) reviews);
                 return true;
             }
             return false;
@@ -126,93 +126,26 @@ public class DatabaseAPIClient {
             return false;
         }
     }
-
     public static boolean uploadReviewsToDB(ReviewContainer review_container) {
-        DatabaseAPIService service = getService();
+        DatabaseAPIService review_service = getDatabaseAPIService();
         boolean all_uploaded = true;
+
         for(Review review : review_container.getReviews()) {
             try {
-                String query = String.format("{\"uuid\":\"%s\"}", review.getUUID());
-                service.deleteReviewsByQuery(query).execute();
-                Response<Review> post_response = service.addSingleReview(review).execute();
-                if (!post_response.isSuccessful()) all_uploaded = false;
-            } catch (IOException e) { all_uploaded = false; }
+                String user_uuid_query = String.format("{\"user_uuid\":\"%s\"}", review.getUserUUID());
+                String query = String.format("{" +
+                        "\"user_uuid\":\"%s\"," +
+                        "\"uuid\":\"%s\"" +
+                        "}", review.getUserUUID(), review.getUUID());
+                review_service.deleteReviewsByQuery(query).execute();
+                Response<Review> post_response = review_service.addSingleReview(user_uuid_query, review).execute();
+                if (!post_response.isSuccessful()) {
+                    all_uploaded = false;
+                }
+            } catch (IOException e) {
+                all_uploaded = false;
+            }
         }
         return all_uploaded;
-    }
-
-    // User Tokens
-    public static boolean validateTokenOnServer(String token) {
-        try {
-            DatabaseAPIService service = getService();
-            String query = String.format("{\"token\":\"%s\"}", token);
-            Call<List<UserToken>> call = service.validateToken(query);
-            Response<List<UserToken>> response = call.execute();
-
-            if (response.isSuccessful() && response.body() != null) {
-                return !response.body().isEmpty();
-            }
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public static boolean createUserOnServer(String token) {
-        try {
-            DatabaseAPIService service = getService();
-            UserToken user_token = new UserToken(token);
-            Call<UserToken> call = service.createUser(user_token);
-            Response<UserToken> response = call.execute();
-
-            if (!response.isSuccessful()) {
-                String errorBody = "Empty error body";
-                if(response.errorBody() != null) {
-                    errorBody = response.errorBody().string();
-                }
-                Log.e("API_ERROR_CREATE_USER", "Failed with code: " + response.code() + " | Message: " + errorBody);
-            }
-            return response.isSuccessful();
-        } catch (IOException e) {
-            Log.e("API_ERROR_CREATE_USER", "IOException during user creation", e);
-            return false;
-        }
-    }
-
-    public static void updateLastSync(String token) {
-        try {
-            DatabaseAPIService service = getService();
-            String query = String.format("{\"token\":\"%s\"}", token);
-            Call<List<UserToken>> get_call = service.validateToken(query);
-            Response<List<UserToken>> get_response = get_call.execute();
-
-            if (get_response.isSuccessful() && get_response.body() != null && !get_response.body().isEmpty()) {
-                UserToken user = get_response.body().get(0);
-                user.setLastSync(System.currentTimeMillis());
-                Call<UserToken> updateCall = service.updateUserSync(user.getId(), user);
-                updateCall.execute();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean syncUserData(String token) {
-        if (token == null || token.isEmpty()) {
-            return false;
-        }
-        boolean tokenExists = validateTokenOnServer(token);
-        if (!tokenExists) {
-            createUserOnServer(token);
-        }
-
-        boolean booksLoaded = getBooksFromDBByToken(token);
-        boolean reviewsLoaded = getReviewsFromDBByToken(token);
-
-        if (booksLoaded || reviewsLoaded) {
-            updateLastSync(token);
-        }
-        return booksLoaded && reviewsLoaded;
     }
 }

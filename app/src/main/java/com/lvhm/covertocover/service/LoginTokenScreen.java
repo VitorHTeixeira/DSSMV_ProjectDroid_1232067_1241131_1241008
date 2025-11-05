@@ -107,129 +107,42 @@ public class LoginTokenScreen extends Fragment {
 
     private void generateToken() {
         if (!isAdded()) return;
-
-        Log.d(TAG, "generateToken() - Starting token generation and user creation");
         mainHandler.post(() -> setLoadingState(true));
-
-
         executor.execute(() -> {
-            final String newToken = UserTokenContainer.getInstance(requireContext()).generateToken();
-            Log.d(TAG, "Token generated locally: " + newToken);
-
-            boolean success = false;
-            try {
-                Log.d(TAG, "Attempting to create user on server...");
-                success = DatabaseAPIClient.createUserOnServer(newToken);
-                Log.d(TAG, "Server creation result: " + success);
-            } catch (Exception e) {
-                Log.e(TAG, "Error creating user on server", e);
-            }
-
-            final boolean finalSuccess = success;
-
+            final String new_token = UserTokenContainer.getInstance(requireContext()).generateToken();
             mainHandler.post(() -> {
                 if (!isAdded()) return;
-
                 setLoadingState(false);
-
-                if (finalSuccess) {
-
-                    token_container.saveToken(newToken);
-                    Log.d(TAG, "Token saved to SharedPreferences.");
-
-                    Toast.makeText(requireContext(), "✅ Welcome! Account created.", Toast.LENGTH_LONG).show();
-                    proceedToMainScreen();
-
-                } else {
-                    Toast.makeText(requireContext(), "❌ Error: Could not create account. Check internet connection.", Toast.LENGTH_LONG).show();
-                }
+                token_container.saveToken(new_token);
+                Toast.makeText(requireContext(), "✅ Welcome! Account created.", Toast.LENGTH_LONG).show();
+                proceedToMainScreen();
             });
         });
     }
 
     private void useExistingToken() {
         if (!isAdded()) return;
-
         String token = input_token.getText().toString().trim();
-
         if (generated_token != null && !generated_token.isEmpty()) {
             proceedToMainScreen();
             return;
         }
-
         if (!token_container.isValidToken(token)) {
             input_token_layout.setError("Invalid Token Format");
             return;
         }
-
-        Log.d(TAG, "useExistingToken() - Validating token: " + token);
         mainHandler.post(() -> setLoadingState(true));
-
         final String finalToken = token;
-
         executor.execute(() -> {
-            boolean tokenExists = false;
-            boolean dataLoaded = false;
-            String errorMessage = null;
-
+            if (!isAdded()) return;
             try {
-                Log.d(TAG, "Checking if token exists on server...");
-                tokenExists = DatabaseAPIClient.validateTokenOnServer(finalToken);
-                Log.d(TAG, "Token exists: " + tokenExists);
-
-                if (!tokenExists) {
-                    errorMessage = "Token not found on server";
-                } else {
-                    Log.d(TAG, "Syncing user data...");
-                    dataLoaded = DatabaseAPIClient.syncUserData(finalToken);
-                    Log.d(TAG, "Data loaded: " + dataLoaded);
-                }
+                setLoadingState(false);
+                token_container.saveToken(finalToken);
+                    Toast.makeText(requireContext(),"✅ Token validated!", Toast.LENGTH_LONG).show();
+                    proceedToMainScreen();
             } catch (Exception e) {
-                Log.e(TAG, "Error validating/loading token", e);
-                errorMessage = e.getMessage();
+                Toast.makeText(requireContext(), "❌ Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
-            final boolean finalTokenExists = tokenExists;
-            final boolean finalDataLoaded = dataLoaded;
-            final String finalErrorMessage = errorMessage;
-
-            mainHandler.post(() -> {
-                if (!isAdded()) return;
-
-                try {
-                    setLoadingState(false);
-
-                    if (!finalTokenExists) {
-                        input_token_layout.setError("Token not found on server");
-                        Toast.makeText(requireContext(),
-                                "❌ Token not found. Please check and try again.",
-                                Toast.LENGTH_LONG).show();
-                        return;
-                    }
-
-                    if (finalDataLoaded && token_container.saveToken(finalToken)) {
-                        int book_count = BookContainer.getInstance().getBooks().size();
-                        int review_count = ReviewContainer.getInstance().getReviews().size();
-
-                        Toast.makeText(requireContext(),
-                                String.format("✅ Token validated!\n📚 Loaded %d books and %d reviews",
-                                        book_count, review_count),
-                                Toast.LENGTH_LONG).show();
-
-                        proceedToMainScreen();
-                    } else {
-                        Toast.makeText(requireContext(),
-                                "⚠️ Token validated but failed to load data" +
-                                        (finalErrorMessage != null ? "\n" + finalErrorMessage : ""),
-                                Toast.LENGTH_LONG).show();
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Error processing token validation result", e);
-                    Toast.makeText(requireContext(),
-                            "❌ Error: " + e.getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
         });
     }
 
@@ -239,11 +152,9 @@ public class LoginTokenScreen extends Fragment {
             button_use_token.setEnabled(false);
             return;
         }
-
         if (token_container.isValidToken(token)) {
             input_token_layout.setError(null);
             button_use_token.setEnabled(true);
-
             TextView useButtonText = findTextViewInChildren(button_use_token);
             if (useButtonText != null) {
                 useButtonText.setTextColor(Color.WHITE);
@@ -256,9 +167,7 @@ public class LoginTokenScreen extends Fragment {
 
     private void setLoadingState(boolean isLoading) {
         if (!isAdded()) return;
-
         progress_bar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-
         if (isLoading) {
             button_generate_token.setEnabled(false);
             button_use_token.setEnabled(false);
@@ -286,9 +195,7 @@ public class LoginTokenScreen extends Fragment {
 
     private void proceedToMainScreen() {
         if (!isAdded()) return;
-
         token_container.setFirstLaunch();
-
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).loadFragment(new MainScreen());
         }

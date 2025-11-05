@@ -1,5 +1,6 @@
 package com.lvhm.covertocover.service;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -387,6 +388,7 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
         switch (status) {
             case "Read":
                 Book read_book = new Book();
+                read_book.setUserUUID(requireContext().getSharedPreferences("CTCPreferences", Context.MODE_PRIVATE).getString("profile_unique_token", ""));
                 read_book.setName(book_title);
                 read_book.setAuthor(book_authors);
                 read_book.setGenre(book_categories);
@@ -407,6 +409,7 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
                 break;
             case "Reading":
                 Book on_going_book = new Book();
+                on_going_book.setUserUUID(requireContext().getSharedPreferences("CTCPreferences", Context.MODE_PRIVATE).getString("profile_unique_token", ""));
                 on_going_book.setName(book_title);
                 on_going_book.setAuthor(book_authors);
                 on_going_book.setGenre(book_categories);
@@ -426,6 +429,7 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
                 break;
             case "Want To Read":
                 Book wishlisted_book = new Book();
+                wishlisted_book.setUserUUID(requireContext().getSharedPreferences("CTCPreferences", Context.MODE_PRIVATE).getString("profile_unique_token", ""));
                 wishlisted_book.setName(book_title);
                 wishlisted_book.setAuthor(book_authors);
                 wishlisted_book.setGenre(book_categories);
@@ -450,6 +454,8 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
         if(book_details == null) {
             book_details = new Bundle();
         }
+        book_details.putString("user_uuid", book.getUserUUID());
+        book_details.putString("uuid", book.getUUID());
         book_details.putString("isbn", book.getISBN());
         book_details.putString("title", book.getName());
         book_details.putStringArrayList("authors", book.getAuthor());

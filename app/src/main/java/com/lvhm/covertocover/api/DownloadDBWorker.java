@@ -7,6 +7,8 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.lvhm.covertocover.NotificationCentral;
+import com.lvhm.covertocover.repo.BookContainer;
+import com.lvhm.covertocover.repo.ReviewContainer;
 import com.lvhm.covertocover.repo.UserTokenContainer;
 
 public class DownloadDBWorker extends Worker {
@@ -17,17 +19,17 @@ public class DownloadDBWorker extends Worker {
     @Override
     public Result doWork() {
         Context context = getApplicationContext();
-        UserTokenContainer tokenContainer = UserTokenContainer.getInstance(context);
-        String userToken = tokenContainer.getToken();
 
-        if (userToken == null || userToken.isEmpty()) {
-            return Result.failure();
-        }
+        boolean books_success = DatabaseAPIClient.getBooksFromDB();
+        boolean reviews_success = DatabaseAPIClient.getReviewsFromDB();
 
-        boolean books_success = DatabaseAPIClient.getBooksFromDBByToken(userToken);
-        boolean reviews_success = DatabaseAPIClient.getReviewsFromDBByToken(userToken);
+        BookContainer book_container = BookContainer.getInstance();
+        ReviewContainer review_container = ReviewContainer.getInstance();
 
         if (books_success && reviews_success) {
+            NotificationCentral.showNotification(getApplicationContext(),
+                    "\uD83E\uDDFE Downloaded " + book_container.getBooks().size() +
+                            " books and " + review_container.getReviews().size() + " reviews.");
             return Result.success();
         } else {
             return Result.retry();

@@ -1,11 +1,9 @@
 package com.lvhm.covertocover.repo;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.lvhm.covertocover.models.Review;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -61,13 +59,6 @@ public class ReviewContainer {
     }
 
     public void addReview(Context context, Review review) {
-        UserTokenContainer token_container = UserTokenContainer.getInstance(context);
-        String userToken = token_container.getToken();
-
-        if (userToken != null && !userToken.isEmpty()) {
-            review.setUserToken(userToken);
-        }
-
         reviews.add(review);
     }
     public void deleteReview(Review review) {
@@ -194,12 +185,6 @@ public class ReviewContainer {
             case 10: return "November";
             case 11: return "December";
             default: return "?";
-        }
-    }
-
-    public void updateAllReviewsToken(Context context, String newToken) {
-        for (Review review : reviews) {
-            review.setUserToken(newToken);
         }
     }
 }

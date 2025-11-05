@@ -1,5 +1,6 @@
 package com.lvhm.covertocover.service;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,7 @@ public class BookReviewOverlay extends Fragment {
 
     private void saveReview(Book book) {
         ReviewContainer review_container = ReviewContainer.getInstance();
+        String user_uuid = requireContext().getSharedPreferences("CTCPreferences", Context.MODE_PRIVATE).getString("profile_unique_token", "");
 
         float review_rating = review_rating_bar.getRating();
         String review_text = "";
@@ -88,7 +90,7 @@ public class BookReviewOverlay extends Fragment {
             current_review.setDate(review_date);
             review_container.updateReview(current_review);
         } else {
-            Review review = new Review(book, review_rating, review_text, review_date);
+            Review review = new Review(book, user_uuid, review_rating, review_text, review_date);
             review_container.addReview(review);
         }
 
