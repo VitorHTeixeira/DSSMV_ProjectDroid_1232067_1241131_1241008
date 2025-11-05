@@ -98,6 +98,14 @@ public class BookContainer implements PrintToast {
             if(findBook(book.getISBN()) != null) {
                 throw new DuplicateBookException(book.getISBN());
             }
+
+            UserTokenContainer token_container = UserTokenContainer.getInstance(context);
+            String user_token = token_container.getToken();
+
+            if (user_token != null && !user_token.isEmpty()) {
+                book.setUserToken(user_token);
+            }
+
             books.add(book);
             toast_printer.printToast(context, "✅ Book added successfully");
         } catch(DuplicateBookException e) {
@@ -143,6 +151,12 @@ public class BookContainer implements PrintToast {
             return wishlisted;
         } else {
             return new ArrayList<>(wishlisted.subList(wishlisted.size() - number, wishlisted.size()));
+        }
+    }
+
+    public void updateAllBooksToken(Context context, String newToken) {
+        for (Book book : books) {
+            book.setUserToken(newToken);
         }
     }
 

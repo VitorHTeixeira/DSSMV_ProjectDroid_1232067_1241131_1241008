@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.lvhm.covertocover.models.Book;
 import com.lvhm.covertocover.models.Review;
+import com.lvhm.covertocover.models.User;
+import com.lvhm.covertocover.models.UserToken;
 import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ExportToJSON;
 import com.lvhm.covertocover.repo.ReviewContainer;
@@ -43,9 +45,18 @@ public interface DatabaseAPIService {
         return null;
     }
 
+    @GET("rest/tokens")
+    Call<List<UserToken>> validateToken(@Query("q") String query);
+    @POST("rest/tokens")
+    @Headers("content-type: application/json")
+    Call<UserToken> createUser(@Body UserToken userToken);
+
+    @PUT("rest/tokens/{id}")
+    @Headers("content-type: application/json")
+    Call<UserToken> updateUserSync(@Path("id") String userId, @Body UserToken userToken);
 
     @GET("rest/books")
-    Call<List<Book>> getBooks();
+    Call<List<Book>> getBooksByToken(@Query("q") String query);
     @POST("rest/books")
     @Headers("content-type: application/json")
     Call<Book> addSingleBook(@Body Book book);
@@ -53,7 +64,7 @@ public interface DatabaseAPIService {
     Call<Void> deleteBooksByQuery(@Query("q") String query);
 
     @GET("rest/reviews")
-    Call<List<Review>> getReviews();
+    Call<List<Review>> getReviewsByToken(@Query("q") String query);
     @POST("rest/reviews")
     @Headers("content-type: application/json")
     Call<Review> addSingleReview(@Body Review review);

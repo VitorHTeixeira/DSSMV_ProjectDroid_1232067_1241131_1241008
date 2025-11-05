@@ -2,8 +2,11 @@ package com.lvhm.covertocover.service;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +24,16 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.lvhm.covertocover.R;
+import com.lvhm.covertocover.api.DatabaseAPIClient;
+import com.lvhm.covertocover.repo.BookContainer;
+import com.lvhm.covertocover.repo.ReviewContainer;
 import com.lvhm.covertocover.repo.UserTokenContainer;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class LoginTokenScreen extends Fragment {
+    private static final String TAG = "LoginTokenScreen";
 
     private UserTokenContainer token_container;
     private EditText input_token;
@@ -34,6 +44,9 @@ public class LoginTokenScreen extends Fragment {
     private TextView text_description;
     private ProgressBar progress_bar;
     private String generated_token;
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     @Nullable
     @Override
@@ -78,7 +91,6 @@ public class LoginTokenScreen extends Fragment {
 
         TypedValue typed_value = new TypedValue();
         requireContext().getTheme().resolveAttribute(android.R.attr.textColorPrimary, typed_value, true);
-        //text_description.setTextColor(Color.);
 
         TextView generate_button_text = findTextViewInChildren(button_generate_token);
         if (generate_button_text != null) {
@@ -93,60 +105,132 @@ public class LoginTokenScreen extends Fragment {
         return view;
     }
 
-
     private void generateToken() {
-        setLoadingState(true);
+        if (!isAdded()) return;
 
-        generated_token = token_container.generateToken();
+        Log.d(TAG, "generateToken() - Starting token generation and user creation");
+        mainHandler.post(() -> setLoadingState(true));
 
-        text_generated_token.setText("Your token is:\n\n" + generated_token +
-                "\n\nSave your token!\n" +
-                "It will be necessary to access your data in other mobile devices.");
-        text_generated_token.setVisibility(View.VISIBLE);
 
-        setLoadingState(false);
+        executor.execute(() -> {
+            final String newToken = UserTokenContainer.getInstance(requireContext()).generateToken();
+            Log.d(TAG, "Token generated locally: " + newToken);
 
-        TextView generate_button_text = findTextViewInChildren(button_generate_token);
-        if (generate_button_text != null) {
-            generate_button_text.setText("Token Generated");
-            generate_button_text.setTextColor(Color.WHITE);
+            boolean success = false;
+            try {
+                Log.d(TAG, "Attempting to create user on server...");
+                success = DatabaseAPIClient.createUserOnServer(newToken);
+                Log.d(TAG, "Server creation result: " + success);
+            } catch (Exception e) {
+                Log.e(TAG, "Error creating user on server", e);
+            }
 
-            text_description.setText("Touch 'Continue' to start using the app.");
-        }
+            final boolean finalSuccess = success;
 
-        TextView use_button_text = findTextViewInChildren(button_use_token);
-        if (use_button_text != null) {
-            use_button_text.setText("Continue");
-            use_button_text.setTextColor(Color.WHITE);
-        }
+            mainHandler.post(() -> {
+                if (!isAdded()) return;
 
-        button_use_token.setEnabled(true);
+                setLoadingState(false);
 
-        Toast.makeText(requireContext(), "✅ Token generated successfully!", Toast.LENGTH_SHORT).show();
+                if (finalSuccess) {
+
+                    token_container.saveToken(newToken);
+                    Log.d(TAG, "Token saved to SharedPreferences.");
+
+                    Toast.makeText(requireContext(), "✅ Welcome! Account created.", Toast.LENGTH_LONG).show();
+                    proceedToMainScreen();
+
+                } else {
+                    Toast.makeText(requireContext(), "❌ Error: Could not create account. Check internet connection.", Toast.LENGTH_LONG).show();
+                }
+            });
+        });
     }
 
     private void useExistingToken() {
+        if (!isAdded()) return;
+
         String token = input_token.getText().toString().trim();
 
         if (generated_token != null && !generated_token.isEmpty()) {
             proceedToMainScreen();
             return;
         }
+
         if (!token_container.isValidToken(token)) {
             input_token_layout.setError("Invalid Token Format");
             return;
         }
 
-        setLoadingState(true);
+        Log.d(TAG, "useExistingToken() - Validating token: " + token);
+        mainHandler.post(() -> setLoadingState(true));
 
-        if (token_container.saveToken(token)) {
-            setLoadingState(false);
-            Toast.makeText(requireContext(), "✅Token saved successfully!", Toast.LENGTH_SHORT).show();
-            proceedToMainScreen();
-        } else {
-            setLoadingState(false);
-            Toast.makeText(requireContext(), "❌ Error saving token", Toast.LENGTH_SHORT).show();
-        }
+        final String finalToken = token;
+
+        executor.execute(() -> {
+            boolean tokenExists = false;
+            boolean dataLoaded = false;
+            String errorMessage = null;
+
+            try {
+                Log.d(TAG, "Checking if token exists on server...");
+                tokenExists = DatabaseAPIClient.validateTokenOnServer(finalToken);
+                Log.d(TAG, "Token exists: " + tokenExists);
+
+                if (!tokenExists) {
+                    errorMessage = "Token not found on server";
+                } else {
+                    Log.d(TAG, "Syncing user data...");
+                    dataLoaded = DatabaseAPIClient.syncUserData(finalToken);
+                    Log.d(TAG, "Data loaded: " + dataLoaded);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error validating/loading token", e);
+                errorMessage = e.getMessage();
+            }
+
+            final boolean finalTokenExists = tokenExists;
+            final boolean finalDataLoaded = dataLoaded;
+            final String finalErrorMessage = errorMessage;
+
+            mainHandler.post(() -> {
+                if (!isAdded()) return;
+
+                try {
+                    setLoadingState(false);
+
+                    if (!finalTokenExists) {
+                        input_token_layout.setError("Token not found on server");
+                        Toast.makeText(requireContext(),
+                                "❌ Token not found. Please check and try again.",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    if (finalDataLoaded && token_container.saveToken(finalToken)) {
+                        int book_count = BookContainer.getInstance().getBooks().size();
+                        int review_count = ReviewContainer.getInstance().getReviews().size();
+
+                        Toast.makeText(requireContext(),
+                                String.format("✅ Token validated!\n📚 Loaded %d books and %d reviews",
+                                        book_count, review_count),
+                                Toast.LENGTH_LONG).show();
+
+                        proceedToMainScreen();
+                    } else {
+                        Toast.makeText(requireContext(),
+                                "⚠️ Token validated but failed to load data" +
+                                        (finalErrorMessage != null ? "\n" + finalErrorMessage : ""),
+                                Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error processing token validation result", e);
+                    Toast.makeText(requireContext(),
+                            "❌ Error: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
     }
 
     private void validate_token_input(String token) {
@@ -171,6 +255,8 @@ public class LoginTokenScreen extends Fragment {
     }
 
     private void setLoadingState(boolean isLoading) {
+        if (!isAdded()) return;
+
         progress_bar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 
         if (isLoading) {
@@ -199,10 +285,11 @@ public class LoginTokenScreen extends Fragment {
     }
 
     private void proceedToMainScreen() {
+        if (!isAdded()) return;
+
         token_container.setFirstLaunch();
 
         if (getActivity() instanceof MainActivity) {
-
             ((MainActivity) getActivity()).loadFragment(new MainScreen());
         }
     }
@@ -220,5 +307,13 @@ public class LoginTokenScreen extends Fragment {
             }
         }
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (executor != null && !executor.isShutdown()) {
+            executor.shutdown();
+        }
     }
 }

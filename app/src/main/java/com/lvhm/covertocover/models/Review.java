@@ -13,6 +13,9 @@ import java.util.UUID;
 public class Review implements Parcelable {
     @SerializedName("_id")
     private String _id;
+
+    @Expose
+    private String userToken;
     @Expose
     private String uuid;
     @Expose
@@ -31,7 +34,8 @@ public class Review implements Parcelable {
         this.review_text = reviewText;
         this.date = date;
     }
-
+    public String getUserToken() { return userToken; }
+    public void setUserToken(String userToken) { this.userToken = userToken; }
     public String get_id() {
         return _id;
     }

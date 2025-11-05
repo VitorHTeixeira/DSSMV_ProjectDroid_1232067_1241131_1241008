@@ -61,9 +61,13 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
             UserTokenContainer token_container = UserTokenContainer.getInstance(this);
 
             if (!token_container.hasToken()) {
+                disableNavigationListeners();
                 loadFragment(new LoginTokenScreen());
             } else {
+                setupNavigationListeners();
                 loadFragment(new MainScreen());
+
+                syncDataInBackground();
             }
 
             permissions_handler.requestPermissions();
@@ -75,7 +79,31 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
                 setupNavigationListeners();
             }
         }
-        loadDataAndStartApp();
+    }
+    private void syncDataInBackground() {
+        new Thread(() -> {
+
+            UserTokenContainer token_container = UserTokenContainer.getInstance(getApplicationContext());
+            String currentToken = token_container.getToken();
+
+            if (currentToken != null && !currentToken.isEmpty()) {
+                boolean success = DatabaseAPIClient.syncUserData(currentToken);
+
+                runOnUiThread(() -> {
+                    if (success) {
+                        int book_count = book_container.getBooks().size();
+                        int review_count = review_container.getReviews().size();
+
+                        NotificationCentral.showNotification(this,
+                                String.format("✅ Data synced: %d books, %d reviews",
+                                        book_count, review_count));
+                    } else {
+                        NotificationCentral.showNotification(this,
+                                "⚠️ Could not sync data. Using local cache.");
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -95,24 +123,7 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissions_handler.handlePermissionsResult(requestCode, permissions, grantResults);
     }
-    private void loadDataAndStartApp() {
-        new Thread(() -> {
-            DatabaseAPIClient.initialize(this);
-            boolean books_success = DatabaseAPIClient.getBooksFromDB();
-            boolean reviews_success = DatabaseAPIClient.getReviewsFromDB();
-            NotificationCentral.showNotification(getApplicationContext(), "✅ Downloaded " + book_container.getBooks().size() + " books and " + review_container.getReviews().size() + " reviews.");
-            runOnUiThread(() -> {
-                UserTokenContainer token_container = UserTokenContainer.getInstance(this);
-                if (!token_container.hasToken()) {
-                    loadFragment(new LoginTokenScreen());
-                } else {
-                    loadFragment(new MainScreen());
-                }
 
-                permissions_handler.requestPermissions();
-            });
-        }).start();
-    }
     public void loadFragment(Fragment fragment) {
         if (fragment instanceof LoginTokenScreen) {
             disableNavigationListeners();

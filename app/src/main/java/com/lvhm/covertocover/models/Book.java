@@ -18,6 +18,9 @@ import java.util.UUID;
 public class Book implements Parcelable {
     @SerializedName("_id")
     private String _id;
+
+    @Expose
+    private String userToken;
     @Expose
     private String uuid;
     @Expose
@@ -59,7 +62,8 @@ public class Book implements Parcelable {
         this.onGoing = false;
     }
 
-
+    public String getUserToken() { return userToken; }
+    public void setUserToken(String userToken) { this.userToken = userToken; }
     public String get_id() {
         return _id;
     }
