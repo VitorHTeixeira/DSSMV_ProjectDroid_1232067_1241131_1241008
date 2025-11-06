@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -29,6 +30,8 @@ import com.lvhm.covertocover.api.GooglePlacesAPI;
 import com.lvhm.covertocover.models.PlaceResponse;
 import com.lvhm.covertocover.models.PlaceResult;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,7 +48,9 @@ public class MapScreen extends Fragment implements OnMapReadyCallback {
     private GooglePlacesAPI placesApi;
     private final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private final String BASE_URL = "https://maps.googleapis.com/maps/api/";
-
+    private RecyclerView placesRecyclerView;
+    private PlacesAdapter placesAdapter;
+    private List<PlaceResult> placeResultsList = new ArrayList<>(); // Lista para armazenar os locais
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
@@ -55,6 +60,9 @@ public class MapScreen extends Fragment implements OnMapReadyCallback {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
+        placesRecyclerView = view.findViewById(R.id.locais);
+        placesAdapter = new PlacesAdapter(placeResultsList, requireContext());
+        placesRecyclerView.setAdapter(placesAdapter);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -132,7 +140,7 @@ public class MapScreen extends Fragment implements OnMapReadyCallback {
 
     private void findNearbyPlaces(LatLng location) {
         String formattedLocation = location.latitude + "," + location.longitude;
-        int radius = 2500; // 2,5km o raio esta para ser em metros
+        int radius = 10000; // 2,5km o raio esta para ser em metros
         String type = "library"; // não pode ser "biblioteca"
         String apiKey = null;
 
@@ -169,6 +177,10 @@ public class MapScreen extends Fragment implements OnMapReadyCallback {
                     if ("OK".equals(response.body().getStatus())) {
 
                         addMarkersToMap(response.body().getResults());
+                        placeResultsList.clear(); // Limpa a lista antiga
+                        List<PlaceResult> newPlaces = response.body().getResults();
+                        placeResultsList.addAll(newPlaces); // Adiciona os novos resultadose
+                        placesAdapter.notifyDataSetChanged(); // Notifica o Adapter para desenhar os itens
 
                     } else {
                         Toast.makeText(requireContext(), "Erro da API: " + response.body().getStatus(), Toast.LENGTH_LONG).show();
