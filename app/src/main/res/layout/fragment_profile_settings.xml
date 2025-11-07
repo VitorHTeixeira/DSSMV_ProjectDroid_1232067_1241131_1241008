@@ -103,7 +103,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="8dp"
-                    android:src="@drawable/share_icon_ui"
+                    android:src="@drawable/copy_clipboard_icon_ui"
                     app:tint="@color/black" />
             </RelativeLayout>
 
