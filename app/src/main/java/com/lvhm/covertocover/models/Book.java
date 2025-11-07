@@ -63,6 +63,24 @@ public class Book implements Parcelable {
         this.isWishlisted = false;
         this.onGoing = false;
     }
+    public Book(String user_uuid, String isbn, String name, ArrayList<String> author,
+                int year, ArrayList<String> genre, boolean read, int page_count,
+                String cover_image64, Bitmap cover_image, boolean isWishlisted, boolean onGoing) {
+        this._id = "";
+        this.user_uuid = user_uuid;
+        this.uuid = UUID.randomUUID().toString();
+        this.isbn = isbn;
+        this.name = name;
+        this.author = author;
+        this.year = year;
+        this.genre = genre;
+        this.read = read;
+        this.page_count = page_count;
+        this.cover_image64 = cover_image64;
+        this.cover_image = cover_image;
+        this.isWishlisted = isWishlisted;
+        this.onGoing = onGoing;
+    }
 
     public String get_id() {
         return _id;
