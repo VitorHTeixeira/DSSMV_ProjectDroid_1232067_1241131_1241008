@@ -1,5 +1,6 @@
-package com.lvhm.covertocover.models;
+package com.lvhm.covertocover.datamodels;
 import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 public class PlaceResponse {
     @SerializedName("status")

@@ -1,4 +1,4 @@
-package com.lvhm.covertocover.models;
+package com.lvhm.covertocover.datamodels;
 
 import com.google.gson.annotations.SerializedName;
 
