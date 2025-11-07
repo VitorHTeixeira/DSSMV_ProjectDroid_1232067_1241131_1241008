@@ -1,6 +1,9 @@
 package com.lvhm.covertocover.api;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -27,9 +30,12 @@ public class DownloadDBWorker extends Worker {
         ReviewContainer review_container = ReviewContainer.getInstance();
 
         if (books_success && reviews_success) {
-            NotificationCentral.showNotification(getApplicationContext(),
-                    "\uD83E\uDDFE Downloaded " + book_container.getBooks().size() +
-                            " books and " + review_container.getReviews().size() + " reviews.");
+            new Handler(Looper.getMainLooper()).post(() -> {
+                Toast.makeText(getApplicationContext(),
+                        "\uD83E\uDDFE Downloaded " + book_container.getBooks().size() +
+                                " books and " + review_container.getReviews().size() + " reviews",
+                        Toast.LENGTH_LONG).show();
+            });
             return Result.success();
         } else {
             return Result.retry();

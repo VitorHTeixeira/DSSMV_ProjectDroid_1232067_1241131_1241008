@@ -90,6 +90,11 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        book_isbn = null;
+        book_title = null;
+        book_authors = null;
+        book_categories = null;
+        book_cover_bitmap = null;
 
         View view = inflater.inflate(R.layout.fragment_book, container, false);
         Bundle book_info = getArguments();
@@ -110,10 +115,6 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
         if(getArguments() != null) {
             book = getArguments().getParcelable(BOOK_RECYCLER);
             api_bundle = getArguments().getBundle(BOOK_API);
-        }
-        if(book == null && api_bundle != null) {
-            SharedBookReviewViewModel recycler_view_model = new ViewModelProvider(requireActivity()).get(SharedBookReviewViewModel.class);
-            book = recycler_view_model.getSelectedBook().getValue();
         }
         if(book != null) {
             fillBookInfo(view, book);

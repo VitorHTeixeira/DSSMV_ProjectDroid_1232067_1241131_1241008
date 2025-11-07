@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import com.lvhm.covertocover.NotificationCentral;
 import com.lvhm.covertocover.PermissionsHandler;
 import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.R;
@@ -69,6 +69,15 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
                 loadFragment(new MainScreen());
                 OneTimeWorkRequest download_work = new OneTimeWorkRequest.Builder(DownloadDBWorker.class).build();
                 WorkManager.getInstance(this).enqueue(download_work);
+                WorkManager.getInstance(this).getWorkInfoByIdLiveData(download_work.getId())
+                        .observe(this, workInfo -> {
+                            if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                                Fragment current_fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                                if (current_fragment instanceof MainScreen) {
+                                    ((MainScreen) current_fragment).updateMainScreenData();
+                                }
+                            }
+                        });
             }
 
             permissions_handler.requestPermissions();
@@ -80,6 +89,14 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
                 setupNavigationListeners();
                 OneTimeWorkRequest download_work = new OneTimeWorkRequest.Builder(DownloadDBWorker.class).build();
                 WorkManager.getInstance(this).enqueue(download_work);
+                WorkManager.getInstance(this).getWorkInfoByIdLiveData(download_work.getId())
+                        .observe(this, workInfo -> {
+                            if (workInfo != null && workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                                if (current_fragment instanceof MainScreen) {
+                                    ((MainScreen) current_fragment).updateMainScreenData();
+                                }
+                            }
+                        });
             }
         }
     }
@@ -144,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements BookNavigationLis
 
     @Override
     public void navigateToBookScreenFromAPI(Bundle api_bundle) {
+        getSupportFragmentManager().popBackStack("book_screen",
+                FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment book_screen = BookScreen.newInstanceFromAPI(api_bundle);
         getSupportFragmentManager()
                 .beginTransaction()

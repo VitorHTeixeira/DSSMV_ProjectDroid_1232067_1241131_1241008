@@ -2,6 +2,7 @@ package com.lvhm.covertocover.api;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -57,21 +58,21 @@ public class BookAPIClient {
                     book_details_bundle.putString("book_details", gson.toJson(response.body()));
                     BookResponse.Item item = response.body().getItems().get(0);
                     if (item != null && item.getVolumeInfo() != null) {
-                        NotificationCentral.showNotification(context, "📚 Book found: " + barcode_value);
+                        Toast.makeText(context, "📚 Book found: " + barcode_value, Toast.LENGTH_SHORT).show();
                         callback.onBookFound(item, barcode_value, book_details_bundle);
                     } else {
-                        NotificationCentral.showNotification(context, "⚠ Book found, but volume info is missing.");
+                        Toast.makeText(context, "⚠ Book found, but volume info is missing", Toast.LENGTH_SHORT).show();
                         callback.onNoBookFound(barcode_value);
                     }
                 } else {
-                    NotificationCentral.showNotification(context, "⚠ API call successful, but no book found.");
+                    Toast.makeText(context, "⚠ API call successful, but no book found", Toast.LENGTH_SHORT).show();
                     callback.onNoBookFound(barcode_value);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<BookResponse> call, @NonNull Throwable t) {
-                NotificationCentral.showNotification(context, "❌ API call failed: " + t.getMessage());
+                Toast.makeText(context, "❌ API call failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 callback.onAPIFailure(t.getMessage());
             }
         });

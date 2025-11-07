@@ -49,10 +49,8 @@ public class CameraScreen extends Fragment {
     private ImageAnalysis image_analysis;
     private LinearLayout capture_button;
     private volatile boolean should_read_barcode = false;
-    private Bundle book_details_bundle = new Bundle();
 
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -193,11 +191,11 @@ public class CameraScreen extends Fragment {
     }
 
     private void navigateToBookScreen(BookResponse.Item item, String isbn, Bundle response_bundle) {
-        Bundle book_info = item.getVolumeInfo().getBundle();
-        book_info.putString("isbn", isbn);
-        book_info.putBundle("response", response_bundle);
+        Bundle book_details_bundle = item.getVolumeInfo().getBundle();
+        book_details_bundle.putString("isbn", isbn);
+        book_details_bundle.putBundle("response", response_bundle);
         if (getActivity() instanceof BookNavigationListener) {
-            ((BookNavigationListener) getActivity()).navigateToBookScreenFromAPI(book_info);
+            ((BookNavigationListener) getActivity()).navigateToBookScreenFromAPI(book_details_bundle);
         }
     }
 

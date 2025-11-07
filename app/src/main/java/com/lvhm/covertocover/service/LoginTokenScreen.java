@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.lvhm.covertocover.R;
-import com.lvhm.covertocover.api.DatabaseAPIClient;
-import com.lvhm.covertocover.repo.BookContainer;
-import com.lvhm.covertocover.repo.ReviewContainer;
+import com.lvhm.covertocover.api.DownloadDBWorker;
 import com.lvhm.covertocover.repo.UserTokenContainer;
 
 import java.util.concurrent.ExecutorService;
@@ -132,16 +131,22 @@ public class LoginTokenScreen extends Fragment {
             return;
         }
         mainHandler.post(() -> setLoadingState(true));
-        final String finalToken = token;
+        final String final_token = token;
         executor.execute(() -> {
-            if (!isAdded()) return;
             try {
-                setLoadingState(false);
-                token_container.saveToken(finalToken);
+                mainHandler.post(() -> {
+                    if (!isAdded()) return;
+                    setLoadingState(false);
+                    token_container.saveToken(final_token);
                     Toast.makeText(requireContext(),"✅ Token validated!", Toast.LENGTH_LONG).show();
                     proceedToMainScreen();
+                });
             } catch (Exception e) {
-                Toast.makeText(requireContext(), "❌ Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                mainHandler.post(() -> {
+                    if (!isAdded()) return;
+                    setLoadingState(false);
+                    Toast.makeText(requireContext(), "❌ Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
             }
         });
     }
@@ -196,6 +201,8 @@ public class LoginTokenScreen extends Fragment {
     private void proceedToMainScreen() {
         if (!isAdded()) return;
         token_container.setFirstLaunch();
+        OneTimeWorkRequest download_work = new OneTimeWorkRequest.Builder(DownloadDBWorker.class).build();
+        WorkManager.getInstance(requireContext()).enqueue(download_work);
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).loadFragment(new MainScreen());
         }

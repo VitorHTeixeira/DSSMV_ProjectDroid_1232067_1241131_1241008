@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import com.lvhm.covertocover.PrintToast;
 import com.lvhm.covertocover.adapter.BookNavigationListener;
@@ -28,6 +30,7 @@ import com.lvhm.covertocover.repo.BookContainer;
 import com.lvhm.covertocover.repo.ReviewContainer;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class MainScreen extends Fragment implements OnBookClickListener {
     private ReviewAdapter review_adapter;
@@ -109,13 +112,8 @@ public class MainScreen extends Fragment implements OnBookClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        review_adapter.updateData(review_container.getLatestReviews(3));
-        wishlist_adapter.updateData(book_container.getLatestWishlistedBooks(5));
-        average_rating_text.setText("Average Rating: " + review_container.getAverageRatingThisYear());
-        total_books_text.setText("Total Reviews: " + review_container.getTotalReviewsThisYear());
-        best_month_text.setText("Best Month: " + review_container.getBestMonthThisYear());
-        most_used_rating_text.setText("Most Used Rating: " + review_container.getMostUsedRatingThisYear());
-
+        review_adapter.notifyDataSetChanged();
+        wishlist_adapter.notifyDataSetChanged();
     }
     @Override
     public void onBookClick(Book book) {
@@ -141,5 +139,20 @@ public class MainScreen extends Fragment implements OnBookClickListener {
                 .replace(R.id.fragment_container, manual_book_screen_fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+    public void updateMainScreenData() {
+        review_adapter.updateData(review_container.getLatestReviews(3));
+        wishlist_adapter.updateData(book_container.getLatestWishlistedBooks(5));
+
+        review_adapter.notifyDataSetChanged();
+        wishlist_adapter.notifyDataSetChanged();
+        average_rating_text.setText("Average Rating: "); // Se a label estiver no layout, use a string correta
+        average_rating_text.append(String.valueOf(review_container.getAverageRatingThisYear()));
+        total_books_text.setText("Total Books: ");
+        total_books_text.append(String.valueOf(review_container.getTotalReviewsThisYear()));
+        best_month_text.setText("Best Month: ");
+        best_month_text.append(review_container.getBestMonthThisYear());
+        most_used_rating_text.setText("Most Used Rating: ");
+        most_used_rating_text.append(String.valueOf(review_container.getMostUsedRatingThisYear()));
     }
 }
