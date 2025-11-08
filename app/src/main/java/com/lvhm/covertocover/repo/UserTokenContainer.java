@@ -78,8 +78,8 @@ public class UserTokenContainer {
             return false;
         }
 
-        String uuidRegex = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
-        return token.trim().matches(uuidRegex);
+        String uuid_regex = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
+        return token.trim().matches(uuid_regex);
     }
 
     public long getTokenCreationTimestamp() {

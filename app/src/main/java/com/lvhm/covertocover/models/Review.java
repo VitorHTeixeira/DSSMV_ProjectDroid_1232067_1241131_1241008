@@ -26,12 +26,30 @@ public class Review implements Parcelable {
     @Expose
     private Date date;
 
-    public Review(Book book, String user_uuid, double rating, String reviewText, Date date) {
+    public Review() {
+        this.user_uuid = "";
+        this.uuid = "";
+        this.book = null;
+        this.rating = 0.0;
+        this.review_text = "";
+        this.date = null;
+    }
+
+    public Review(Book book, String user_uuid, double rating, String review_text, Date date) {
         this.user_uuid = user_uuid;
         this.uuid = UUID.randomUUID().toString();
         this.book = book;
         this.rating = rating;
-        this.review_text = reviewText;
+        this.review_text = review_text;
+        this.date = date;
+    }
+
+    public Review(Book book, String user_uuid, String uuid, double rating, String review_text, Date date) {
+        this.user_uuid = user_uuid;
+        this.uuid = uuid;
+        this.book = book;
+        this.rating = rating;
+        this.review_text = review_text;
         this.date = date;
     }
 
