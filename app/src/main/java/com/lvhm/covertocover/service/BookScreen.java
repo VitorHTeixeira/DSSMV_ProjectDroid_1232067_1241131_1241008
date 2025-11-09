@@ -18,6 +18,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,11 +45,11 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class BookScreen extends Fragment implements OnReviewClickListener {
-    private PrintToast toast_printer;
     private Bundle book_details = new Bundle();
     private ReviewContainer review_container;
     private RatingHistoryAdapter rating_adapter;
@@ -236,12 +237,17 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
             book_categories = book.getGenre();
             ArrayList<String> book_categories_array = book.getGenre();
             if(book_categories_array != null) {
-                for(String category : book_categories_array) {
-                    if(book_categories_array.size() > 1) {
-                        categories.append(WordUtils.capitalize(category)).append(" / ");
-                    }
-                    else {
-                        categories.append(WordUtils.capitalize(category));
+                if(book_categories_array.size() == 1) {
+                    categories.append(WordUtils.capitalize(book_categories_array.get(0)));
+                }
+                else {
+                    for(String category : book_categories_array) {
+                        if(Objects.equals(category, book_categories_array.get(book_categories_array.size() - 1))) {
+                            categories.append(WordUtils.capitalize(category));
+                        }
+                        else {
+                            categories.append(WordUtils.capitalize(category)).append(" / ");
+                        }
                     }
                 }
                 label_book_categories.append(categories);
@@ -253,14 +259,22 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
             StringBuilder authors = new StringBuilder();
             book_authors = book.getAuthor();
             ArrayList<String> book_authors_array = book.getAuthor();
-            for (String author : book_authors_array) {
-                if (book_authors_array.size() > 1) {
-                    authors.append(WordUtils.capitalize(author)).append(" / ");
-                } else {
-                    authors.append(WordUtils.capitalize(author));
+            if(book_authors_array != null) {
+                if(book_authors_array.size() == 1) {
+                    authors.append(WordUtils.capitalize(book_authors_array.get(0)));
                 }
+                else {
+                    for(String author : book_authors_array) {
+                        if(Objects.equals(author, book_authors_array.get(book_authors_array.size() - 1))) {
+                            authors.append(WordUtils.capitalize(author));
+                        }
+                        else {
+                            authors.append(WordUtils.capitalize(author)).append(" / ");
+                        }
+                    }
+                }
+                label_book_author.append(authors);
             }
-            label_book_author.append(authors);
         }
         book_pages = book.getPageCount();
         label_book_pages.append("" + book_pages);
@@ -294,20 +308,32 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
             StringBuilder categories = new StringBuilder();
             book_categories = book_info.getStringArrayList("categories");
             ArrayList<String> book_categories_array = book_info.getStringArrayList("categories");
-            for(String category : book_categories_array) {
-                if(book_categories_array.size() > 1) {
-                    categories.append(WordUtils.capitalize(category)).append(" / ");
+            if(book_categories_array != null) {
+                if(book_categories_array.size() == 1) {
+                    categories.append(WordUtils.capitalize(book_categories_array.get(0)));
                 }
                 else {
-                    categories.append(WordUtils.capitalize(category));
+                    for(String category : book_categories_array) {
+                        if(Objects.equals(category, book_categories_array.get(book_categories_array.size() - 1))) {
+                            categories.append(WordUtils.capitalize(category));
+                        }
+                        else {
+                            categories.append(WordUtils.capitalize(category)).append(" / ");
+                        }
+                    }
                 }
+                label_book_categories.append(categories);
             }
-            label_book_categories.append(categories);
         }
         if(book_info.getString("publishedDate") != null) {
             if (book_info.getString("publishedDate").matches("\\d{4}")) {
                 book_year = Integer.parseInt(book_info.getString("publishedDate"));
                 label_book_date.append(book_info.getString("publishedDate"));
+            }
+            else if(book_info.getString("publishedDate").matches("\\d{4}-\\d{2}")) {
+                int year = Integer.parseInt(book_info.getString("publishedDate").substring(0, 4));
+                book_year = year;
+                label_book_date.append("" + year);
             }
             else {
                 int year = LocalDate.parse(book_info.getString("publishedDate")).getYear();
@@ -319,14 +345,22 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
             StringBuilder authors = new StringBuilder();
             book_authors = book_info.getStringArrayList("authors");
             ArrayList<String> book_authors_array = book_info.getStringArrayList("authors");
-            for (String author : book_authors_array) {
-                if (book_authors_array.size() > 1) {
-                    authors.append(WordUtils.capitalize(author)).append(" / ");
-                } else {
-                    authors.append(WordUtils.capitalize(author));
+            if(book_authors_array != null) {
+                if(book_authors_array.size() == 1) {
+                    authors.append(WordUtils.capitalize(book_authors_array.get(0)));
                 }
+                else {
+                    for(String author : book_authors_array) {
+                        if(Objects.equals(author, book_authors_array.get(book_authors_array.size() - 1))) {
+                            authors.append(WordUtils.capitalize(author));
+                        }
+                        else {
+                            authors.append(WordUtils.capitalize(author)).append(" / ");
+                        }
+                    }
+                }
+                label_book_author.append(authors);
             }
-            label_book_author.append(" " + authors);
         }
         if(book_info.getString("pageCount") != null) {
             book_pages = Integer.parseInt(book_info.getString("pageCount"));
@@ -358,9 +392,8 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
                 });
 
             } catch (Exception e) {
-                String message = "❌ Error getting book cover image. Error: " + e.getMessage();
-                System.out.println(message);
-                handler.post(() -> NotificationCentral.showNotification(requireContext(), message));
+                String message = "❌ Error getting book cover image";
+                handler.post(() -> Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
             }
         });
     }
@@ -370,8 +403,8 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
         Book book = book_container.getBook(book_isbn);
         if(book != null && book.getCoverImage() == null) {
             Bitmap default_book_cover = Bitmap.createBitmap(
-                    requireView().getWidth(),
-                    requireView().getHeight(),
+                    128,
+                    191,
                     Bitmap.Config.ARGB_8888);
 
             int color = ContextCompat.getColor(requireContext(), R.color.black);

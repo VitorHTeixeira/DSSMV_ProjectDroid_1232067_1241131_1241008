@@ -69,9 +69,10 @@
                         android:backgroundTint="@color/grey_sweater">
                         <ImageView
                             android:id="@+id/book_cover_image"
-                            android:layout_height="match_parent"
+                            android:layout_height="201dp"
                             android:layout_width="match_parent"
                             android:layout_gravity="center"
+                            android:scaleType="centerCrop"
                             android:focusable="true"
                             android:clickable="true"
                             android:foreground="?attr/selectableItemBackgroundBorderless" />

@@ -205,7 +205,7 @@
                 android:layout_marginRight="10dp">
 
                 <HorizontalScrollView
-                    android:layout_width="402dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:scrollbars="none">
                     <androidx.recyclerview.widget.RecyclerView
@@ -215,7 +215,7 @@
                         android:layout_gravity="left|center"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="5"
+                        tools:itemCount="6"
                         tools:listitem="@layout/item_bookcover" />
                 </HorizontalScrollView>
             </FrameLayout>

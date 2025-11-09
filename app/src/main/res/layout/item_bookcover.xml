@@ -8,9 +8,10 @@
     android:backgroundTint="@color/transparent">
     <ImageView
         android:id="@+id/bookcover_image"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
         android:layout_width="match_parent"
         android:layout_gravity="center"
+        android:scaleType="centerCrop"
         android:focusable="true"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackgroundBorderless" />

@@ -130,8 +130,8 @@ public class ManualBookScreen extends Fragment {
             int pageCount = 0;
 
             try {
-                authorsList = author.isEmpty() ? new ArrayList<>() : new ArrayList<>(Arrays.asList(author.split(",\\s*")));
-                categoriesList = categories.isEmpty() ? new ArrayList<>() : new ArrayList<>(Arrays.asList(categories.split(",\\s*")));
+                authorsList = author.isEmpty() ? new ArrayList<>() : new ArrayList<>(Arrays.asList(author.split(", ")));
+                categoriesList = categories.isEmpty() ? new ArrayList<>() : new ArrayList<>(Arrays.asList(categories.split(", ")));
 
                 if (!release_year.isEmpty()) {
                     year = Integer.parseInt(release_year.split("-")[0].trim());
