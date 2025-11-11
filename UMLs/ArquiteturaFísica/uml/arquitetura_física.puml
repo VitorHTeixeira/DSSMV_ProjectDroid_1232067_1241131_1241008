@@ -1,8 +1,7 @@
 @startuml
 'https://plantuml.com/component-diagram
 
-top to bottom direction
-skinparam linetype ortho
+left to right direction
 title Physical Architecture Diagram
 
 node "Android Device" as android_device {
@@ -10,22 +9,24 @@ node "Android Device" as android_device {
 }
 
 component "CoverToCover" as ctc {
-    component "UI" as UI
-    component "Service" as Service
-    component "Helper" as Helper
-    component "Adapter" as Adapter
-    component "Listener" as Listener
-    component "Models" as Models
+    component "Adapter" as adapter
+    component "API" as api
+    component "DataModels" as datamodels
+    component "Exceptions" as exceptions
+    component "Models" as models
+    component "Repo" as repo
+    component "Service" as service
+    component "ViewHolder" as viewholder
 }
-Listener -(0- Models
-Service -(0- Helper
-Service -(0- Listener
-Service -(0- Models
-UI -(0- Service
-UI -(0- Adapter
-UI -(0- Listener
-Service --( android_device
 
-
+viewholder -(0- adapter
+adapter -(0- service
+models -(0- service
+exceptions -(0- models
+models -(0- api
+api -(0- service
+repo -(0- models
+datamodels -(0- api
+service -( android_ctc
 
 @enduml

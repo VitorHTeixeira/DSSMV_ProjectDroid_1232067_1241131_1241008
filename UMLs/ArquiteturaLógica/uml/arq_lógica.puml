@@ -9,20 +9,23 @@ title Logical Architecture
 
 package com.lvhm.covertocover as system_package {
     class "Main Activity" as main_activity
-    package UI
-    package Adapters
-    package Service
-    package Helper
-    package Models
-    package Listeners
+    package "Adapter" as adapter
+    package "API" as api
+    package "DataModels" as datamodels
+    package "Exceptions" as exceptions
+    package "Models" as models
+    package "Repo" as repo
+    package "Service" as service
+    package "ViewHolder" as viewholder
 
-    main_activity ..> UI
-    UI ..> Service
-    UI ..> Adapters
-    UI ..> Listeners
-    Service ..> Models
-    Service ..> Helper
-    Service ..> Listeners
-    Listeners ..> Models
+    main_activity ..> service
+    service ..> adapter
+    service ..> models
+    service ..> api
+    exceptions ..> models
+    models ..> api
+    repo ..> models
+    datamodels ..> api
+    viewholder ..> adapter
 }
 @enduml
