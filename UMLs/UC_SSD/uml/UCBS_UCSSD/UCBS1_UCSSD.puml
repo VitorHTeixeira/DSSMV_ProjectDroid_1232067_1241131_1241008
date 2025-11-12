@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Show Book Screen
+
+user -> sys: Click on the book cover
+user <-- sys: Show overlay with zoomed book cover image
+
+@enduml

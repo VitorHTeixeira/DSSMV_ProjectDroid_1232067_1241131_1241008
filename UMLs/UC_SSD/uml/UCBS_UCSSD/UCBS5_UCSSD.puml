@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Show Book Screen
+
+user -> sys: Click on the share book
+user <-- sys: Show intent result to share the book information
+user -> sys: Select the desired way to share the book
+
+@enduml

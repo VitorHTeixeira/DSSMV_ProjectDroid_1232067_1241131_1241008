@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user -> sys: The user opens the app
+user <-- sys: Display the app's main page view
+user <-- sys: Displays the five navbar icons
+user -> sys: Click on an Icon
+
+alt MainScreen Icon
+user <-- sys: Send user to the main screen
+else ProfileScreen Icon
+user <-- sys: Send user to the profile screen
+else CameraScreen Icon
+user <-- sys: Send user to the camera screen
+else MapScreen Icon
+user <-- sys: Send user to the map screen
+else SettingsScreen Icon
+user <-- sys: Maintains on the settings screen
+end
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Show Book Screen
+
+user -> sys: Click on the review button
+user <-- sys: Show review overlay
+user -> sys: Set the review's rating
+user -> sys: Set the review's text
+user -> sys: Click on the save button
+user <-- sys: Save the review
+user <-- sys: Show the review on the book's review history
+
+@enduml
