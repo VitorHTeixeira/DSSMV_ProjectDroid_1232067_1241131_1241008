@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor "User" as user
+participant "System" as sys
+
+user -> sys : Click on Profile Settings Icon
+user <-- sys : Show Profile Settings Screen
+
+user -> sys : Click on the address input text field
+user -> sys : Click on the confirm button
+user <-- sys : Saves the address
+
+@enduml

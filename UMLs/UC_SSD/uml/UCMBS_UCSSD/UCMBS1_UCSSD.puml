@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user -> sys: Click on the add manual book icon
+user <-- sys: Show add manual book scren
+
+user -> sys: Click on the book cover icon placeholder
+user <-- sys: Opens the user gallery
+
+user -> sys: Chooses the book cover
+user <-- sys: Saves the book cover on the app
+user <-- sys: Displays the book cover on the placeholder
+
+@enduml

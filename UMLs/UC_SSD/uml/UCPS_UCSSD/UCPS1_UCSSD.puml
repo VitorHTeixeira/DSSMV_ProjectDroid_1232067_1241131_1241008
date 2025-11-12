@@ -10,5 +10,5 @@ user -> sys: Click on the profile icon
 user <-- sys: Show the profile page
 
 user -> sys: Click on the "See Bookshelf" button
-user <-- sys: Shows all the user's read books
+user <-- sys: Send user to the see all screen
 @enduml

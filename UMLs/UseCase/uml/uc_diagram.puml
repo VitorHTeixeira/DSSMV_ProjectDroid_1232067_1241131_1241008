@@ -6,7 +6,7 @@ title Use Case Diagram
 actor "User" as usms
 rectangle "Main Screen" {
     usecase "1. Search Book by Identifier" as UCMS1
-    usecase "2. Add Manual Book" as UCMS2
+    usecase "2. Click to go to Add Manual Book Screen" as UCMS2
     usecase "3. Click on any of the three latest reviews" as UCMS3
     usecase "4. See Your Yearly Statistics" as UCMS4
     usecase "5. Click on any of the four latest wishlisted books" as UCMS5
@@ -25,9 +25,9 @@ title Use Case Diagram
 
 actor "User" as usps
 rectangle "Profile Screen" {
-    usecase "1. See Books on Your Bookshelf" as UCPS1
-    usecase "2. See Review Activity" as UCPS2
-    usecase "3. See All Wishlisted Books" as UCPS3
+    usecase "1. Click on the books on Your Bookshelf" as UCPS1
+    usecase "2. Click on the reviews activity" as UCPS2
+    usecase "3. Click on the wishlisted Books" as UCPS3
     usecase "4. See Your Review Plot" as UCPS4
     usecase "5. Go through navbar buttons" as UCPS5
 }
@@ -44,12 +44,10 @@ title Use Case Diagram
 actor "User" as uscs
 rectangle "Camera Screen" {
     usecase "1. Scan barcode from the camera view" as UCCS1
-    usecase "2. Click the shutter button to confirm" as UCCS2
-    usecase "3. Go through navbar buttons" as UCCS3
+    usecase "2. Go through navbar buttons" as UCCS2
 }
 uscs --> UCCS1
 uscs --> UCCS2
-uscs --> UCCS3
 
 newpage
 left to right direction
@@ -96,7 +94,7 @@ rectangle "Profile Settings Screen" {
     usecase "3. Change your email" as UCPSS3
     usecase "4. Change phone number" as UCPSS4
     usecase "5. Change user address" as UCPSS5
-    usecase "5. Change date format" as UCPSS6
+    usecase "6. Change date format" as UCPSS6
 }
 uspss --> UCPSS1
 uspss --> UCPSS2
@@ -116,7 +114,7 @@ rectangle "Manual Book Screen" {
     usecase "3. Fill Required Fields" as UCMBS3
     usecase "4. Fill Optional Fields" as UCMBS4
     usecase "5. Click save button" as UCMBS5
-    usecase "5. Click cancel button" as UCMBS6
+    usecase "6. Click cancel button" as UCMBS6
 }
 usmbs --> UCMBS1
 usmbs --> UCMBS2
@@ -136,7 +134,7 @@ rectangle "Book Screen" {
     usecase "3. Add a review" as UCBS3
     usecase "4. See book metadata" as UCBS4
     usecase "5. Share book" as UCBS5
-    usecase "5. See book's rating history" as UCBS6
+    usecase "6. See book's rating history" as UCBS6
 }
 usbs --> UCBS1
 usbs --> UCBS2

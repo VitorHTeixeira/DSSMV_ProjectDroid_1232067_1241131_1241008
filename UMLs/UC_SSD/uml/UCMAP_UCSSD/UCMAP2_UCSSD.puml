@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Display the closest libraries list
+
+@enduml

@@ -15,7 +15,7 @@ user -> sys: Click on the "Save App's Data" dropdown menu
 user <-- sys: Show the dropdown menu's options
 
 user -> sys: Choose the file format in which the data will be saved
-user <-- sys: Save the file in the Downloads folder
+user <-- sys: Saves the file
 
 
 

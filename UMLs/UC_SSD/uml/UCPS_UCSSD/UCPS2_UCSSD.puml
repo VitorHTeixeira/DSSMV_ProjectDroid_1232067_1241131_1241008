@@ -9,7 +9,7 @@ participant ":System" as sys
 user -> sys: Click on the profile page icon
 user <-- sys: Show profile page
 
-user -> sys: Click on the "Reading Activity" button
-user <-- sys: Shows all the reading activity
+user -> sys: Click on the "Reviews Activity" button
+user <-- sys: Send user to the review activity screen
 
 @enduml

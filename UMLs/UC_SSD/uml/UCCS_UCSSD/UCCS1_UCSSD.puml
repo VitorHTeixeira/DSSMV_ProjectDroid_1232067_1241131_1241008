@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user <-- sys: Display a camera preview
+user -> sys: Aims to the barcode
+user -> sys: Clicks on the shutter button
+sys <-- sys: Puts the barcode frame
+sys <-- sys: Analyses Image
+sys <-- sys: Processes the barcode
+sys <-- sys: Sends to API
+alt API returns 200
+user <-- sys: Display the "Book Information" view
+else API returns 204
+user <-- sys: Sends user to the Add Manual Book Screen
+
+end
+
+@enduml

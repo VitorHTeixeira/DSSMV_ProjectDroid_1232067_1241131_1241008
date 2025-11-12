@@ -8,8 +8,6 @@ participant ":System" as sys
 
 user -> sys: Click on the profile page icon
 user <-- sys: Show profile page
-
-user -> sys: Click on the "See All User's Booklists" button
-user <-- sys: Shows all user's booklist
+user <-- sys: Shows the user review plot
 
 @enduml

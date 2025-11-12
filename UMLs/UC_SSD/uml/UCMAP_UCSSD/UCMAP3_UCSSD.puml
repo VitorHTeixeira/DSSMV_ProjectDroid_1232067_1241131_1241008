@@ -12,13 +12,13 @@ user <-- sys: Displays the five navbar icons
 user -> sys: Click on an Icon
 
 alt MainScreen Icon
-user <-- sys: Maintains on the main screen
+user <-- sys: Send user to the main screen
 else ProfileScreen Icon
 user <-- sys: Send user to the profile screen
 else CameraScreen Icon
 user <-- sys: Send user to the camera screen
 else MapScreen Icon
-user <-- sys: Send user to the map screen
+user <-- sys: Maintains on the map screen
 else SettingsScreen Icon
 user <-- sys: Send user to the settings screen
 end

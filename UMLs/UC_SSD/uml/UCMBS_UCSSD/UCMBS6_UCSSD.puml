@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user -> sys: Click on the add manual book icon
+user <-- sys: Show add manual book scren
+
+user -> sys: Click on the cancel button
+user <-- sys : Sends user to the previous screen
+
+@enduml

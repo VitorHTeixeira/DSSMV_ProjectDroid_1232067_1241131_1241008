@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+autonumber
+
+actor "User" as user
+participant ":System" as sys
+
+user -> sys: Click on the add manual book icon
+user <-- sys: Show add manual book scren
+
+user -> sys: Click on the status spinner
+user <-- sys: Opens the spinner
+
+user -> sys: Chooses the status of the book
+user <-- sys: Saves the book status on the app
+user <-- sys: Displays the book status on the spinner placeholder
+
+@enduml

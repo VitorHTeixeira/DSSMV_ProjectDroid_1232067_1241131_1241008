@@ -6,17 +6,21 @@ autonumber
 actor "User" as user
 participant ":System" as sys
 
-user -> sys: Click on the profile icon
-user <-- sys: Show the profile page
+user -> sys: The user opens the app
+user <-- sys: Display the app's main page view
+user <-- sys: Displays the five navbar icons
+user -> sys: Click on an Icon
 
-user -> sys: Click on the "See Book lists" button
-user <-- sys: Shows all the user's book lists
+alt MainScreen Icon
+user <-- sys: Send user to the main screen
+else ProfileScreen Icon
+user <-- sys: Maintains on the profile screen
+else CameraScreen Icon
+user <-- sys: Send user to the camera screen
+else MapScreen Icon
+user <-- sys: Send user to the map screen
+else SettingsScreen Icon
+user <-- sys: Send user to the settings screen
+end
 
-user -> sys: Click on the "+" button on the top-right of the screen
-user <-- sys: Shows a dialog asking for the list's necessary information
-
-user -> sys: Input the requested information
-user -> sys: Click on the confirmation button
-user <-- sys: Saves the list
-user <-- sys: Shows all the user's book lists
 @enduml
