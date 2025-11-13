@@ -7,166 +7,57 @@ skinparam linetype ortho
 title Domain Model Diagram
 
 package "com.lvhm.covertocover.models" as models_package {
-    class User {
-        - name : String
-        - birthdate : Date
-        - sex : String
-        - email : String
-        - phone_number : String
-        - address : String
-        ---
-        + getName()
-        + setName()
-        + getBirthdate()
-        + setBirthdate()
-        + getSex()
-        + setSex()
-        + getEmail()
-        + setEmail()
-        + getPhoneNumber()
-        + setPhoneNumber()
-        + getAddress()
-        + setAddress()
-    }
     class Book {
-        # isbn : String
-        # name : String
-        # author : ArrayList<String>
-        # year : int
-        # publisher : String
-        # genre : ArrayList<String>
-        # read : Boolean
-        # edition : int
-        # idiom : String
-        # page_count : int
-        # cover_image : BufferedImage
-        # isWishlisted : Boolean
-        ---
-        + getISBN()
-        + setISBN()
-        + getName()
-        + setName()
-        + getAuthor()
-        + setAuthor()
-        + getYear()
-        + setYear()
-        + getPublisher()
-        + setPublisher()
-        + getGenre()
-        + setGenre()
-        + getRead()
-        + setRead()
-        + getEdition()
-        + setEdition()
-        + getIdiom()
-        + setIdiom()
-        + getPageCount()
-        + setPageCount()
-        + getCoverImage()
-        + setCoverImage()
-        + getWishlisted()
-        + setWishlisted()
-    }
-    class OnGoingBook {
-        # startDate : Date
-        # current_page : int
-        # book_progress : double
-        ---
-        + getStartDate()
-        + setStartDate()
-        + getCurrentPage()
-        + setCurrentPage()
-        + getBookProgress()
-        + setBookProgress()
-    }
-    class ReadBook {
-        - endDate : Date
-        - finished_days : int
-        ---
-        + getEndDate()
-        + setEndDate()
-        + getFinishedDays()
-        + setFinishedDays()
+        user_uuid : Text
+        uuid : Text
+        isbn : Text
+        name : Text
+        author : List
+        year : Integer
+        genre : List
+        read : Boolean
+        page_count : Integer
+        cover_image64 : Text
+        cover_image : Image
+        is_wishlisted : Boolean
+        on_going : Boolean
     }
     class Review {
-        - book : ReadBook*
-        - rating : double
-        - reviewText : String
-        - date : Date
-        ---
-        + getBook()
-        + setBook()
-        + getRating()
-        + setRating()
-        + getReviewText()
-        + setReviewText()
-        + getDate()
-        + setDate()
+        user_uuid : Text
+        uuid : Text
+        rating : Number
+        review_text : Text
+        date : Date
     }
-    class Stats {
-        - book_container : BookContainer*
-        - review_container : ReviewContainer*
-        - review_barplot : ???
-        ---
-        + getBookContainer()
-        + setBookContainer()
-        + getReviewContainer()
-        + setReviewContainer()
-        + getReviewBarplot()
-        + setReviewBarplot()
+
+}
+
+package "com.lvhm.covertocover.exceptions" as exceptions_package {
+    class BookNotFoundException {
+        isbn : Text
     }
-    class Library {
-        - library_ID : String
-        - name : String
-        - address : String
-        - phone_number : String
-        - email : String
-        - website : String
-        - is_closed : Boolean
-        ---
-        + getID()
-        + setID()
-        + getName()
-        + setName()
-        + getAddress()
-        + setAddress()
-        + getPhoneNumber()
-        + setPhoneNumber()
-        + getEmail()
-        + setEmail()
-        + getWebsite()
-        + setWebsite()
-        + checkOpening()
-    }
-    class BookContainer {
-        - books : ArrayList<Book*>
-        ---
-        + addBook(book : Book)
-        + deleteBook(book : Book)
-        + updateBook(book : Book)
-        + getListOnGoingBooks()
-        + getListReadBooks()
-        + getListWishlistedBooks()
-    }
-    class ReviewContainer {
-        - reviews : ArrayList<Review*>
-        ---
-        + addReview(review : Review)
-        + deleteReview(review : Review)
-        + updateReview(review : Review)
-        + getListReviews()
-        + getRatingReviews(rating : double)
+    class DuplicateBookException {
+        isbn : Text
     }
 }
 
-Book "*" o-- "1" User
-Review "*" o-- "1" User
-Book "1" <|-- "0..1" OnGoingBook
-OnGoingBook "1" <|-- "0..*" ReadBook
-Review "0..*" *--- "1" ReadBook
-Review "0..*" *-- "1" ReviewContainer
-Book "0..*" *-- "1" BookContainer
-Stats "1" *- "0..1" BookContainer
-BookContainer "1" *-- "0..*" Library
+package "com.lvhm.covertocover.repo" as repo_package {
+    class BookContainer {
+        books : List
+    }
+
+    class ReviewContainer {
+        reviews : List
+    }
+
+    class UserTokenContainer {
+        current_token : Text
+    }
+}
+
+Book " 1" o-- "*" Review
+Review "    0..*" *-- "1" ReviewContainer
+Book " 0..*" *-- "1" BookContainer
+
 
 @enduml

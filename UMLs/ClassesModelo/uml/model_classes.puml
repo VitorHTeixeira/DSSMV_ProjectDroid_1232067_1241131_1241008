@@ -2,31 +2,274 @@
 'https://plantuml.com/class-diagram
 
 hide circle
+left to right direction
 skinparam linetype ortho
 title Class Diagram
 
-class Book
-class WishlistedBook
-class OnGoingBook
-class ReadBook
-class BookContainer
-class Review
-class Stats
-class WishlistContainer
-class ReviewContainer
-class User
+package "com.lvhm.covertocover.models" as models_package {
+     class Book {
+        - user_uuid : String
+        - uuid : String
+        - isbn : String
+        - name : String
+        - author : ArrayList<String>
+        - year : int
+        - genre : ArrayList<String>
+        - read : boolean
+        - page_count : int
+        - cover_image64 : String
+        - cover_image : Bitmap
+        - is_wishlisted : boolean
+        - on_going : boolean
+        ---
+        + getUserUUID() : String
+        + setUserUUID(String user_uuid) : void
+        + getUUID() : String
+        + setUUID(String uuid) : String
+        + getISBN() : String
+        + setISBN(String isbn) : String
+        + getName() : String
+        + setName(String name) : String
+        + getAuthor() : ArrayList<String>
+        + setAuthor(ArrayList<String> author) : void
+        + setAuthor(String authors) : void
+        + getYear() : int
+        + setYear(int year) : void
+        + getGenre() : ArrayList<String>
+        + setGenre(ArrayList<String> genre) : void
+        + getRead() : boolean
+        + setRead(boolean read) : void
+        + getPageCount() : int
+        + setPageCount(int page_count) : void
+        + getCoverImageBase64() : String
+        + getCoverImage() : Bitmap
+        + setCoverImageBase64(Bitmap cover_image) : void
+        + setCoverImage(Bitmap cover_image) : void
+        + getIsWishlisted() : boolean
+        + setIsWishlisted(boolean is_wishlisted) : void
+        + getOnGoing() : boolean
+        + setOnGoing(boolean on_going) : void
+     }
+     class Review {
+        - user_uuid : String
+        - uuid : String
+        - book : Book
+        - rating : double
+        - review_String : String
+        - date : Date
+        ---
+        + get_id() : String
+        + set_id() : void
+        + getUserUUID() : String
+        + setUserUUID() : void
+        + getUUID() : String
+        + setUUID() : void
+        + getBook() : Book
+        + setBook(Book book) : void
+        + getRating() : double
+        + setRating(double rating) : void
+        + getReviewText() : String
+        + setReviewText(String review_text) : void
+        + getDate() : Date
+        + setDate(Date date) : void
+     }
+     class SharedBookReviewViewModel {
+        - selected_book : MutableLiveData<Book>
+        - review_updated : MutableLiveData<Boolean>
+        ---
+        + selectBook(Book book)
+        + getSelectedBook() : LiveData<Book>
+        + notifyReviewUpdated()
+        + getReviewUpdated() : LiveData<Boolean>
+     }
+    class SharedBookViewModel {
+        - selected_book : MutableLiveData<Book>
+        ---
+        + selectBook(Book book)
+        + getSelectedBook() : LiveData<Book>
+    }
+}
 
-class Library
+package "com.lvhm.covertocover.exceptions" as exceptions_package {
+    class BookNotFoundException {
+        + BookNotFoundException(String isbn)
+    }
+    class DuplicateBookException {
+        + DuplicateBookException(String isbn)
+    }
+}
 
-Book o-- User
-Review o-- User
-Book <|-- WishlistedBook
-Book <|-- OnGoingBook
-Book *-- BookContainer
-WishlistedBook *-- WishlistContainer
-OnGoingBook <|-- ReadBook
-Review *-- ReadBook
-BookContainer *-- Stats
-BookContainer *-- Library
-Review *- ReviewContainer
+package "com.lvhm.covertocover.repo" as repo_package {
+    class BookContainer {
+        - toast_printer : PrintToast
+        - instance : BookContainer
+        - books : ArrayList<Book>
+        ---
+        + getToastPrinter() : PrintToast
+        + setToastPrinter() : void
+        - findBook(String isbn) : Book
+        - findReadBooks(boolean read) : ArrayList<Book>
+        - findOnGoingBooks(boolean onGoing) : ArrayList<Book>
+        - findWishlistedBooks(boolean wishlisted) : ArrayList<Book>
+        + getBooks() : ArrayList<Book>
+        + setBooks(ArrayList<Book> books) : void
+        + getBook(String isbn) : Book
+        + addBook(Context context, Book book) : void
+        + deleteBook(Context context, Book book) : void
+        + updateBook(Context context, Book book) : void
+        + getListReadBooks() : ArrayList<Book>
+        + getListOnGoingBooks() : ArrayList<Book>
+        + getListWishlistedBooks() : ArrayList<Book>
+        + getLatestWishlistedBooks(int number) : ArrayList<Book>
+        + printToast(Context context, String message) : void
+    }
+    class ReviewContainer {
+        - instance : ReviewCOntainer
+        - reviews : ArrayList<Review>
+        ---
+        + getReviews() : ArrayList<Review>
+        + setReviews(ArrayList<Review> reviews) : void
+        + getReviewsByBook(String isbn) : ArrayList<Review>
+        + getLatestReviews(int number) : ArrayList<Review>
+        + addReview(Review review) : void
+        + addReview(Context context, Review review) : void
+        + deleteReview(Review review) : void
+        + updateReview(Review review) : void
+        + getAverageRatingThisYear() : double
+        + getTotalReviewsThisYear() : int
+        + getMostUsedRatingThisYear() : double
+        + getBestMonthThisYear() : String
+    }
+    class UserTokenContainer {
+        - instance : UserTokenContainer
+        - PREFERENCES_FILE : String
+        - KEY_USER_TOKEN : String
+        - KEY_TOKEN_CREATED : String
+        - KEY_IS_FIRST_LAUNCH : String
+        - shared_preferences : SharedPreferences
+        - current_token : String
+        ---
+        + isFirstLaunch() : boolean
+        + setFirstLaunch() : void
+        + hasToken() : boolean
+        + getToken : String
+        + generateToken() : String
+        + saveToken(String token) : boolean
+        + clearToken() : void
+        + isValidToken(String token) : boolean
+        + getTokenCreationTimestamp() : long
+    }
+}
+package "com.lvhm.covertocover.api" as api_package {
+    class BookAPIClient {
+        - retrofit : static Retrofit
+        - BASE_URL : static final String
+        - http_client : static final OkHttpClient
+        ---
+        + getClient() : static Retrofit
+        + getBookAPIService() : static BookAPIService
+    }
+    class DatabaseAPIClient {
+        - toast_printer : static PrintToast
+        - retrofit : static Retrofit
+        - http_client : static OkHttpClient
+        - app_context : static Context
+        - BASE_URL : static final String
+        ---
+        + initialize(Context context) : void
+        - getHttpClient() : OkHttpClient
+        + getClient() : Retrofit
+        + getDatabaseAPIService() : DatabaseAPIService
+        + getBooksFromDB() : boolean
+        + uploadBooksToDB(BookContainer book_container) : boolean
+        + getReviewsFromDB() : boolean
+        + uploadReviewsToDB(ReviewContainer review_container) : boolean
+    }
+    class GooglePlacesAPIClient {
+        - retrofit : Retrofit
+        - BASE_URL : String
+        - http_client : OkHttpClient
+        - app_context : Context
+        ---
+        + initialize(Context context)
+        - getHTTPClient() : OkHttpClient
+        + getClient() : static Retrofit
+        + getGooglePlacesAPIService() : GooglePlacesAPIService
+    }
+}
+
+package "com.lvhm.covertocover.datamodels" as datamodels_package {
+    class BookResponse {
+        - items : ArrayList<Item>
+        ---
+        + getItems() : ArrayList<Item>
+        + setItems(ArrayList<Item> items) : void
+        ---
+        - volumeInfo : VolumeInfo
+        ---
+        + getVolumeInfo() : VolumeInfo
+        + setVolumeInfo(VolumeInfo volumeInfo) : void
+        ---
+        - title : string
+        - subtitle : String
+        - authors : ArrayList<String>
+        - publishedDate : String
+        - pageCount : String
+        - categories : ArrayList<String>
+        - imageLinks : ImageLinks
+        ---
+        + getTitle() : String
+        + setTitle(String title) : void
+        + getSubtitle() : String
+        + setSubtitle(String subtitle) : void
+        + getAuthors() : ArrayList<String>
+        + setAuthors(ArrayList<String> authors) : void
+        + getPublishedDate : String
+        + setPublishedDate(String publishedDate) : void
+        + getPageCount() : String
+        + setPageCount(String pageCount) : void
+        + getCategories() : ArrayList<String>
+        + setCategories(ArrayList<String> categories) : void
+        + getImageLinks() : ImageLinks
+        + setImageLinks(ImageLinks imageLinks) : void
+        + getBundle() : Bundle
+        ---
+        - thumbnail : String
+        ---
+        + getThumbnail() : String
+        + setThumbnail(String thumbnail) : void
+    }
+    class Geometry {
+        - location : Location
+        ---
+        + getLocation : Location
+    }
+    class Location {
+        - lat : double
+        - lng : double
+        ---
+        + getLat() : double
+        + getLng() : double
+    }
+    class PlaceResponse {
+        + status : String
+        - results : List<PalceResult>
+        ---
+        + getStatus() : String
+        + getResults() : List<PlaceResult>
+    }
+    class PlaceResult {
+        - name : String
+        - vicinity : String
+        - geometry : Geometry
+        ---
+        + getName() : String
+        + getVicinity : String
+        + getGeometry : Geometry
+    }
+}
+
+'Book " 1" o-- "*" Review
+
+
 @enduml
