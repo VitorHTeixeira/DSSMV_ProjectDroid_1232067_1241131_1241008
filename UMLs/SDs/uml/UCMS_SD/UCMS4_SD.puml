@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+participant ":Repo" as repo
+
+user -> service: The user opens the app
+user <-- service: loadFragment(new MainScreen());
+service -> repo: Gets the information from the container
+repo <-- repo: getAverageRatingThisYear();
+repo <-- repo: getTotalReviewsThisYear();
+repo <-- repo: getBestMonthThisYear();
+repo <-- repo: getMostUsedRatingThisYear();
+service <-- repo: Send the information to the service
+user <-- service: Show the user this year's statistics
+@enduml

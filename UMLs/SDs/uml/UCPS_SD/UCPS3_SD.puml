@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: Click on the profile page icon
+user <-- service: loadFragment(new ProfileScreen());
+service <-- service: wishlisted_books_section.setOnClickListener(View v);
+
+user -> service: Click on the "See Wishlisted Books" button
+user <-- service: new WishlistedBooksScreen();
+
+@enduml

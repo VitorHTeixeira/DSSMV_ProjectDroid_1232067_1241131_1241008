@@ -11,5 +11,6 @@ user <-- sys: Show settings page
 
 user -> sys: Click on the "Force Saving Data" button
 sys <-- sys: Saves current data to the database
+user <-- sys: (In)success
 
 @enduml

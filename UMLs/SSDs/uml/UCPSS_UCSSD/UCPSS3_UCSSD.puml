@@ -4,7 +4,7 @@
 autonumber
 
 Actor "User" as user
-participant "System" as sys
+participant ":System" as sys
 
 user -> sys : Click on Profile Settings Icon
 user <-- sys : Show Profile Settings Screen

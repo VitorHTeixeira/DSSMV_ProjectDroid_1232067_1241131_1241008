@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+participant ":API" as api
+
+user -> service: Click on the settings icon
+user <-- service: loadFragment(new SettingsScreen());
+
+user -> service: Click on the "Force Saving Data" button
+service <-- service: clickAction(View v);
+service -> api: WorkManager.getInstance(requireContext()).enqueue(upload_work);
+api <-- api: doWork();
+service <-- api: (In)success
+user <-- service: (In)success
+
+@enduml

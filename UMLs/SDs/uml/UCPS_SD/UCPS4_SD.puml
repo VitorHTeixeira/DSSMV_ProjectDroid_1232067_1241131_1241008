@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: Click on the profile page icon
+user <-- service: loadFragment(new ProfileScreen());
+service <-- service: setup_review_barchart();
+user <-- service: Shows the user review plot
+
+@enduml

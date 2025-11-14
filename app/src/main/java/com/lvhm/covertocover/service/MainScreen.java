@@ -97,7 +97,6 @@ public class MainScreen extends Fragment implements OnBookClickListener {
         wishlist_adapter = new BookAdapter(wishlist_data, this);
         wishlist_carousel.setAdapter(wishlist_adapter);
 
-
         average_rating_text = view.findViewById(R.id.average_rating_text);
         average_rating_text.append(String.valueOf(review_container.getAverageRatingThisYear()));
         total_books_text = view.findViewById(R.id.total_books_text);
@@ -146,7 +145,7 @@ public class MainScreen extends Fragment implements OnBookClickListener {
 
         review_adapter.notifyDataSetChanged();
         wishlist_adapter.notifyDataSetChanged();
-        average_rating_text.setText("Average Rating: "); // Se a label estiver no layout, use a string correta
+        average_rating_text.setText("Average Rating: ");
         average_rating_text.append(String.valueOf(review_container.getAverageRatingThisYear()));
         total_books_text.setText("Total Books: ");
         total_books_text.append(String.valueOf(review_container.getTotalReviewsThisYear()));

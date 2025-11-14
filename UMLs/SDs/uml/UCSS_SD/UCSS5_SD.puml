@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor "User" as user
+participant ":Service" as service
+
+user -> service : Click on Settings Icon
+user <-- service : loadFragment(new SettingsScreen());
+
+user -> service : Click on the "Change User Profile Settings"
+user <-- service : loadFragment(new ProfileSettingsScreen());
+
+@enduml
+

@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+participant ":Repo" as repo
+
+user -> service: Click on the settings icon
+user <-- service: loadFragment(new SettingsScreen());
+
+user -> service: Click on the "Save App's Data" dropdown menu
+user <-- service: clickAction(View view)
+
+user -> service: Choose the file format in which the data will be saved
+alt format = CSV
+service -> repo: exportToCSV(book_container.getBooks(), review_container.getReviews(), "cover_to_cover.csv", requireContext());
+service <-- repo: success
+else format = JSON
+service -> repo: exportToJSON(book_container.getBooks(), review_container.getReviews(), "cover_to_cover.json", requireContext());
+service <-- repo: success
+else format = XLSX
+service -> repo: exportToXLSX(book_container.getBooks(), review_container.getReviews(), "cover_to_cover.xlsx", requireContext());
+service <-- repo: success
+end
+user <-- service: Saves the file
+
+@enduml

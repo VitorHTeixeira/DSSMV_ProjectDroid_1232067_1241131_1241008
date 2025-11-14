@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor "User" as user
+participant ":Service" as service
+
+user -> service : Click on Profile Settings Icon
+user <-- service : clickAction(View view);
+
+user -> service : Click on the phone number input text field
+user -> service : Click on the confirm button
+service <-- service: commit_field(SharedPreferences prefs, String key, EditText editText, String toastMessage);
+user <-- service : Saves the phone number
+
+@enduml

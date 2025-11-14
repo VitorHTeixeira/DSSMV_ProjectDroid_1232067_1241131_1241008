@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: Click on the settings icon
+user <-- service: loadFragment(new SettingsScreen());
+
+user -> service: Click on the profile icon placeholder
+user <-- service: Opens the user gallery
+
+user -> service: Chooses the image
+service <-- service: getResizedBitmap(originalBitmap, 512);
+user <-- service: profile_picture.setImageBitmap(resizedBitmap);
+user <-- service: Displays the image on the placeholder
+
+
+
+@enduml

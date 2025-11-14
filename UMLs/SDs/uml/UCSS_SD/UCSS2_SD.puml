@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: Click on the settings icon
+user <-- service: loadFragment(new SettingsScreen());
+
+user -> service: Click on the "Choose Theme" dropdown menu
+user <-- service: clickAction(View view)
+
+user -> service: Choose the theme
+user <-- service: clickAction(View view)
+
+@enduml

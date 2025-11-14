@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+participant ":Adapter" as adapter
+
+user -> service: The user opens the app
+user <-- service: loadFragment(new MainScreen());
+
+service -> adapter: new BookAdapter(book_data, this);
+adapter <-- adapter: onCreateViewHolder(ViewGroup parent, int viewType);
+adapter <-- adapter: onBindViewHolder(ReviewViewHolder holder, int position);
+service <-- adapter: wishlisted_carousel.setAdapter(book_adapter);
+
+user -> service: Click on any of the four lastest wishlisted books
+user <-- service: Send user to the specific book screen
+
+
+@enduml

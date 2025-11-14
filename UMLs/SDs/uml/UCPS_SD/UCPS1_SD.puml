@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: Click on the profile icon
+user <-- service: loadFragment(new ProfileScreen());
+service <-- service: bookshelf_section.setOnClickListener(View v);
+
+user -> service: Click on the "See Bookshelf" button
+user <-- service: new SeeAllBooksScreen();
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor "User" as user
+participant ":Service" as service
+
+user -> service : Click on Profile Settings Icon
+user <-- service : clickAction(View view)
+
+user -> service : Click on the copy token icon
+service <-- service: copy_token_button.setOnClickListener(View v);
+user <-- service : Sends the token to users clipboard
+
+@enduml

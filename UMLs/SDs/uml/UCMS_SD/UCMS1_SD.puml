@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: The user opens the app
+user <-- service: loadFragment(new MainScreen());
+
+user -> service: Click on the magnifier button
+user <-- service: search_bar.setOnQueryTextListener(new SearchView.OnQueryTextListener());
+
+user -> service: Input the book's ISBN
+service <-- service: onQueryTextSubmit(String query);
+
+alt API returns 200
+service <-- service: onBookFound(BookResponse.Item item, String isbn, Bundle response_bundle);
+user <-- service: navigateToBookScreen(item, isbn, response_bundle);
+else API returns 204
+service <-- service: onNoBookFound(String isbn)
+user <-- service: navigateToManualBookScreen(isbn);
+end
+@enduml
