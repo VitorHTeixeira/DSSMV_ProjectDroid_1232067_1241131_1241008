@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: The user clicks the save book
+user <-- service: book_container.addBook(requireContext(), manual_book);
+
+@enduml

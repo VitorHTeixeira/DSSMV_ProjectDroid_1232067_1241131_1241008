@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+participant ":CoverToCover" as ctc
+
+user -> service: The user clicks the shutter button.
+user <-- service :capture_button.setOnClickListener(view v)
+ctc <-- service: public BarcodeFrame(Context context, AttributeSet attrs)
+ctc -> service: canvas.drawRect(barcode_rect, paint);
+user <-- service: image_analysis = new ImageAnalysis.Builder();
+user <-- service: BarcodeScanner scanner = BarcodeScanning.getClient(options);
+user <-- service: BookAPIClient.getBookFromAPI(requireContext(), barcodeValue, new BookAPICallback();
+
+alt API returns 200
+user <-- service: navigateToBookScreen(item, isbn, response_bundle);
+else API returns 204
+user <-- service: navigateToManualBookScreen(isbn);
+end
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: The user clicks the spinner button to choose
+user <-- service: adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: The user clicks the share button
+user <-- service: share_button_layout.setOnClickListener(view v);
+user <-- service: Intent share_intent = new Intent();
+user <-- service: startActivity(Intent.createChooser(share_intent, "Share Book"));
+
+
+@enduml

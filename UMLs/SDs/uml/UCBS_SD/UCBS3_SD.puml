@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: The user clicks the review button
+user <-- service: add_review.setOnClickListener(view v);
+user -> service: Review review = new Review(book, user_uuid, review_rating, review_text, review_date);
+user -> service: save_button.setOnClickListener(view v);
+user <- service: review_container.addReview(review);
+
+
+@enduml

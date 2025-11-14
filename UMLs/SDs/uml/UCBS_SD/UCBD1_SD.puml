@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: The user clicks the book cover
+user <-- service: book_cover.setOnClickListener(view v)
+
+@enduml

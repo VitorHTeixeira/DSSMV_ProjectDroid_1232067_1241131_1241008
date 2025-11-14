@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: String categories = input_categories.getText().toString();
+user -> service: String release_year = input_release_year.getText().toString()
+user -> service: String page_number = input_page_number.getText().toString();
+user -> service: String isbn = input_isbn.getText().toString();
+
+@enduml

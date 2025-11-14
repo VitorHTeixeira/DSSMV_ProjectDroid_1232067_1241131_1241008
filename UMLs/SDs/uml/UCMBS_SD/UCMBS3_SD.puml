@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: String book_name = input_book_name.getText().toString();
+user -> service: String author = input_author.getText().toString();
+
+@enduml

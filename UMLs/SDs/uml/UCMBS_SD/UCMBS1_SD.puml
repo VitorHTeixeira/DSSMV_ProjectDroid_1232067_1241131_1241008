@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: The user clicks the book placeholder cover
+user <-- service: gallery_launcher = registerForActivityResult
+user -> service: selected_cover_bitmap = MediaStore.Images.Media.getBitmap
+user <-- service: cover_image_view.setImageBitmap(selected_cover_bitmap);
+
+
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: The user clicks the book metadata button
+user <-- service: book_details_layout.setOnClickListener(view v);
+user <-- service: book_details_text.setText(bundle.getString("book_details"));
+
+
+
+@enduml

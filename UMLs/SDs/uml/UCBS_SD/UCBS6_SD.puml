@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+user -> service: The user clicks the book metadata button
+user <-- service: ArrayList<Review> review_data = review_container.getReviewsByBook(book_isbn);
+
+
+
+@enduml

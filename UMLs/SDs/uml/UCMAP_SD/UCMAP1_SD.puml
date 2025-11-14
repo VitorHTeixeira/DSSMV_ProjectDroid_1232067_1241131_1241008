@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+participant ":API" as api
+
+user <-- service: Display map preview
+api <-- service: Call<PlaceResponse> getNearbyPlaces
+user <-- service: findNearbyPlaces(current_lat_lng);
+alt API returns 200
+user <-- service: ArrayList<PlaceResult> location_data = new ArrayList<>(response.body().getResults());
+else API returns 204
+user <-- service: Toast.makeText(requireContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+end
+@enduml

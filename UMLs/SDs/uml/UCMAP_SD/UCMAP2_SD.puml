@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor "User" as user
+participant ":Service" as service
+
+
+user <-- service: locations_recycler.setAdapter(location_adapter);
+@enduml
+
