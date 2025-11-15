@@ -149,17 +149,6 @@ public class BookTest {
     public void testGetCoverImage() {
         Assert.assertNull(book_get.getCoverImage());
     }
-//    @Test
-//    public void testSetCoverImage() {
-//        Mockito.when(mock_bitmap.getWidth()).thenReturn(100);
-//        Mockito.when(mock_bitmap.getHeight()).thenReturn(150);
-//        Mockito.when(mock_bitmap.getConfig()).thenReturn(Bitmap.Config.ARGB_8888);
-//        book_set.setCoverImage(mock_bitmap);
-//        Assert.assertNotNull(book_set.getCoverImage());
-//        Assert.assertEquals(100, book_set.getCoverImage().getWidth());
-//        Assert.assertEquals(150, book_set.getCoverImage().getHeight());
-//        Assert.assertEquals(Bitmap.Config.ARGB_8888, book_set.getCoverImage().getConfig());
-//    }
     @Test
     public void testGetWishlisted() {
         Assert.assertTrue(book_get.getIsWishlisted());

@@ -10,14 +10,12 @@ rectangle "Main Screen" {
     usecase "3. Click on any of the three latest reviews" as UCMS3
     usecase "4. See Your Yearly Statistics" as UCMS4
     usecase "5. Click on any of the four latest wishlisted books" as UCMS5
-    usecase "6. Go through navbar buttons" as UCMS6
 }
 usms --> UCMS1
 usms --> UCMS2
 usms --> UCMS3
 usms --> UCMS4
 usms --> UCMS5
-usms --> UCMS6
 
 newpage
 left to right direction
@@ -29,13 +27,11 @@ rectangle "Profile Screen" {
     usecase "2. Click on the reviews activity" as UCPS2
     usecase "3. Click on the wishlisted Books" as UCPS3
     usecase "4. See Your Review Plot" as UCPS4
-    usecase "5. Go through navbar buttons" as UCPS5
 }
 usps --> UCPS1
 usps --> UCPS2
 usps --> UCPS3
 usps --> UCPS4
-usps --> UCPS5
 
 newpage
 left to right direction
@@ -57,11 +53,9 @@ actor "User" as usmap
 rectangle "Map Screen" {
     usecase "1. See Libraries On The Map" as UCMAP1
     usecase "2. See list of the closest libraries" as UCMAP2
-    usecase "3. Go through navbar buttons" as UCMAP3
 }
 usmap --> UCMAP1
 usmap --> UCMAP2
-usmap --> UCMAP3
 
 newpage
 left to right direction
@@ -74,14 +68,12 @@ rectangle "Settings Screen" {
     usecase "3. Export app data" as UCSS3
     usecase "4. Force Saving Data" as UCSS4
     usecase "5. Go to Profile Settings" as UCSS5
-    usecase "6. Go through navbar buttons" as UCSS6
 }
 usss --> UCSS1
 usss --> UCSS2
 usss --> UCSS3
 usss --> UCSS4
 usss --> UCSS5
-usss --> UCSS6
 
 newpage
 left to right direction
