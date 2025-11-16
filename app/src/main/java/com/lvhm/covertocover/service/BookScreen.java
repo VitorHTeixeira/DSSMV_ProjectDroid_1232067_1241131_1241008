@@ -199,6 +199,9 @@ public class BookScreen extends Fragment implements OnReviewClickListener {
         ArrayList<Review> review_data = review_container.getReviewsByBook(book_isbn);
         rating_adapter = new RatingHistoryAdapter(requireContext(), review_data, this);
         rating_history.setAdapter(rating_adapter);
+        if(!review_data.isEmpty()) {
+            book_rating.setRating((float) review_data.get(review_data.size() - 1).getRating());
+        }
 
         RelativeLayout cancel_button = view.findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(v -> getParentFragmentManager().popBackStack());
